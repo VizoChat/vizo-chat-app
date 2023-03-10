@@ -1,2 +1,6 @@
 .env
 credentials.json
+node_modules
+.gitignore
+requests.rest
+.vscode
