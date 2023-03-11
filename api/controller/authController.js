@@ -89,7 +89,7 @@ module.exports= {
       let token = jwt.sign({
         username:admin.username
       })
-      response.data.token = token;
+      response.data = token;
       response.message = 'Login Successful!'
       response.status = 'ok';
       return res.json(response)

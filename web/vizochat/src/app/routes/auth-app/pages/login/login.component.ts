@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit{
         
         this.api.doGAUTHSignin({'token':this.user.idToken}).subscribe((data)=>{
         this.loader.loginBTN = false;
-        console.log(data);
           if(data.status=='ok'){
             this.alert = {
               error:false,

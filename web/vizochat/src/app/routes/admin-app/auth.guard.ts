@@ -6,17 +6,17 @@ import { AuthService } from 'src/app/services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate , CanDeactivate<unknown>{
-  constructor(private router: Router, private authservice:AuthService){}
+export class AuthGuard implements CanActivate, CanDeactivate<unknown> {
+  constructor(private router:Router, private authservice:AuthService){}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      let isAuthenticated = this.authservice.authValidate();
+      let isAuthenticated = this.authservice.adminAuthValidate();
     
-        if (!isAuthenticated) {
-            this.router.navigate(['/auth/login']);
-        }
-    return isAuthenticated;
+      if (!isAuthenticated) {
+          this.router.navigate(['/auth/admin']);
+      }
+      return isAuthenticated;
   }
   canDeactivate(
     component: unknown,
@@ -30,4 +30,5 @@ export class AuthGuard implements CanActivate , CanDeactivate<unknown>{
       }
       return isAuthenticated;
   }
+  
 }

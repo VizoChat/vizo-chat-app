@@ -6,6 +6,7 @@ import { Err404Component } from './errors/err404/err404.component';
 import { LayoutComponent } from './layout/layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @NgModule({
@@ -20,4 +21,9 @@ import { HeaderComponent } from './components/header/header.component';
     UserAppRoutingModule
   ]
 })
-export class UserAppModule { }
+export class UserAppModule { 
+  constructor(private authService:AuthService){
+    this.authService.startSessTimout()
+  }
+
+}
