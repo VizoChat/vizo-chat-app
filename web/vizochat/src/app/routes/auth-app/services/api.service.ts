@@ -22,4 +22,13 @@ export class ApiService {
   doSignup(data:any):Observable<any>{
     return this.http.post(`${this.globalServices.apiUrl}/auth/signup`, data, this.httpOptions)
   }
+  doGAUTHSignup(data:any):Observable<any>{
+    return this.http.post(`${this.globalServices.apiUrl}/auth/google-signup`, data, this.httpOptions)
+  }
+  doGAUTHSignin(data:any):Observable<any>{
+    return this.http.post(`${this.globalServices.apiUrl}/auth/google-signin`, data, this.httpOptions)
+  }
+  doAdminSignin(data:any):Observable<any>{
+    return this.http.post(`${this.globalServices.apiUrl}/auth/admin`, data, this.httpOptions)
+  }
 }

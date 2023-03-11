@@ -9,6 +9,8 @@ export class GoogleSigninButtDirective implements OnInit{
 
   @Input('selectable') option: boolean | undefined;
   constructor(private el: ElementRef, private socialAuthService: SocialAuthService) { }
+  @Input() buttonText: string = 'Sign in with Google'; // Set the default text of the button
+  @Input() buttonTheme: string = 'filled_blue'; // Set the default theme of the button
 
   ngOnInit() {
     if (!this.option) return;
@@ -16,8 +18,8 @@ export class GoogleSigninButtDirective implements OnInit{
         google.accounts.id.renderButton(this.el.nativeElement, {
             type: 'standard',
             size: 'large',
-            text: 'signin_with',
-            theme: 'filled_blue'
+            text: this.buttonText, // Use the buttonText input to set the content of the button
+            theme: this.buttonTheme // Use the buttonTheme input to set the theme of the button
         });
     });
 }

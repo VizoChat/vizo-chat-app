@@ -1,8 +1,9 @@
 let { check, validationResult } = require('express-validator');
 const jwt = require('../helpers/jwt');
 const { hashPassword } = require('../helpers/validation');
-const { addUser, getUser, validateUser } = require('../model/users')
+const { addUser, getUser, validateUser, validateUserWithEmail } = require('../model/users')
 const {OAuth2Client} = require('google-auth-library');
+const {randomLetters} = require('../helpers/funs')
 
 module.exports= {
   signup:(req,res,next)=>{
@@ -120,13 +121,25 @@ module.exports= {
       status:401,
       data:{}
     }
-    console.log(req.body, '{## GGGG LOGIN BODY}');
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       response.message = (errors.errors[0].msg=="Invalid value")?errors.errors[0].param+" is invalid, please check the value!":errors.errors[0].msg
       return res.status(200).json(response)
     }
-    let uData = await validateUser(req.body); //false or userdata
+    const client = new OAuth2Client(process.env.GAUTH_CLIENT_ID);
+
+    const ticket = await client.verifyIdToken({
+        idToken: req.body.token,
+        audience: process.env.GAUTH_CLIENT_ID,  
+    });
+    const payload = ticket.getPayload();
+    const userId = payload.sub;
+    const userProfile = {
+      email: payload.email,
+      name: payload.name,
+      picture: payload.picture
+    };
+    let uData = await validateUserWithEmail(userProfile.email); //false or userdata
     if(uData){
       let token = jwt.sign({
         _id:uData._id,
@@ -146,13 +159,13 @@ module.exports= {
         status:'error',
         data:{}
     }
+    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors);
       response.message = errors.errors[0].param+" "+((errors.errors[0].msg=="Invalid value")?"is invalid, please check the value!":errors.errors[0].msg);
       return res.status(200).json(response);
     }
-    console.log(req.body);
     const client = new OAuth2Client(process.env.GAUTH_CLIENT_ID);
 
     const ticket = await client.verifyIdToken({
@@ -166,12 +179,11 @@ module.exports= {
       name: payload.name,
       picture: payload.picture
     };
-    console.log(userProfile,"google userProfile####");
     addUser({
-        username: req.body.username.replace(/[ ]+/g,'_'),
-        name: req.body.name,
-        email: req.body.email,
-        password: hashPassword(req.body.password),
+        username: userProfile.email.split('@')[0].replace(/[ ]+/g,'_').toString()+"_"+randomLetters(6),
+        name: userProfile.name,
+        email: userProfile.email,
+        password: 'nopass', //hashPassword(req.body.password),
       }).then((data)=>{
         console.log(data,"Database Result after adding!!!!");
         let token = jwt.sign({

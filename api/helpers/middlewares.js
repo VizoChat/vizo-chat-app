@@ -13,10 +13,6 @@ module.exports = {
         } else {
             data = req.body;
         }
-        let _data = {
-            secret:process.env.RECAPTCHA_SECRET_KEY,
-            response:{'missing-input-secret':data.captchaToken}
-        }
         fetch('https://www.google.com/recaptcha/api/siteverify',
             {
                 method: "POST",

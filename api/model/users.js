@@ -60,6 +60,25 @@ module.exports.validateUser = async function(reqBody){
         return false
     }
 }
+module.exports.validateUserWithEmail = async function(email){
+    try {
+        let data = {};
+        if(validateEmail(email)){
+            data.email = email
+        }else{
+            return false;
+        }
+        let uData = await users.findOne(data);
+        if(uData){
+            return uData;
+        }else{
+            return false;
+        }
+    } catch (error) {
+        console.log(error);
+        return false
+    }
+}
 module.exports.getAll = ()=>{
     return users.find({})
 }

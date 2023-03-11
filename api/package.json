@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "killip": "sudo kill -9 $(lsof -t -i:4200) "
+    "killip": "sudo kill -9 $(lsof -t -i:4200) ",
+    "apps": "xfce4-terminal -e \"npm start\" && xfce4-terminal -e \"cd ../web/vizochat && ng serve\" "
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
