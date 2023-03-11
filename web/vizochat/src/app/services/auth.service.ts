@@ -35,13 +35,13 @@ export class AuthService {
     localStorage.setItem('adminRetoken',tokens.reToken)
     this.router.navigate(['/admin']);
   }
-  authOut(){
-    this.router.navigate(['/auth/login']);
+  async authOut(){
     localStorage.clear()
-    this.authService.signOut()
+    await this.authService.signOut()
+    // this.router.navigate(['/auth/login']); //cannot do this here
   }
   private adminSettimout:any;
-  private userSettimout:any;
+  private userSettimeout:any;
   startSessTimout(){
     if(this.authValidate()){ 
       let acToken:any = localStorage.getItem('actoken')
@@ -49,7 +49,7 @@ export class AuthService {
       console.log(timeoutAC,'timeoutAC');
       console.log( Math.floor((timeoutAC/1000/60) << 0),':',Math.floor((timeoutAC/1000) % 60),'TIME');
       if(timeoutAC>1){
-        this.userSettimout = setTimeout(() => {
+        this.userSettimeout = setTimeout(() => {
           console.log('sess expired');
           this.refreshAccessToken('user');
         }, timeoutAC);
@@ -65,9 +65,14 @@ export class AuthService {
         'Content-Type':'application/json'
       })
     }
-    let data = {
-      
+    if(user=='user'){
+      localStorage.setItem('actoken',localStorage.getItem('retoken')||'')
+    }else if(user=='admin'){
+
     }
-    this.http.post(`${this.globalServices.apiUrl}/auth/login`, data, httpOptions)
+    this.http.get(`${this.globalServices.apiUrl}/auth/generate-token`, httpOptions).subscribe((data)=>{
+      console.log(data);
+      
+    })
   }
 }

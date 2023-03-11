@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -6,5 +7,5 @@ import { Injectable } from '@angular/core';
 export class GlobalserviceService {
 
   constructor() { }
-  public apiUrl = 'http://localhost:3000'
+  public apiUrl = environment.baseApiUrl
 }

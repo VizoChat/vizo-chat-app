@@ -9,7 +9,7 @@ const routes: Routes = [
   {path:'', component:LayoutComponent, children:[
     {path:'', component:HomeComponent},
     {path:'**', component:Err404Component}
-  ], canActivate:[AuthGuard], canDeactivate:[AuthGuard]}
+  ], canActivate:[AuthGuard]}
 ];
 
 @NgModule({
