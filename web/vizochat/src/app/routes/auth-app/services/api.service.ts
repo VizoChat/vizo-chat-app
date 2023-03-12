@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
-import { GlobalserviceService } from 'src/app/services/globalservice.service';
+import { GlobalserviceService } from 'src/app/shared/services/globalservice.service';
 
 @Injectable({
   providedIn: 'platform'

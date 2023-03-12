@@ -5,7 +5,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
-  {path:'', canActivate:[AuthGuard], component:LayoutComponent,canDeactivate:[AuthGuard], children:[
+  {path:'', canActivate:[AuthGuard], component:LayoutComponent, children:[
     {path:'', component:HomeComponent}
   ]}
 ];

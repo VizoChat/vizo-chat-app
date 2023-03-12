@@ -1,9 +1,13 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
-
+import { select, Store } from '@ngrx/store';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import * as AuthActions from "../../store/actions"
 import { ApiService } from '../../services/api.service';
+import { Observable, Subscription } from 'rxjs';
+import { errorSelector, isLoadingSelector, successSelector } from '../../store/selectors';
+import { appStateInterface } from 'src/app/models/appState.interface';
 
 @Component({
   selector: 'app-login',
@@ -11,67 +15,51 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit{
+  gAuthSubsciption!:Subscription;
   ngOnInit(): void {
-    this.authService.authState.subscribe((user) => {
+    this.gAuthSubsciption = this.authService.authState.subscribe((user) => {
       this.user = user;
       let loggedin = (user !=null) ;
       if(loggedin){
-        
-        this.loader.loginBTN = true;
-        
-        this.api.doGAUTHSignin({'token':this.user.idToken}).subscribe((data)=>{
-        this.loader.loginBTN = false;
-          if(data.status=='ok'){
-            this.alert = {
-              error:false,
-              message:data.message
-            }
-            this.authservice.setToken({acToken:data.data.token.accessToken,reToken:data.data.token.refreshToken})
-          }else{
-            this.authService.signOut()
-            this.alert = {
-              error:true,
-              message:data.message
-            }
-          }
-          
-        })
+        this.store.dispatch(
+          AuthActions.doGLogin({ formData: {token:this.user.idToken}})
+        )
       }
     });
-  }
-  constructor(private api:ApiService, private authService: SocialAuthService, private authservice:AuthService){}
-  user: SocialUser | undefined;
-  formData = new FormGroup({
-    user:new FormControl(null),
-    password:new FormControl(null),
-  })
-  alert:any;
-  loader = {
-    loginBTN:false
-  }
-  loginSubmit(){
-    this.loader.loginBTN = true;
-    this.api.doLogin(this.formData.value).subscribe((data)=>{
-      this.loader.loginBTN = false;
 
-      if(data.status=='ok'){
-        this.alert = {
-          error:false,
-          message:data.message
-        }
-        this.authservice.setToken({acToken:data.data.token.accessToken,reToken:data.data.token.refreshToken})
-
-      }else{
-        this.alert = {
-          error:true,
-          message:data.message
-        }
-      }
-      console.log(data);
-      
+    this.formData = new FormGroup({
+      user:new FormControl(null),
+      password:new FormControl(null),
     })
   }
+  formData:any;
+  isLoading$!:Observable<Boolean>;
+  isLogged$!:Observable<Boolean>;
+  error$!:Observable<String | null>;
+  constructor(private api:ApiService, private authService: SocialAuthService, private authservice:AuthService, private store:Store<appStateInterface>){
+    this.isLoading$ = this.store.pipe(select(isLoadingSelector))
+    this.isLogged$ = this.store.pipe(select(successSelector))
+    this.error$ = this.store.pipe(select(errorSelector))
+  }
+  user: SocialUser | undefined;
+  
+  
+  loginSubmit(){
+    if (this.formData.invalid) return;
+    this.store.dispatch(
+      AuthActions.doLogin({ formData: this.formData.value, isUser:true })
+    )
+    
+  }
   clearAlert(){
-    this.alert = {}
+    this.store.dispatch(
+      AuthActions.doLoginFailureClear()
+    )
+  }
+  ngOnDestroy(): void {
+    this.store.dispatch(
+      AuthActions.doLoginFailureClear()
+    )
+    if (this.gAuthSubsciption) this.gAuthSubsciption.unsubscribe();
   }
 }

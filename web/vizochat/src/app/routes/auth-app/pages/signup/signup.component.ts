@@ -1,97 +1,70 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { select, Store } from '@ngrx/store';
+import { appStateInterface } from 'src/app/models/appState.interface';
+import { errorSelector, isLoadingSelector, successSelector } from '../../store/selectors';
+import { Observable, Subscription } from 'rxjs';
+import * as AuthActions from '../../store/actions'
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit{
+export class SignupComponent implements OnInit, OnDestroy{
+  
+  user: SocialUser | undefined;
+  gAuthSubsciption!:Subscription;
 
-
-  constructor(private api:ApiService, private authService: SocialAuthService, private authservice:AuthService){}
+  constructor(private api:ApiService, private authService: SocialAuthService, private authservice:AuthService, private store:Store<appStateInterface>){
+    this.isLoading$ = this.store.pipe(select(isLoadingSelector))
+    this.isLogged$ = this.store.pipe(select(successSelector))
+    this.error$ = this.store.pipe(select(errorSelector))
+  }
   ngOnInit(): void {
-    this.authService.authState.subscribe((user) => {
+    this.gAuthSubsciption = this.authService.authState.subscribe((user) => {
       this.user = user;
       let loggedin = (user !=null) ;
       if(loggedin){
-        this.loader.signupBTN = true;
-        
-        this.api.doGAUTHSignup({'token':this.user.idToken}).subscribe((data)=>{
-        this.loader.signupBTN = false;
-          if(data.status=='ok'){
-            this.alert = {
-              error:false,
-              message:data.message
-            }
-            this.authservice.setToken({acToken:data.data.token.accessToken,reToken:data.data.token.refreshToken})
-          }else{
-            this.authService.signOut()
-            this.alert = {
-              error:true,
-              message:data.message
-            }
-          }
-          
-        })
+        this.store.dispatch(
+          AuthActions.doGSignup({ formData: {token:this.user.idToken}})
+        )
       }
     });
 
-  }
-  formData = new FormGroup({
-    username: new FormControl(null),
-    name: new FormControl(null),
-    email: new FormControl(null),
-    password: new FormControl(null),
-    repassword: new FormControl(null),
-  })
-  alert:any;
-  loader = {
-    signupBTN:false
-  }
-  
-  signupSubmit(){
-    this.loader.signupBTN = true;
-    this.api.doSignup(this.formData.value).subscribe((data)=>{
-      this.loader.signupBTN = false;
 
-      if(data.status=='ok'){
-        this.alert = {
-          error:false,
-          message:data.message
-        }
-        this.authservice.setToken({acToken:data.data.token.accessToken,reToken:data.data.token.refreshToken})
-      }else{
-        this.alert = {
-          error:true,
-          message:data.message
-        }
-      }
-      
+    this.formData = new FormGroup({
+      username: new FormControl(null),
+      name: new FormControl(null),
+      email: new FormControl(null),
+      password: new FormControl(null),
+      repassword: new FormControl(null),
     })
   }
-  user: SocialUser | undefined;
-  // signupWithGoogle(): void {
-  //   this.authService.signIn(GoogleLoginProvider.PROVIDER_ID, {
-  //     scope: 'profile email'
-  //   }).then((response) => {
-  //     const token = response.idToken;
-  //     console.log(token,'gtoken');
-      
-  //     // send the token to the server to create or log in the user
-  //   }).catch((err)=>{
-  //     console.error(err);
-      
-  //     this.alert = {
-  //       error:true,
-  //       message:err
-  //     }
-  //   })
-  // }
+  
+  formData:any;
+  isLoading$!:Observable<Boolean>;
+  isLogged$!:Observable<Boolean>;
+  error$!:Observable<String | null>;
+  
+  signupSubmit(){
+    if (this.formData.invalid) return;
+    this.store.dispatch(
+      AuthActions.doSignup({ formData: this.formData.value })
+    )
+  }
   clearAlert(){
-    this.alert = {}
+    this.store.dispatch(
+      AuthActions.doLoginFailureClear()
+    )
+  }
+  ngOnDestroy(): void {
+    this.store.dispatch(
+      AuthActions.doLoginFailureClear()
+    )
+    if (this.gAuthSubsciption) this.gAuthSubsciption.unsubscribe();
   }
 }

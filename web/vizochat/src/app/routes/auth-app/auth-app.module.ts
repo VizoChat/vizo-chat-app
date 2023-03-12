@@ -11,6 +11,10 @@ import { RecaptchaInterceptor } from './recaptcha.interceptor';
 import { GoogleSigninButtDirective } from './directives/google-signin-butt.directive';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './store/reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { authEffects } from './store/effects';
 
 
 @NgModule({
@@ -25,6 +29,8 @@ import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
     AuthAppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    StoreModule.forFeature('authentication', reducer),
+    EffectsModule.forFeature([authEffects])
   ],
   providers:[
     ApiService,
