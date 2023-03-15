@@ -30,5 +30,5 @@ module.exports = {
             res.json(apiResponse)
             console.log(data);
         })
-    }
+    },
 }

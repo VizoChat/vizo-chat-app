@@ -21,13 +21,13 @@ module.exports = {
         let apiRes = {
             status:401,
             message:'Login required!',
-            authenticated:false,
+            authorization:false,
             data:{}
         }
         let jwtSecret = process.env.JWT_ACCESS_SECRET_TOKEN;
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(' ')[1];
-      
+      console.log(authHeader);
         if (!token) {
             apiRes.message = 'Missing authorization header'
           return res.status(200).json(apiRes);
@@ -48,6 +48,7 @@ module.exports = {
         data:'Unknown Error!'
       }
       const authHeader = req.headers.authorization;
+      console.log('header:::::',authHeader);
         const jwtRefreshToken = authHeader && authHeader.split(' ')[1];
       if (!jwtRefreshToken) {
         resObj.data = 'Missing authorization token!';

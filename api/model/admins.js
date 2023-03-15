@@ -1,27 +1,16 @@
 const mongoose = require('mongoose');
 const { validateEmail, hashPasswordvalidate } = require('../helpers/validation');
 
-const userSchema = new mongoose.Schema(
+const adminsSchema = new mongoose.Schema(
     {   
         username: {type:String, required:true, unique:true, index: true, lowercase:true},
         name: {type:String, required:true, index: true},
         email: {type:String, required: true, unique:true , index: true},
-        emailVerified:{type:Boolean, default:false},
         password: {type:String, required: true},
-        avatar: {
-            image:{type:String},
-            isUrl:{type:Boolean}, //means it's an url to the avatar and not image name!
-        },
+        avatar: {type:String},
         state:{
             deleted:{type:Boolean, default:false},
-            blocked:{type:Boolean, default:false},
         },
-        accessTo:{
-            chatView:{type:Boolean,default:false},
-            chatWrite:{type:Boolean,default:false},
-            liveVisitorsView:{type:Boolean,default:false},
-        },
-        dashboard:{type:mongoose.Schema.Types.ObjectId}, 
         login_ses:  {type:String},
         joined:   {type:Date, default: Date.now()},
         last_login: {type:Date, default: Date.now},
@@ -30,7 +19,7 @@ const userSchema = new mongoose.Schema(
     // ,{timestamps:true}
 )
 
-let users = module.exports = mongoose.model("users", userSchema)
+let users = module.exports = mongoose.model("admins", adminsSchema)
 
 module.exports.getUser =  function(id){
     return users.findById(id)
@@ -48,7 +37,7 @@ module.exports.updateUser = function (id,data){
     return users.updateOne({_id:id},{$set:data})
 }
 
-module.exports.validateUser = async function(reqBody){
+module.exports.validateAdmin= async function(reqBody){ //on use
     try {
         let data = {};
         if(validateEmail(reqBody.user)){

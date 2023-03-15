@@ -17,10 +17,24 @@ export class RecaptchaInterceptor implements HttpInterceptor {
     return this.recaptchaV3Service.execute('importantAction')
     .pipe(
       switchMap((token) => {
-        const bodyWithToken = { ...req.body, captchaToken: token };
-        const authReq = req.clone({ body: bodyWithToken });
-        console.log(`Token [${token}] generated`);
-        return next.handle(authReq);
+        if (req.method === 'GET') {
+          const params = req.params;
+          const newParams = params.append('captchaToken', token);
+          const authReq = req.clone({
+            params: newParams
+          });
+          return next.handle(authReq);
+
+        }else if (req.method === 'POST') {
+
+          const bodyWithToken = { ...req.body, captchaToken: token };
+          const authReq = req.clone({ body: bodyWithToken });
+          console.log(`Token [${token}] generated`);
+          return next.handle(authReq);
+        }else{
+          return next.handle(req);
+
+        }
     }))
   }
 }

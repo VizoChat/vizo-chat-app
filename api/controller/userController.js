@@ -71,14 +71,12 @@ module.exports = {
       apiRes.message = 'User fetch success!'
       apiRes.status = 'ok'
       apiRes.authorization = true;
-      users.getUser(res.locals.jwtUSER).then((data)=>{
-      apiRes.data.userData = {
-        _id:data._id,
-        username:data.username,
-        name:data.username,
-        phone:data.phone,
-        email:data.email,
-      }
+    users.getUser(res.locals.jwtUSER).then((data)=>{
+      let _data = JSON.parse(JSON.stringify(data))
+      delete _data.password
+      delete _data.__v
+      apiRes.data.userData = _data
+      console.log(_data);
       if(data.avatar){
         apiRes.data.userData.avatar = data.avatar;
         apiRes.data.url = process.env.API_URL

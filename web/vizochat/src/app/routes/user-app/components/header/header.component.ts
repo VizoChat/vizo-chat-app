@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { appStateInterface } from 'src/app/models/appState.interface';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { isPageLoadingSelector } from '../../store/selectors';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +12,10 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private authservice:AuthService, private router:Router){}
+  pageLoading$:Observable<Boolean>;
+  constructor(private authservice:AuthService, private router:Router, private store:Store<appStateInterface>){
+    this.pageLoading$ = this.store.pipe(select(isPageLoadingSelector))
+  }
   logout(){
     this.authservice.authOut();
     this.router.navigate(['/auth/login'])

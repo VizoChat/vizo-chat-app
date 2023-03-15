@@ -3,7 +3,8 @@ const jwt = require('../helpers/jwt');
 const { hashPassword } = require('../helpers/validation');
 const { addUser, getUser, validateUser, validateUserWithEmail } = require('../model/users')
 const {OAuth2Client} = require('google-auth-library');
-const {randomLetters} = require('../helpers/funs')
+const {randomLetters} = require('../helpers/funs');
+const { validateAdmin } = require('../model/admins');
 
 module.exports= {
   signup:(req,res,next)=>{
@@ -60,7 +61,8 @@ module.exports= {
     if(uData){
       let token = jwt.sign({
         _id:uData._id,
-        username:uData.username
+        username:uData.username,
+        role:'user'
       })
       response.data = token;
       response.message = 'Login Successful!'
@@ -70,7 +72,7 @@ module.exports= {
       return res.status(200).json(response)
     }
   },
-  admin:(req,res,next)=>{
+  admin:async(req,res,next)=>{
     let response = {
       message: 'Authentication Failed!',
       status:401,
@@ -81,13 +83,12 @@ module.exports= {
       response.message = (errors.errors[0].msg=="Invalid value")?errors.errors[0].param+" is invalid, please check the value!":errors.errors[0].msg
       return res.status(200).json(response)
     }
-    let admin = {
-      username:process.env.AUTH_ADMIN_USER,
-      password:process.env.AUTH_ADMIN_PASSWORD
-    }
-    if( admin.username== req.body.user &&  admin.password == req.body.password){
+    let AdminData = await validateAdmin(req.body)
+    if( AdminData){
       let token = jwt.sign({
-        username:admin.username
+        _id:AdminData._id,
+        username:AdminData.username,
+        role:'admin'
       })
       response.data = token;
       response.message = 'Login Successful!'
@@ -106,12 +107,12 @@ module.exports= {
     }
     const newToken = jwt.generateAccessTkn(req)
     if(newToken.error){
-      console.log('newToken.data',newToken.data);
       return res.status(200).json(response)
     }else{
       response.message = 'Access Token Generated Successful!'
       response.status = 'ok';
       response.data = newToken.data;
+      response.authorization = true;
       return res.json(response)
     }
   },
