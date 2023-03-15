@@ -18,4 +18,6 @@ import { LayoutComponent } from './layout/layout.component';
     AdminAppRoutingModule
   ]
 })
-export class AdminAppModule { }
+export class AdminAppModule {
+  
+ }

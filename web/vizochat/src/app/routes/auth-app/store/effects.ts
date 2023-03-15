@@ -5,7 +5,7 @@ import { AuthService } from "src/app/shared/services/auth.service";
 import { ApiService } from "../services/api.service";
 import * as authActions from './actions'
 
-@Injectable(    )
+@Injectable()
 export class authEffects  {
     doLogin$ = createEffect(()=>
         this.actions$.pipe(

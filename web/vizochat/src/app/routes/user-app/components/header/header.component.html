@@ -19,7 +19,7 @@
 			<!-- Items Section -->
 			<li class="hover:bg-gray-100">
 				<a
-					href="."
+					routerLink="/app"
 					class="h-16 px-6 flex flex justify-center items-center w-full
 					focus:text-orange-500">
 					<svg
@@ -46,7 +46,7 @@
 
 			<li class="hover:bg-gray-100">
 				<a
-					href="."
+					routerLink="/app/profile"
 					class="h-16 px-6 flex flex justify-center items-center w-full
 					focus:text-orange-500">
 					<svg
@@ -241,3 +241,15 @@
 			
     </div>
 </div>
+
+<div class="w-full h-full fixed block top-0 left-0 bg-white opacity-100 z-50 " *ngIf="pageLoading$ | async"> 
+	<div class="text-blue-300 opacity-100 top-1/2 my-0 mx-auto block relative flex items-center justify-center text-center flex-col md:flex-row" style=" ">
+		<div style="border-top-color:transparent" class="w-8 h-8 border-4 border-blue-200 rounded-full animate-spin "></div>
+		 <span class="pl-2">Please wait while we are setting up your dashboard.</span>
+	</div>
+	<div class="fixed block bottom-0 z-50 w-full h-full flex items-end justify-center">
+		<div class="p-2">
+			<button class="px-4 py-2 font-semibold text-sm bg-slate-400 hover:bg-slate-500 text-white rounded-md shadow-sm opacity-75" (click)="logout()">Logout</button>
+		</div>
+	</div>
+  </div>

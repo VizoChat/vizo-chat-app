@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit{
     this.isLoading$ = this.store.pipe(select(isLoadingSelector))
     this.isLogged$ = this.store.pipe(select(successSelector))
     this.error$ = this.store.pipe(select(errorSelector))
+    
   }
   user: SocialUser | undefined;
   

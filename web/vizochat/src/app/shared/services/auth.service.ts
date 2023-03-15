@@ -37,42 +37,56 @@ export class AuthService {
   }
   async authOut(){
     localStorage.clear()
+    this.userSettimeout = null;
     await this.authService.signOut()
-    // this.router.navigate(['/auth/login']); //cannot do this here
+    // this.router.navigate(['/auth/login']); //auth guard will do this...
   }
-  private adminSettimout:any;
   private userSettimeout:any;
-  startSessTimout(){
-    if(this.authValidate()){ 
-      let acToken:any = localStorage.getItem('actoken')
-      let timeoutAC = ((JSON.parse(atob(acToken.split('.')[1]))).exp* 1000)-Date.now() ;
-      console.log(timeoutAC,'timeoutAC');
-      console.log( Math.floor((timeoutAC/1000/60) << 0),':',Math.floor((timeoutAC/1000) % 60),'TIME');
-      if(timeoutAC>1){
-        this.userSettimeout = setTimeout(() => {
-          console.log('sess expired');
-          this.refreshAccessToken('user');
-        }, timeoutAC);
-      }else{
-        console.log('already expired');
-        this.refreshAccessToken('user');
+  startSessTimout(user:string){
+    let actokenName = (user=='user')?'actoken':'adminActoken';
+    let authValidate = (user=='user')?this.authValidate():this.adminAuthValidate();
+    
+    if(authValidate){ 
+      try {
+        
+        let acToken:any = localStorage.getItem(actokenName)
+        let timeoutAC = ((JSON.parse(atob(acToken.split('.')[1]))).exp* 1000)-Date.now() ;
+        
+        if(timeoutAC>120641){//before 2 min
+          this.userSettimeout = setTimeout(() => {
+            this.refreshAccessToken(user);
+          }, timeoutAC);
+        }else{
+          this.refreshAccessToken(user);
+        }
+      } catch (error) {
+        this.authOut()
       }
     }
   }
-  refreshAccessToken(user:string){
+  callbackCount=0
+  refreshAccessToken(user:string,callback?:any){
+    let retokenName = (user=='user')?'retoken':'adminRetoken';
+    let actokenName = (user=='user')?'actoken':'adminActoken';
     let httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+localStorage.getItem(retokenName)
       })
     }
-    if(user=='user'){
-      localStorage.setItem('actoken',localStorage.getItem('retoken')||'')
-    }else if(user=='admin'){
-
-    }
-    this.http.get(`${this.globalServices.apiUrl}/auth/generate-token`, httpOptions).subscribe((data)=>{
+    
+    this.http.get(`${this.globalServices.apiUrl}/auth/generate-token`, httpOptions).subscribe((data:any)=>{
       console.log(data);
-      
+      if(data.status=='ok' && data.authorization==true){
+        localStorage.setItem(actokenName,data.data.token.accessToken)
+        this.startSessTimout(user)
+        if(callback&&(this.callbackCount<=1)){
+          this.callbackCount++
+          callback()
+        }
+      }else{
+        this.authOut()
+      }
     })
   }
 }
