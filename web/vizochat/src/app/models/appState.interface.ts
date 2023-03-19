@@ -3,5 +3,5 @@ import { UserAppStateInterface } from "../routes/user-app/models/userApp.stateIn
 
 export interface appStateInterface {
     authentication:AuthenticationStateInterface,
-    userApp:UserAppStateInterface
+    userApp: UserAppStateInterface,
 }

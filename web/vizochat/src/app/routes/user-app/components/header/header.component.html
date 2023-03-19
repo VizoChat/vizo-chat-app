@@ -7,7 +7,7 @@
 
 		<div class="h-16 flex items-center w-full">
 			<!-- Logo Section -->
-			<a class="h-6 w-6 mx-auto" href="http://svelte.dev/">
+			<a class="h-6 w-6 mx-auto" routerLink="/">
 				<img
 					class="h-6 w-6 mx-auto"
 					src="/assets/logo-fit.png"
@@ -17,7 +17,7 @@
 
 		<ul>
 			<!-- Items Section -->
-			<li class="hover:bg-gray-100">
+			<li class="group hover:bg-gray-100 tooltip" data-tooltip="Dashboard">
 				<a
 					routerLink="/app"
 					class="h-16 px-6 flex flex justify-center items-center w-full
@@ -42,86 +42,49 @@
 					</svg>
 
 				</a>
+				
 			</li>
 
-			<li class="hover:bg-gray-100">
+			<li class="hover:bg-gray-100 tooltip" data-tooltip="Inbox">
 				<a
-					routerLink="/app/profile"
+					routerLink="/app/chat"
 					class="h-16 px-6 flex flex justify-center items-center w-full
 					focus:text-orange-500">
-					<svg
-						class="h-5 w-5"
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round">
-						<path
-							d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" height="22" width="22" version="1.1" id="Layer_1" viewBox="0 0 512.043 512.043" xml:space="preserve" stroke="currentColor">
+						<g>
+							<g>
+								<g>
+									<path d="M442.222,0H176.473c-32.651,0-59.115,26.474-59.115,59.136v47.531H69.821c-32.667,0-59.136,26.469-59.136,59.136v180.395     c0,32.667,26.469,59.136,59.136,59.136h4.864v85.333c0,19.006,22.979,28.524,36.418,15.085l100.418-100.418h124.027     c32.667,0,59.136-26.469,59.136-59.136v-47.531h47.537c32.667,0,59.136-26.469,59.136-59.136V59.136     C501.358,26.469,474.889,0,442.222,0z M352.018,346.197c0,9.103-7.366,16.469-16.469,16.469H202.685     c-5.658,0-11.084,2.248-15.085,6.248l-70.248,70.248V384c0-11.782-9.551-21.333-21.333-21.333H69.821     c-9.103,0-16.469-7.366-16.469-16.469V165.803c0-9.103,7.366-16.469,16.469-16.469h68.87h196.858     c9.103,0,16.469,7.366,16.469,16.469V346.197z M458.691,239.531c0,9.103-7.366,16.469-16.469,16.469h-47.531v-90.197     c0-32.667-26.469-59.136-59.136-59.136h-0.006H160.025V59.136c0-9.102,7.365-16.469,16.448-16.469h265.749     c9.103,0,16.469,7.366,16.469,16.469V239.531z"/>
+									<path d="M202.685,234.667c-11.776,0-21.333,9.557-21.333,21.333s9.557,21.333,21.333,21.333s21.333-9.557,21.333-21.333     S214.461,234.667,202.685,234.667z"/>
+									<path d="M288.018,234.667c-11.776,0-21.333,9.557-21.333,21.333s9.557,21.333,21.333,21.333s21.333-9.557,21.333-21.333     S299.794,234.667,288.018,234.667z"/>
+									<path d="M117.352,234.667c-11.776,0-21.333,9.557-21.333,21.333s9.557,21.333,21.333,21.333s21.333-9.557,21.333-21.333     S129.128,234.667,117.352,234.667z"/>
+								</g>
+							</g>
+						</g>
+						</svg>
+
+				</a>
+			</li>
+
+			<li class="hover:bg-gray-100 tooltip" data-tooltip="Visitors">
+				<a
+					routerLink="/app/"
+					class="h-16 px-6 flex flex justify-center items-center w-full
+					focus:text-orange-500">
+
+					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="currentColor">
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M1.62291 12.3415L3.89619 5.90532C3.9075 5.87332 3.92096 5.84211 3.93649 5.81193C4.31617 5.07411 4.99793 4.50861 5.72519 4.13231C6.45804 3.75312 7.30894 3.52783 8.11111 3.52783C9.25937 3.52783 10.4009 3.98867 11.2581 4.71962C11.533 4.95398 11.7847 5.22181 12 5.51784C12.2153 5.22181 12.467 4.95398 12.7419 4.71962C13.5991 3.98867 14.7406 3.52783 15.8889 3.52783C16.6911 3.52783 17.542 3.75312 18.2748 4.13231C19.0021 4.50861 19.6838 5.07411 20.0635 5.81193C20.079 5.84211 20.0925 5.87332 20.1038 5.90532L22.3771 12.3414C22.6176 12.9398 22.75 13.5934 22.75 14.2778C22.75 17.1466 20.4244 19.4723 17.5556 19.4723C14.9414 19.4723 12.7783 17.5413 12.4149 15.0278H11.5851C11.2217 17.5413 9.05856 19.4723 6.44444 19.4723C3.57645 19.4723 1.25132 17.1479 1.25 14.2803M4.18176 9.60076L5.29183 6.45792C5.49314 6.09479 5.8859 5.73805 6.41451 5.46454C6.95711 5.18379 7.57325 5.02783 8.11111 5.02783C8.87198 5.02783 9.67485 5.34083 10.2848 5.86098C10.8935 6.38002 11.25 7.04965 11.25 7.73462V12.3022C10.4726 10.4132 8.61382 9.08337 6.44444 9.08337C5.63337 9.08337 4.86572 9.26926 4.18176 9.60076ZM10.0638 13.5333C10.113 13.7738 10.1389 14.0228 10.1389 14.2778C10.1389 16.3182 8.48483 17.9723 6.44444 17.9723C4.40406 17.9723 2.75 16.3182 2.75 14.2778C2.75 12.7534 3.67326 11.4446 4.99112 10.8802C5.01851 10.8685 5.04607 10.8571 5.07379 10.846C5.49773 10.6765 5.9603 10.5834 6.44444 10.5834C7.71962 10.5834 8.84391 11.2294 9.50784 12.2121C9.77346 12.6052 9.96539 13.0522 10.0638 13.5333ZM12.75 12.3022C12.9444 11.83 13.2063 11.3927 13.5238 11.0024C14.4762 9.83143 15.9285 9.08339 17.5556 9.08339C17.5782 9.08339 17.6007 9.08353 17.6233 9.08382C18.1063 9.08999 18.5733 9.16207 19.0157 9.29143C19.2936 9.37266 19.5618 9.47647 19.8182 9.60076L18.7082 6.45792C18.5069 6.09478 18.1141 5.73805 17.5855 5.46454C17.0429 5.18379 16.4268 5.02783 15.8889 5.02783C15.128 5.02783 14.3251 5.34083 13.7152 5.86098C13.1065 6.38002 12.75 7.04965 12.75 7.73462V12.3022ZM13.8611 14.2778C13.8611 14.2778 13.8611 14.2778 13.8611 14.2778C13.8611 16.3182 15.5152 17.9723 17.5556 17.9723C19.5952 17.9723 21.2488 16.3194 21.25 14.28C21.25 14.2793 21.25 14.2786 21.25 14.2778C21.25 14.2471 21.2496 14.2165 21.2489 14.186C21.248 14.1492 21.2466 14.1124 21.2446 14.0759C21.1662 12.6201 20.2449 11.3883 18.9602 10.8598C18.527 10.6816 18.0527 10.5834 17.5556 10.5834C16.2803 10.5834 15.156 11.2295 14.4921 12.2122C14.0937 12.8019 13.8611 13.5127 13.8611 14.2778Z" fill="currentColor"/>
+						<path d="M1.62291 12.3415C1.38237 12.9399 1.25 13.5934 1.25 14.2778C1.25 14.2778 1.25 14.2778 1.25 14.2778" fill="currentColor"/>
 					</svg>
 
 				</a>
 			</li>
 
-			<li class="hover:bg-gray-100">
+			
+
+			<li class="hover:bg-gray-100 tooltip" data-tooltip="Settings/Manage">
 				<a
-					href="."
-					class="h-16 px-6 flex flex justify-center items-center w-full
-					focus:text-orange-500">
-
-					<svg
-						class="h-5 w-5"
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round">
-						<polyline points="3 6 5 6 21 6"></polyline>
-						<path
-							d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2
-							0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-					</svg>
-
-				</a>
-			</li>
-
-			<li class="hover:bg-gray-100">
-				<a
-					href="."
-					class="h-16 px-6 flex flex justify-center items-center w-full
-					focus:text-orange-500">
-					<svg
-						class="h-5 w-5"
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round">
-						<circle cx="9" cy="21" r="1"></circle>
-						<circle cx="20" cy="21" r="1"></circle>
-						<path
-							d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0
-							2-1.61L23 6H6"></path>
-					</svg>
-
-				</a>
-			</li>
-
-			<li class="hover:bg-gray-100">
-				<a
-					href="."
+					routerLink="/app/manage"
 					class="h-16 px-6 flex flex justify-center items-center w-full
 					focus:text-orange-500">
 					<svg
@@ -156,7 +119,7 @@
 				</a>
 			</li>
 
-			<li class="hover:bg-gray-100">
+			<li class="hover:bg-gray-100 tooltip" data-tooltip="Notifications">
 				<a
 					href="."
 					class="h-16 px-6 flex flex justify-center items-center w-full
@@ -210,33 +173,33 @@
 		<!-- Top Bar starts -->
 		<div class="flex flex-col relative flex min-h-screen flex-col ">
 			<div class=' overflow-hidden bg-gray-50 '>
-				<div class="flex items-center justify-between border-b bg-violet-700 p-3">
+				<div class="flex items-center justify-between border-b p-3">
 					<a href="" class="flex items-center space-x-2 rounded bg-gray-100 py-1 px-2 text-slate-500 shadow-md">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
 						</svg>
 						<span>Back</span>
 					</a>
-					<div class="text-lg font-bold text-gray-100">Page name</div>
-						<div class="flex items-center space-x-5 text-gray-100">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-								<path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
-							</svg>
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-								<path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zm6.905 9.97a.75.75 0 00-1.06 0l-3 3a.75.75 0 101.06 1.06l1.72-1.72V18a.75.75 0 001.5 0v-4.19l1.72 1.72a.75.75 0 101.06-1.06l-3-3z" clip-rule="evenodd" />
-								<path d="M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z" />
-							</svg>
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-								<path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zm5.845 17.03a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V12a.75.75 0 00-1.5 0v4.19l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3z" clip-rule="evenodd" />
-								<path d="M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z" />
-							</svg>
-						</div>
+					<div class="text-lg font-bold text-gray-500">Page name</div>
+					<div class="flex items-center space-x-5 text-gray-100">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+							<path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
+						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="text-violet-500" class="h-6 w-6 ">
+							<path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zm6.905 9.97a.75.75 0 00-1.06 0l-3 3a.75.75 0 101.06 1.06l1.72-1.72V18a.75.75 0 001.5 0v-4.19l1.72 1.72a.75.75 0 101.06-1.06l-3-3z" clip-rule="evenodd" />
+							<path d="M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z" />
+						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+							<path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zm5.845 17.03a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V12a.75.75 0 00-1.5 0v4.19l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3z" clip-rule="evenodd" />
+							<path d="M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z" />
+						</svg>
 					</div>
 				</div>
-				<!-- Top Bar Ends -->
-				<div class="w-100 overflow-y-scroll overflow-x-hidden h-100" style="min-width: 90vh; width: 100%;">
-					<ng-content></ng-content>
-				</div>
+			</div>
+			<!-- Top Bar Ends -->
+			<div class="w-100 overflow-y-scroll overflow-x-hidden h-100 flex-1 flex flex-col items-stretch relative" style=" width: 100%;">
+				<ng-content></ng-content>
+			</div>
 		</div>
 			
     </div>

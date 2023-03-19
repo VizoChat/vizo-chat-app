@@ -18,3 +18,7 @@ export const errorSelector = createSelector(
     selectorFeature,
     (state)=>state.error
 )
+export const successMssgSelector = createSelector(
+    selectorFeature,
+    (state)=>state.success
+)

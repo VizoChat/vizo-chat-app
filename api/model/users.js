@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
             chatWrite:{type:Boolean,default:false},
             liveVisitorsView:{type:Boolean,default:false},
         },
-        dashboard:{type:mongoose.Schema.Types.ObjectId}, 
+        dashboard:{type:String,required:true}, 
         login_ses:  {type:String},
         joined:   {type:Date, default: Date.now()},
         last_login: {type:Date, default: Date.now},
@@ -34,6 +34,10 @@ let users = module.exports = mongoose.model("users", userSchema)
 
 module.exports.getUser =  function(id){
     return users.findById(id)
+}
+
+module.exports.getUsersCount =  function(data){
+    return users.countDocuments(data)
 }
 
 module.exports.addUser = function (data){

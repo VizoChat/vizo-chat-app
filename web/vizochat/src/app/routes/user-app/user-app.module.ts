@@ -11,11 +11,14 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHeaderInterceptor } from './interceptors/auth-header.interceptor';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { reducer } from './store/reducer';
-import { userAppEffects } from './store/effects';
+import { reducer } from './store/reducer'; 
+import { userAppEffects } from './store/effects'; 
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ApiService } from './services/api.service';
+import { ChatComponent } from './pages/chat/chat.component'; 
+import {  ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 
 
 @NgModule({
@@ -24,24 +27,28 @@ import { ApiService } from './services/api.service';
     LayoutComponent,
     HomeComponent,
     HeaderComponent,
-    ProfileComponent
+    ProfileComponent,
+    ChatComponent,
   ],
   imports: [
     CommonModule,
     UserAppRoutingModule,
     StoreModule.forFeature('userApp', reducer),
     EffectsModule.forFeature([userAppEffects]),
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers:[
     ApiService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
-  ]
+  ],
+  
 })
-export class UserAppModule { 
+export class UserAppModule  { 
   constructor(private authService:AuthService, private store:Store){
-    this.authService.startSessTimout('user')
     this.getUserData()
+    this.authService.startSessTimout('user')
   }
   getUserData(){
     this.store.dispatch(

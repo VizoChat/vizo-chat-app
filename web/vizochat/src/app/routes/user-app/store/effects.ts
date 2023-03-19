@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { map, mergeMap } from "rxjs";
+import { catchError, map, mergeMap, of } from "rxjs";
 import { AuthService } from "src/app/shared/services/auth.service";
-import { ApiService } from "../services/api.service";
+import { ApiService } from "../services/api.service"; 
 import * as UserAppActions from './actions'
 
 @Injectable()
@@ -28,10 +28,35 @@ export class userAppEffects {
                             })
                             return UserAppActions.errorGettingUser({error:data.message})
                         }
-                    })
+                    }),
+                    catchError((err:any)=>
+                        of( UserAppActions.errorGettingUser({error:'Something went wrong!'}))
+                    )  
                 )
             })
         )
     )
+
+
+    $newChannel = createEffect(()=>{
+        return this.action$.pipe(
+            ofType(UserAppActions.newChannel),
+            mergeMap((action:any)=>{
+                return this.api
+                .newChannel(action)
+                .pipe(
+                    map((data)=>{
+                        if(data.status=='ok'  && data.authorization==true){
+                            return UserAppActions.createdChannel({successMessage:data.message})
+                        }else{
+                            return UserAppActions.errorChannel({errorMessage:data.message})
+                        }
+                    }),
+                    catchError((err)=>{
+                        return of(UserAppActions.errorChannel({errorMessage:'Something went wrong!'}))
+                    })
+                )
+            })
+        )
+    })
 }
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDEwYWI5YTZiZmEzYjA5MDQ1ZWY0YWMiLCJ1c2VybmFtZSI6ImFkZGV2X2Nvbm5lY3RfNGpmZWRsIiwiaWF0IjoxNjc4ODQ5ODYzLCJleHAiOjE2Nzg4NTA3NjN9.ciVXO_g4tWYEWX20SZe1ukTDTPXi7ITRyis5_bkXiE4

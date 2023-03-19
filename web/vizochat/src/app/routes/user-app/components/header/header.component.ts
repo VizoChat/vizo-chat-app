@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { appStateInterface } from 'src/app/models/appState.interface';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { isPageLoadingSelector } from '../../store/selectors';
+import { isPageLoadingSelector } from '../../store/selectors'; 
 
 @Component({
   selector: 'app-header',

@@ -33,6 +33,8 @@ console.log(file.originalname,"filename#");
 }
 
 let { check, validationResult } = require('express-validator');
+const { build_dash } = require('../model/dashboard');
+const { createChannel } = require('../model/channels');
 
 let apiResponse = {
     message: 'Authentication Failed!',
@@ -54,7 +56,7 @@ module.exports = {
       res.json(apiRes)
     }
   ,
-  products:(req,res)=>{
+  products:(req,res)=>{ //not in use
 
       let apiRes = JSON.parse(JSON.stringify(apiResponse))
       apiRes.data.user = res.locals.jwtUSER
@@ -76,7 +78,6 @@ module.exports = {
       delete _data.password
       delete _data.__v
       apiRes.data.userData = _data
-      console.log(_data);
       if(data.avatar){
         apiRes.data.userData.avatar = data.avatar;
         apiRes.data.url = process.env.API_URL
@@ -86,6 +87,11 @@ module.exports = {
       apiRes.message = 'Error while fetching data!'
       apiRes.status = 500
     }).then(()=>{
+      if(!apiRes.data.userData){
+        apiRes.message = 'No account found!'
+        apiRes.status = 403
+        console.log('no accc');
+      }
       res.json(apiRes)
     })
   },
@@ -179,5 +185,32 @@ module.exports = {
         }
       }
     });
+  },
+  newChannel:(req,res,next)=>{
+    let apiRes = JSON.parse(JSON.stringify(apiResponse))
+    apiRes.data.user = res.locals.jwtUSER
+    apiRes.message = 'Invalid arguments, please check all input!'
+    apiRes.status = 401
+    apiRes.authorization = true;
+    let canCreate = false;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      apiRes.message = errors.errors[0].param+((errors.errors[0].msg=="Invalid value")?" is invalid, please check the value!":errors.errors[0].msg)
+      return res.status(200).json(apiRes)
+    }
+    console.log(res.locals.jwtUSER);
+    createChannel({
+      dashboard:res.locals.jwtUSER.dashboard,
+      name:req.body.channelName,
+      domain:req.body.channelDomain
+    }).then((data)=>{
+      apiRes.message = 'Successfully created new channel!'
+      apiRes.status = 'ok'
+    }).catch((err)=>{
+      apiRes.message = 'Something went wrong while creating new channel!'
+      console.log(err);
+    }).then(()=>{
+      res.json(apiRes)
+    })
   }
 }

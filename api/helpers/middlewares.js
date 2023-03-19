@@ -1,3 +1,5 @@
+const { getUsersCount } = require("../model/users");
+
 let apiResponse = {
     message: 'Seems you are not a human!',
     authorization:false,
@@ -7,6 +9,7 @@ let apiResponse = {
 
 module.exports = {
     recaptcha:(req,res,next)=>{
+        let apiRes = JSON.parse(JSON.stringify(apiResponse))
         let data;
         if (Object.keys(req.query).length > 0) {
             data = req.query;
@@ -27,8 +30,17 @@ module.exports = {
             if(data.success==true){
                 return next()
             }
-            res.json(apiResponse)
+            res.json(apiRes)
             console.log(data);
         })
     },
+    varify_user:async(req,res,next)=>{
+        let apiRes = JSON.parse(JSON.stringify(apiResponse))    
+        let usercount = await getUsersCount({_id:res.locals.jwtUSER._id})
+        if (usercount==1){
+            next()
+        }else{
+            res.json(apiRes)
+        }
+    }
 }

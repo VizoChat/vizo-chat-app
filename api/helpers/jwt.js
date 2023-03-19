@@ -27,7 +27,6 @@ module.exports = {
         let jwtSecret = process.env.JWT_ACCESS_SECRET_TOKEN;
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(' ')[1];
-      console.log(authHeader);
         if (!token) {
             apiRes.message = 'Missing authorization header'
           return res.status(200).json(apiRes);
@@ -36,10 +35,11 @@ module.exports = {
         try {
           const decoded = jwt.verify(token, jwtSecret);
           res.locals.jwtUSER = decoded;
-          next()
+          if(decoded) next()
         } catch (err) {
+            console.log(err);
             apiRes.message = 'Invalid token'
-          return res.status(200).json(apiRes);
+            res.status(200).json(apiRes);
         }
     },
     generateAccessTkn:(req)=>{
@@ -48,7 +48,6 @@ module.exports = {
         data:'Unknown Error!'
       }
       const authHeader = req.headers.authorization;
-      console.log('header:::::',authHeader);
         const jwtRefreshToken = authHeader && authHeader.split(' ')[1];
       if (!jwtRefreshToken) {
         resObj.data = 'Missing authorization token!';
@@ -58,8 +57,7 @@ module.exports = {
       try {
         const decoded = jwt.verify(jwtRefreshToken, process.env.JWT_REFRESH_SECRET_TOKEN);
         if(decoded){
-          console.log(decoded);
-          const jwtAccessToken = jwt.sign({_id:decoded._id,username:decoded.username}, process.env.JWT_ACCESS_SECRET_TOKEN, { expiresIn:'15m' }); //15 minutes
+          const jwtAccessToken = jwt.sign({_id:decoded._id,username:decoded.username,dashboard:decoded.dashboard}, process.env.JWT_ACCESS_SECRET_TOKEN, { expiresIn:'15m' }); //15 minutes
           resObj.data = jwtAccessToken;
           resObj.data = {
              token:{

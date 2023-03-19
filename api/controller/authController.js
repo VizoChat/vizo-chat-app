@@ -5,9 +5,11 @@ const { addUser, getUser, validateUser, validateUserWithEmail } = require('../mo
 const {OAuth2Client} = require('google-auth-library');
 const {randomLetters} = require('../helpers/funs');
 const { validateAdmin } = require('../model/admins');
+const { build_dash } = require('../model/dashboard');
 
 module.exports= {
-  signup:(req,res,next)=>{
+  signup: (req,res,next)=>{
+      let dash_id = randomLetters(15)
       let response = {
           message: 'Something went wrong!',
           status:'error',
@@ -25,11 +27,15 @@ module.exports= {
           name: req.body.name,
           email: req.body.email,
           password: hashPassword(req.body.password),
-    }).then((data)=>{
+          dashboard:dash_id
+    }).then(async (data)=>{
+      await build_dash({uid:data._id,dash_id})
       console.log(data,"Database Result after adding!!!!");
       let token = jwt.sign({
         _id:data._id,
-        username:data.username
+        username:data.username,
+        dashboard:data.dashboard
+
       })
       response.data = token;
       response.message = 'Account Created Successful!'
@@ -62,7 +68,7 @@ module.exports= {
       let token = jwt.sign({
         _id:uData._id,
         username:uData.username,
-        role:'user'
+        dashboard:uData.dashboard
       })
       response.data = token;
       response.message = 'Login Successful!'
@@ -80,7 +86,7 @@ module.exports= {
     }
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      response.message = (errors.errors[0].msg=="Invalid value")?errors.errors[0].param+" is invalid, please check the value!":errors.errors[0].msg
+      response.message = errors.errors[0].param+((errors.errors[0].msg=="Invalid value")?" is invalid, please check the value!":errors.errors[0].msg)
       return res.status(200).json(response)
     }
     let AdminData = await validateAdmin(req.body)
@@ -124,7 +130,7 @@ module.exports= {
     }
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      response.message = (errors.errors[0].msg=="Invalid value")?errors.errors[0].param+" is invalid, please check the value!":errors.errors[0].msg
+      response.message = errors.errors[0].param+((errors.errors[0].msg=="Invalid value")?" is invalid, please check the value!":errors.errors[0].msg)
       return res.status(200).json(response)
     }
     const client = new OAuth2Client(process.env.GAUTH_CLIENT_ID);
@@ -144,7 +150,8 @@ module.exports= {
     if(uData){
       let token = jwt.sign({
         _id:uData._id,
-        username:uData.username
+        username:uData.username,
+        dashboard:uData.dashboard
       })
       response.data = token;
       response.message = 'Login Successful!'
@@ -155,6 +162,7 @@ module.exports= {
     }
   },
   googleSignup:async(req,res,next)=>{
+    let dash_id = randomLetters(15)
     let response = {
         message: 'Something went wrong!',
         status:'error',
@@ -184,12 +192,15 @@ module.exports= {
         username: userProfile.email.split('@')[0].replace(/[ ]+/g,'_').toString()+"_"+randomLetters(6),
         name: userProfile.name,
         email: userProfile.email,
-        password: 'nopass', //hashPassword(req.body.password),
-      }).then((data)=>{
+        password: 'nopass', 
+        dashboard:dash_id
+      }).then(async (data)=>{
+        await build_dash({uid:data._id,dash_id})
         console.log(data,"Database Result after adding!!!!");
         let token = jwt.sign({
           _id:data._id,
-          username:data.username
+          username:data.username,
+          dashboard:data.dashboard
         })
         response.data = token;
         response.message = 'Account Created Successful!'

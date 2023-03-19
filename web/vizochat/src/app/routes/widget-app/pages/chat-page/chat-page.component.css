@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.widgetBody{
+    max-width: 400px;
+    margin: 0% auto;
+    font-family: 'Ubuntu', sans-serif;
+    
+}
+.chatbgclr{
+    background-color: rgb(85, 88, 255);
+    /* rgb(56, 11, 97); */
+}

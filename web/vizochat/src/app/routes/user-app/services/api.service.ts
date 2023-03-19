@@ -18,4 +18,7 @@ export class ApiService {
   getUserData():Observable<any>{
     return this.http.get(environment.baseApiUrl+'/userdata', this.httpOptions)
   }
+  newChannel(data:{channelName:String|null, channelDomain:String|null}):Observable<any>{
+    return this.http.put(environment.baseApiUrl+'/newChannel',data, this.httpOptions)
+  }
 }
