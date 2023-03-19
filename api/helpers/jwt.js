@@ -48,6 +48,7 @@ module.exports = {
         data:'Unknown Error!'
       }
       const authHeader = req.headers.authorization;
+      console.log('header:::::',authHeader);
         const jwtRefreshToken = authHeader && authHeader.split(' ')[1];
       if (!jwtRefreshToken) {
         resObj.data = 'Missing authorization token!';
