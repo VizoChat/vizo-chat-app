@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { validateEmail, hashPasswordvalidate } = require('../helpers/validation');
+const slug = require('slug')
 
 const userSchema = new mongoose.Schema(
     {   
@@ -41,13 +42,14 @@ module.exports.getUsersCount =  function(data){
 }
 
 module.exports.addUser = function (data){
-    data.username = data.username.trim().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
+    // data.username = data.username.trim().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
+    data.username = slug(data.username,'_')
     let uNew = new users(data)
     return uNew.save()
 }
 module.exports.updateUser = function (id,data){
     if(data.username){
-        data.username = data.username.trim().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
+        data.username = slug(data.username,'_')
     }
     return users.updateOne({_id:id},{$set:data})
 }

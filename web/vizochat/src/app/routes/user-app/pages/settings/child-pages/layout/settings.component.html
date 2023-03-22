@@ -1,8 +1,8 @@
 <div class="flex">
     <div class="w-60 bg-white h-screen border">
-        <a routerLink="/app/manage/channels/" class="px-auto block py-2 text-center hover:text-blue hover:bg-gray-100 border-b">Channels</a>
-        <a routerLink="/app/manage/" class="px-auto block py-2 text-center hover:text-blue hover:bg-gray-100 border-b">Extensions</a>
-        <a routerLink="/app/manage/" class="px-auto block py-2 text-center hover:text-blue hover:bg-gray-100 border-b">Teammates</a>
+        <a routerLink="/app/manage/channels/" class="px-auto block py-2 text-center hover:text-blue hover:bg-gray-100 border-b" routerLinkActive="bg-gray-200" [routerLinkActiveOptions]="{exact: true}">Channels</a>
+        <a routerLink="/app/manage/" class="px-auto block py-2 text-center hover:text-blue hover:bg-gray-100 border-b" routerLinkActive="bg-gray-200" [routerLinkActiveOptions]="{exact: true}">Extensions</a>
+        <a routerLink="/app/manage/" class="px-auto block py-2 text-center hover:text-blue hover:bg-gray-100 border-b" routerLinkActive="bg-gray-200" [routerLinkActiveOptions]="{exact: true}">Teammates</a>
     </div>
     <router-outlet></router-outlet>
 </div>

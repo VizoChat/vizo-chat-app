@@ -4,6 +4,7 @@ import * as UserAppActions from "./actions"
 
 const initialState:UserAppStateInterface = {
     isLoading:false,
+    isContentLoading:false,
     isPageLoading:false,
     user:null,
     error:null,
@@ -18,6 +19,18 @@ export const reducer = createReducer(
     on(UserAppActions.newChannel,(state)=>({...state,isLoading:true})),
     on(UserAppActions.createdChannel,(state, action)=>({...state,isLoading:false, success:action.successMessage})),
     on(UserAppActions.errorChannel,(state, action)=>({...state,isLoading:false, error:action.errorMessage})),
+
+    on(UserAppActions.editChannel,(state)=>({...state,isLoading:true})),
+    on(UserAppActions.editedChannel,(state, action)=>({...state,isLoading:false, success:action.successMessage})),
+    on(UserAppActions.errorEditingChannel,(state, action)=>({...state,isLoading:false, error:action.errorMessage})),
+
+    on(UserAppActions.getChannels, (state)=>({...state,isContentLoading:true})),
+    on(UserAppActions.gotChannels, (state,action)=>({...state,isContentLoading:false,channels:action.channels})),
+    on(UserAppActions.errorGettingChannels,(state, action)=>({...state,isContentLoading:false, error:action.errorMessage})),
+
+    on(UserAppActions.delChannels, (state)=>({...state,isLoading:true})),
+    on(UserAppActions.deletedChannels, (state,action)=>({...state,isLoading:false,success:action.successMessage})),
+    on(UserAppActions.errorDeletingChannels,(state, action)=>({...state,isLoading:false, error:action.errorMessage})),
 
     on(UserAppActions.clearSuccessMsg, (state)=>({...state,success:null})),
     on(UserAppActions.clearErrorMsg, (state)=>({...state,error:null}))

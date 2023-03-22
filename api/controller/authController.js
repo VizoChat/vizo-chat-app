@@ -12,7 +12,7 @@ module.exports= {
       let dash_id = randomLetters(15)
       let response = {
           message: 'Something went wrong!',
-          status:'error',
+          status:401,
           data:{}
       }
       const errors = validationResult(req);
@@ -21,16 +21,14 @@ module.exports= {
         response.message = errors.errors[0].param+" "+((errors.errors[0].msg=="Invalid value")?"is invalid, please check the value!":errors.errors[0].msg);
         return res.status(200).json(response);
       }
-      console.log(req.body);
       addUser({
-          username: req.body.username.replace(/[ ]+/g,'_'),
+          username: req.body.username.replace(/[ ]+/g,'_'), 
           name: req.body.name,
           email: req.body.email,
           password: hashPassword(req.body.password),
           dashboard:dash_id
     }).then(async (data)=>{
       await build_dash({uid:data._id,dash_id})
-      console.log(data,"Database Result after adding!!!!");
       let token = jwt.sign({
         _id:data._id,
         username:data.username,

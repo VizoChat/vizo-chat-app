@@ -53,5 +53,13 @@ let bcrypt = require('bcrypt')
     newChannel:[
       check('channelName').isLength({ min: 4 }).withMessage(' should contain at least 4 characters!'),
       check('channelDomain').isLength({ min: 4 }).withMessage(' must be a valid one!').trim()
+    ],
+    editChannel:[
+      check('channelName').isLength({ min: 4 }).withMessage(' should contain at least 4 characters!'),
+      check('channelDomain').isLength({ min: 4 }).withMessage(' must be a valid one!').trim(),
+      check('channel_id').isLength({ min: 24 , max: 24}).withMessage(' must be a valid one!').trim()
+    ],
+    delChannel:[
+      check('channel_id').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim()
     ]
   }

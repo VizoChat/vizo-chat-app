@@ -1,0 +1,13 @@
+<div class="py-2 px-5">
+    <h2 class="border-b ">Installation</h2>
+    <p class="mt-6" [innerText]="'To accept messages from visitors on your website, you need to install the following code on every page of your site before the closing </head> tag:'"></p>
+    <div class="p-2 mt-6">
+        <textarea name="" id="" cols="30" rows="2" #codeSnippet class="w-full border p-2 text-center h-10 overflow-hidden resize-none rounded-lg" readonly [innerHTML]="installationCode"></textarea>
+        <button (click)="copyCode()" class="p-2 text-center bg-gray-200 hover:bg-gray-100 rounded flex justify-between items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 20 20" fill="none" class="pr-1">
+                <path fill="currentColor" fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v9a2 2 0 002 2h2v2a2 2 0 002 2h9a2 2 0 002-2V8a2 2 0 00-2-2h-2V4a2 2 0 00-2-2H4zm9 4V4H4v9h2V8a2 2 0 012-2h5zM8 8h9v9H8V8z"/>
+            </svg>
+            Copy
+        </button>
+    </div>
+</div>

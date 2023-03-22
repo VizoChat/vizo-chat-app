@@ -6,6 +6,9 @@ html, body{
   font-family: 'Roboto', sans-serif;
   padding: 0;
   margin: 0;
+  -webkit-user-select: none; /* Safari  -text select disable*/
+  -ms-user-select: none; /* IE 10 and IE 11 -text select disable*/
+  user-select: none; /* Standard syntax -text select disable*/
 }
 
 
@@ -59,8 +62,6 @@ html, body{
   opacity: 1;
   display: block;
 }
-/* html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
 
 .snackBarDanger .mdc-snackbar__surface{
   background-color: #ff5b5b !important;
@@ -71,3 +72,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
   background-color: #6bb380 !important;
   color: white !important;
 }
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #9e9e9e; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+

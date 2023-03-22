@@ -14,7 +14,7 @@ import * as channelActions from '../../../../../store/actions'
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit{
-  constructor(private api:ApiService, private store$:Store<appStateInterface>, private routes:Router){}
+  constructor( private store$:Store<appStateInterface>, private routes:Router){}
   isLoading$!:Observable<boolean>;
   successMsg$!:Observable<string|null>;
   
@@ -26,8 +26,12 @@ export class AddComponent implements OnInit{
     this.isLoading$ = this.store$.pipe(select(isLoadingSelector))
     this.successMsg$ = this.store$.pipe(select(successMssgSelector))
     this.successMsg$.subscribe(successMsg => {
-      if(successMsg)
-      this.routes.navigate(['/app/manage/channels'])
+      if(successMsg){
+        this.routes.navigate(['/app/manage/channels'])
+        this.store$.dispatch(
+          channelActions.getChannels()
+        )
+      }
     });
     
   }

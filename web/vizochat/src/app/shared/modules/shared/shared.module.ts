@@ -14,6 +14,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const material = [
   MatDividerModule,
@@ -30,6 +31,7 @@ const material = [
   MatIconModule,
   MatButtonModule,
   MatInputModule,
+  MatAutocompleteModule
 ];
 
 

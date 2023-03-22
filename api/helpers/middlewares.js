@@ -34,7 +34,7 @@ module.exports = {
             console.log(data);
         })
     },
-    varify_user:async(req,res,next)=>{
+    verify_user:async(req,res,next)=>{
         let apiRes = JSON.parse(JSON.stringify(apiResponse))    
         let usercount = await getUsersCount({_id:res.locals.jwtUSER._id})
         if (usercount==1){

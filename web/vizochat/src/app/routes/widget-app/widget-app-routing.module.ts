@@ -6,8 +6,8 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component'
 
 const routes: Routes = [
   {path:'', component:LayoutComponent, children:[
-    {path:'', component: InitPageComponent},
-    {path:'chat/:chatId', component: ChatPageComponent},
+    {path:':channelid', component: InitPageComponent},
+    {path:':channelid/chat/:chatId', component: ChatPageComponent},
   ]}
 ];
 

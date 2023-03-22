@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { appStateInterface } from 'src/app/models/appState.interface';
 import { clearErrorMsg, clearSuccessMsg } from '../store/actions';
-import { successMssgSelector, errorSelector } from '../store/selectors';
+import { successMssgSelector, errorSelector,isContentLoadingSelector } from '../store/selectors';
 
 @Component({
   selector: 'app-layout',
@@ -14,9 +14,11 @@ import { successMssgSelector, errorSelector } from '../store/selectors';
 export class LayoutComponent implements OnInit{
 
   successMsg$!:Observable<string | null>
+  showTopLoader$!:Observable<boolean|null>
 
   constructor( private _snackBar: MatSnackBar, private store$:Store<appStateInterface>){}
   ngOnInit(): void {
+    this.showTopLoader$ = this.store$.pipe(select(isContentLoadingSelector))
     this.successMsg$ = this.store$.pipe(select(successMssgSelector))
     this.successMsg$.subscribe(successMsg => {
       this.openSnack('Success',successMsg);

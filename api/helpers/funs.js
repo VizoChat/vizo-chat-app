@@ -1,5 +1,8 @@
 module.exports = {
     randomLetters:(length)=>{
+      try {
+        
+        length = Number(length)
         let result = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const charactersLength = characters.length;
@@ -9,5 +12,8 @@ module.exports = {
           counter += 1;
         }
         return result;
+      } catch (error) {
+        return 'error_detucted_'
+      }
     }
 }

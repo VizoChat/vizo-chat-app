@@ -6,6 +6,10 @@ export const isLoadingSelector = createSelector(
     selectorFeature,
     (state)=>state.isLoading
 )
+export const isContentLoadingSelector = createSelector(
+    selectorFeature,
+    (state)=>state.isContentLoading
+)
 export const isPageLoadingSelector = createSelector(
     selectorFeature,
     (state)=>state.isPageLoading
@@ -21,4 +25,8 @@ export const errorSelector = createSelector(
 export const successMssgSelector = createSelector(
     selectorFeature,
     (state)=>state.success
+)
+export const channelsSelector = createSelector(
+    selectorFeature,
+    (state)=>state.channels
 )

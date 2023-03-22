@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as UserAppActions from '../../../../store/actions'
+import { channels } from 'src/app/routes/user-app/models/channels.interface';
+import { appStateInterface } from 'src/app/models/appState.interface';
+import { channelsSelector } from 'src/app/routes/user-app/store/selectors';
 
 @Component({
   selector: 'app-channels',
@@ -9,11 +15,12 @@ import { Component } from '@angular/core';
   }
 })
 export class ChannelsComponent {
-  newChannelMdal = false;
-  shownewChannelMdal(){
-    this.newChannelMdal = true
+  channels$!:Observable<channels[] | undefined>
+  constructor(private store$:Store<appStateInterface>){
+    this.store$.dispatch(
+      UserAppActions.getChannels()
+    )
+    this.channels$ = this.store$.pipe(select(channelsSelector))
   }
-  closenewChannelMdal(){
-    this.newChannelMdal = false
-  }
+  
 }

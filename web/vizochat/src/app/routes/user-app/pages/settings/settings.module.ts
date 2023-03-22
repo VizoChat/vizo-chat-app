@@ -5,20 +5,29 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './child-pages/layout/settings.component';
 import { ChannelsComponent } from './child-pages/channels/channels.component';
 import { AddComponent } from './child-pages/channels/add/add.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
+import { EditComponent } from './child-pages/channels/edit/edit.component';
+import { OverviewComponent } from './child-pages/channels/edit/overview/overview.component';
+import { InstallationComponent } from './child-pages/channels/edit/installation/installation.component';
+import { DeleteComponent } from './child-pages/channels/edit/delete/delete.component';
 
 
 @NgModule({
   declarations: [
     SettingsComponent,
     ChannelsComponent,
-    AddComponent
+    AddComponent,
+    EditComponent,
+    OverviewComponent,
+    InstallationComponent,
+    DeleteComponent
   ],
   imports: [
     CommonModule,
     SettingsRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     SharedModule
   ]
 })
