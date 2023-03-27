@@ -27,6 +27,11 @@ export const delChannels = createAction('[UserApp] del channel data', props<{cha
 export const deletedChannels = createAction('[UserApp] deleted channel data', props<{successMessage:string}>())
 export const errorDeletingChannels = createAction('[UserApp] error Deleting channel data',props<{errorMessage:string}>())
 
+//settings/manage > channels > del
+export const getChatRooms = createAction('[UserApp] get ChatRooms', props<{channel_id?:String|null|undefined}>())
+export const gotChatRooms = createAction('[UserApp] got ChatRooms', props<{rooms:any}>())
+export const errorGettingChatRooms = createAction('[UserApp] error Gettings ChatRooms',props<{errorMessage:string}>())
+
 //Common
 export const clearSuccessMsg = createAction('[UserApp] Clear success message')
 export const clearErrorMsg = createAction('[UserApp] Clear error message')

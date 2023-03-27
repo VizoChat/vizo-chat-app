@@ -10,4 +10,5 @@ export interface UserAppStateInterface{
     error:string|null 
     success:string|null
     channels?:channels[]
+    chatRooms?:any[]
 }

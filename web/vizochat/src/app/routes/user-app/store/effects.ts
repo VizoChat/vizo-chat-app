@@ -127,4 +127,28 @@ export class userAppEffects {
             })
         )
     )
+
+    $getChatRooms = createEffect(()=>
+        this.action$.pipe(
+            ofType(UserAppActions.getChatRooms),
+            mergeMap((action:any)=>{
+                return this.api
+                .getChatRoms(action.channel_id)
+                .pipe(
+                    map((data)=>{
+                        console.log(data);
+                        
+                        if(data.status=='ok'  && data.authorization==true){
+                            return UserAppActions.gotChatRooms({ rooms:data.data.chat_rooms})
+                        }else{
+                            return UserAppActions.errorGettingChatRooms({errorMessage:data.message})
+                        }
+                    }),
+                    catchError((err)=>{
+                        return of(UserAppActions.errorGettingChatRooms({errorMessage:'Something went wrong!'}))
+                    })
+                )
+            })
+        )
+    )
 }

@@ -64,7 +64,7 @@ html, body{
 }
 
 .snackBarDanger .mdc-snackbar__surface{
-  background-color: #ff5b5b !important;
+  background-color: #d14040 !important;
   color: white !important;
 }
 

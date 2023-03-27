@@ -1,2 +1,11 @@
  <!--bg-gradient-to-r from-blue-300 to-violet-400-->
         <router-outlet></router-outlet>
+       <div class='flex items-center justify-center min-h-screen w-full h-screen bg-slate-100 fixed z-30 top-0 left-0 right-0 bottom-0' *ngIf="showTopLoader$ | async">
+              <button class="bg-indigo-400 p-3 h-max w-max rounded-lg text-white font-bold duration-[500ms,800ms]" disabled>
+                     <div class="flex items-center justify-center m-[10px]"> 
+                            <div class="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
+                            <div class="ml-2"> Processing... </div>
+                     </div>
+              </button>
+       </div>
+

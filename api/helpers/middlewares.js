@@ -31,7 +31,6 @@ module.exports = {
                 return next()
             }
             res.json(apiRes)
-            console.log(data);
         })
     },
     verify_user:async(req,res,next)=>{

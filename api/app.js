@@ -49,6 +49,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// app.use((req,res,next)=>{ //temperary lag for response!
+//   let timerLeft = 2000
+//   setInterval(() => {
+//     if(timerLeft==0){
+//       next()
+//     }
+//     timerLeft -= 1000;
+//   }, 1000);
+// })
 app.use('/',  userRouter);
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
@@ -68,8 +77,8 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.json({
-    error: err.message,
-    statusCode:err.status || 500
+    message: 'Ooops, sorry! We couldn\'t process your request',
+    status:err.status || 500
   });
 });
 

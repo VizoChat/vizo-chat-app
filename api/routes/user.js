@@ -17,6 +17,10 @@ router.put('/editChannel', jwt.verify, mids.verify_user, validation.editChannel,
 router.get('/getChannels', jwt.verify, mids.verify_user ,userController.getChannels)
 router.delete('/delChannel', jwt.verify, mids.verify_user, validation.delChannel, userController.delChannel)
 
+//chat api routes
+router.post('/getChatRooms', jwt.verify, mids.verify_user, userController.getChatRooms)
+
+
 //not in use
 router.get('/test', jwt.verify, userController.test);
 router.get('/products', userController.products)

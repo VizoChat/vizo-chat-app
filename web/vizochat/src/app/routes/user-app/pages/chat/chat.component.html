@@ -1,78 +1,32 @@
 <!-- This is an example component -->
-<div class=" mx-auto shadow-lg rounded-lg h-100 absolute top-1 left-1 right-1 bottom-1 flex flex-col">
+<div class=" mx-auto shadow-lg h-screen border flex flex-col select-text"> <!--absolute top-1 left-1 right-1 bottom-1 -->
     <!-- Chatting -->
-    <div class="flex flex-row justify-between bg-white rounded-lg flex-1">
+    <div class="flex flex-row justify-between bg-white flex-1">
         <!-- chat list -->
-        <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+        <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto select-none h-screen">
             <!-- search compt -->
             <div class="border-b-2 py-4 px-2">
                 <input type="text" placeholder="search chatting"
                     class="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full" />
             </div>
+            <!-- <div *ngIf="chatRooms$ | async">{{chatRooms$|async|json}}</div> -->
             <!-- end search compt -->
             <!-- user list -->
-            <div class="flex flex-row py-4 px-2 justify-center items-center border-b-2">
-                <div class="w-1/4">
-                    <img src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
-                        class="object-cover h-12 w-12 rounded-full" alt="" />
-                </div>
-                <div class="w-full">
-                    <div class="text-lg font-semibold">Luis1994</div>
-                    <span class="text-gray-500">Pick me at 9:00 Am</span>
-                </div>
-            </div>
-            <div class="flex flex-row py-4 px-2 items-center border-b-2">
-                <div class="w-1/4">
-                    <img src="https://source.unsplash.com/otT2199XwI8/600x600"
-                        class="object-cover h-12 w-12 rounded-full" alt="" />
-                </div>
-                <div class="w-full">
-                    <div class="text-lg font-semibold">Everest Trip 2021</div>
-                    <span class="text-gray-500">Hi Sam, Welcome</span>
-                </div>
-            </div>
-            <div class="flex flex-row py-4 px-2 items-center border-b-2 border-l-4 border-blue-400">
-                <div class="w-1/4">
-                    <img src="https://source.unsplash.com/L2cxSuKWbpo/600x600"
-                        class="object-cover h-12 w-12 rounded-full" alt="" />
-                </div>
-                <div class="w-full">
-                    <div class="text-lg font-semibold">MERN Stack</div>
-                    <span class="text-gray-500">Lusi : Thanks Everyone</span>
-                </div>
-            </div>
-            <div class="flex flex-row py-4 px-2 items-center border-b-2">
-                <div class="w-1/4">
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                        class="object-cover h-12 w-12 rounded-full" alt="" />
-                </div>
-                <div class="w-full">
-                    <div class="text-lg font-semibold">Javascript Indonesia</div>
-                    <span class="text-gray-500">Evan : some one can fix this</span>
-                </div>
-            </div>
-            <div class="flex flex-row py-4 px-2 items-center border-b-2">
-                <div class="w-1/4">
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                        class="object-cover h-12 w-12 rounded-full" alt="" />
-                </div>
-                <div class="w-full">
-                    <div class="text-lg font-semibold">Javascript Indonesia</div>
-                    <span class="text-gray-500">Evan : some one can fix this</span>
-                </div>
-            </div>
+            <div class="overflow-x-hidden overflow-y-auto flex-1"  *ngIf="chatRooms$ | async">
 
-            <div class="flex flex-row py-4 px-2 items-center border-b-2">
-                <div class="w-1/4">
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                        class="object-cover h-12 w-12 rounded-full" alt="" />
+                <div class="flex flex-row py-4 px-2 items-center border-b-2 w-100 hover:bg-gray-100 cursor-pointer" *ngFor="let cr of chatRooms$ | async">
+                    <div class="w-14">
+                        <img src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
+                            class="object-cover h-12 w-12 rounded-full" alt="" />
+                    </div>
+                    <div class="flex-1 overflow-x-hidden">
+                        <p class="text-lg font-semibold truncate">{{cr.message_preview.message}}</p>
+                        <span class="text-gray-500">{{getDateRelative(cr.message_preview.time)}}</span>
+                    </div>
                 </div>
-                <div class="w-full">
-                    <div class="text-lg font-semibold">Javascript Indonesia</div>
-                    <span class="text-gray-500">Evan : some one can fix this</span>
-                </div>
+                
+                <!-- end user list -->
             </div>
-            <!-- end user list -->
         </div>
         <!-- end chat list -->
         <!-- message -->

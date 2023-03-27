@@ -30,3 +30,7 @@ export const channelsSelector = createSelector(
     selectorFeature,
     (state)=>state.channels
 )
+export const chatRoomsSelector = createSelector(
+    selectorFeature,
+    (state)=>state.chatRooms
+)

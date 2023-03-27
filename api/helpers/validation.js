@@ -61,5 +61,16 @@ let bcrypt = require('bcrypt')
     ],
     delChannel:[
       check('channel_id').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim()
+    ],
+    getChatRoom:[
+      check('apiKey').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), //channelid
+      check('userId').isLength({ min: 10 , max: 50 }).withMessage(' must have 10-50 chars').trim(),
+    ],
+    newChatRoom:[
+      check('apiKey').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), //channelid
+      check('ds_key').isLength({ min: 20 , max: 20}).withMessage(' must be a valid one!').trim(), //dashboard key
+      check('userId').isLength({ min: 10 , max: 50 }).withMessage(' must have 10-50 chars').trim(),
+      check('username').trim(),
+      check('custom_data').trim(),
     ]
   }

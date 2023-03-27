@@ -9,7 +9,7 @@ const { build_dash } = require('../model/dashboard');
 
 module.exports= {
   signup: (req,res,next)=>{
-      let dash_id = randomLetters(15)
+      let dash_id = randomLetters(20)
       let response = {
           message: 'Something went wrong!',
           status:401,
@@ -160,7 +160,7 @@ module.exports= {
     }
   },
   googleSignup:async(req,res,next)=>{
-    let dash_id = randomLetters(15)
+    let dash_id = randomLetters(20)
     let response = {
         message: 'Something went wrong!',
         status:'error',

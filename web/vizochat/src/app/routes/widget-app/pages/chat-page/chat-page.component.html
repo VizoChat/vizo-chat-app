@@ -1,23 +1,23 @@
 <div class="widgetBody h-screen chatbgclr">
     <div class="flex flex-col m-auto h-screen  ">
         <div class=" flex items-center">
-            <button class="py-2 px-0 ml-1 hover:bg-opacity-25 text-gray-400 hover:text-slate-50 rounded-lg hover:bg-white" routerLink="/widget/">
+            <button class="py-2 px-0 ml-1 hover:bg-opacity-25 text-gray-400 hover:text-slate-50 rounded-lg hover:bg-white" (click)="backClicked()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="25" height="25" viewBox="0 0 32 32" version="1.1">
                     <path d="M23.505 0c0.271 0 0.549 0.107 0.757 0.316 0.417 0.417 0.417 1.098 0 1.515l-14.258 14.264 14.050 14.050c0.417 0.417 0.417 1.098 0 1.515s-1.098 0.417-1.515 0l-14.807-14.807c-0.417-0.417-0.417-1.098 0-1.515l15.015-15.022c0.208-0.208 0.486-0.316 0.757-0.316z"/>
                 </svg>
             </button>
-            <div class="rounded-full my-3 mx-1 " style="width: 45px;">
-                <img src="https://cdn-icons-png.flaticon.com/512/147/147133.png" alt="" class="w-full">
+            <div class="rounded-full my-3 mx-1 " style="width: 45px;"> <!--https://cdn-icons-png.flaticon.com/512/147/147133.png-->
+                <img src="https://pps.whatsapp.net/v/t61.24694-24/316933356_663876648547132_7871065183614827987_n.jpg?ccb=11-4&oh=01_AdT23fyrxcVTAEqcKKYomRSgw4bZFoMJAVrdZF5gN4tANw&oe=642BB549" alt="" class="w-full rounded-full">
             </div>
             <div>
-                <h3 class=" text-xl text-white font-extrabold">user Name</h3>
+                <h3 class=" text-xl text-white font-extrabold">user name</h3>
                 <p class=" text-xs text-white">Agent</p>
             </div>
             
         </div>
         <div class="bg-white rounded-t-2xl w-full bg-opacity-90 flex flex-col flex-1 justify-between">
             <div class="flex-1 rounded-t-2xl p-1">
-                <div class="mt-auto">
+                <div class="mt-auto message-body">
                     
                     <!-- messages start-->
                     <div class="flex justify-end mb-1">
@@ -36,8 +36,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-start mb-1 mt-4 ">
-                        <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-5 w-5 rounded-full"
+                    <div class="flex justify-start mb-1 mt-4 "> <!--https://source.unsplash.com/vpOeXr5wmR4/600x600-->
+                        <img src="https://pps.whatsapp.net/v/t61.24694-24/316933356_663876648547132_7871065183614827987_n.jpg?ccb=11-4&oh=01_AdT23fyrxcVTAEqcKKYomRSgw4bZFoMJAVrdZF5gN4tANw&oe=642BB549" class="object-cover h-5 w-5 rounded-full"
                             alt="" />
                         <div class=" ml-2 px-3 py-1 bg-white shadow-2xl rounded-br-3xl rounded-tr-xl rounded-tl-xl text-gray-800 text-sm">
                             happy holiday guys!
@@ -46,15 +46,15 @@
                     <!-- messages end -->   
                 </div>
             </div>
-            <div class="flex justify-between border p-3 opacity-100 rounded-lg shadow-xl bg-white mt-5 items-center" routerLink="/widget/chat/test">
+            <div class="flex justify-between border p-1 py-2 opacity-100 rounded-lg shadow-xl bg-white mt-5 items-center focus-within:border-blue-500 m-1 min-h-12 ">
+                <!-- <input type="text" class="outline-none border flex-1 text-lg"> -->
+                <textarea placeholder="Type your message" class="text-base outline-none resize-none flex-1 text-lg max-h-28 min-h-10 overflow-x-hidden overflow-y-auto" rows="1" (input)="onInput($event)"></textarea>
                 <div>
-                    <h2>Sent as a message</h2>
-                    <p class="text-xs opacity-75 ">We typically reply within 5minutes</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="25" height="25" viewBox="0 0 24 24" id="send-alt" data-name="Line Color" class="icon line-color opacity-70 hover:opacity-100">
+                        <line id="secondary" x1="10.62" y1="13.38" x2="13.57" y2="10.43" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"/>
+                        <path id="primary" d="M3.69,8.75,19.61,3.06a1,1,0,0,1,1.33,1.33L15.25,20.31a1,1,0,0,1-1.95,0l-2.51-6.52a1,1,0,0,0-.6-.6L3.67,10.7A1,1,0,0,1,3.69,8.75Z" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"/>
+                    </svg>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none">
-                    <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="2"/>
-                    <path d="M13.9137 15.1001L15.32 11.1939C15.8932 9.60167 14.353 8.06149 12.7608 8.6347L8.85455 10.0409C7.1758 10.6453 7.39162 13.085 9.15038 13.3853C9.87655 13.5093 10.4454 14.0781 10.5694 14.8043C10.8696 16.5631 13.3094 16.7789 13.9137 15.1001Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
             </div>
         </div>
     </div>

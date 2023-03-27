@@ -8,7 +8,8 @@ const initialState:UserAppStateInterface = {
     isPageLoading:false,
     user:null,
     error:null,
-    success:null
+    success:null,
+    chatRooms:[]
 }
 export const reducer = createReducer(
     initialState,
@@ -31,6 +32,10 @@ export const reducer = createReducer(
     on(UserAppActions.delChannels, (state)=>({...state,isLoading:true})),
     on(UserAppActions.deletedChannels, (state,action)=>({...state,isLoading:false,success:action.successMessage})),
     on(UserAppActions.errorDeletingChannels,(state, action)=>({...state,isLoading:false, error:action.errorMessage})),
+
+    on(UserAppActions.getChatRooms, (state)=>({...state,isContentLoading:true})),
+    on(UserAppActions.gotChatRooms, (state,action)=>({...state,isContentLoading:false,chatRooms:action.rooms})),
+    on(UserAppActions.errorGettingChatRooms,(state, action)=>({...state,isContentLoading:false, error:action.errorMessage})),
 
     on(UserAppActions.clearSuccessMsg, (state)=>({...state,success:null})),
     on(UserAppActions.clearErrorMsg, (state)=>({...state,error:null}))

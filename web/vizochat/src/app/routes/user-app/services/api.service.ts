@@ -32,4 +32,7 @@ export class ApiService {
     httpOptions.body = data
     return this.http.delete(environment.baseApiUrl+'/delChannel', httpOptions)
   }
+  getChatRoms(data?:any):Observable<any>{
+    return this.http.post(environment.baseApiUrl+'/getChatRooms',data?data:{}, this.httpOptions)
+  }
 }

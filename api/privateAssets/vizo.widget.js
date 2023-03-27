@@ -7,6 +7,7 @@ class vizochat {
     #config  = {
         apiKey: '{{{apiKey}}}',
         userId: '{{{randomGen(30)}}}',
+        ds_key: '{{{ds_key}}}',
     }
     init_vizo(){
         if(localStorage.getItem('vizo_id')){
@@ -18,14 +19,15 @@ class vizochat {
     config(){
         return this.#config
     }
-    modify_config(data={username,userid}){
-        if(data.username)this.#config.username = data.username
-        if(data.userid)this.#config.userid = data.userid
+    modify_config(data={username,userid,custom_data}){
+        if(data.username)this.#config.username = data.username.toString()
+        if(data.userid)this.#config.userid = data.userid.toString()
+        if(data.custom_data)this.#config.custom_data = JSON.stringify(data.custom_data)
     }
 }
 
 
-function init_vizo(data={username,userid}){
+function init_vizo(data={username,userid,custom_data}){
     let vizochatObj = new vizochat()
     vizochatObj.modify_config(data)
     let host = '{{{vizochat_host}}}'
@@ -38,7 +40,7 @@ function init_vizo(data={username,userid}){
     let style = document.createElement('style')
     let vizo_main = document.createElement('div');
     
-    widgetframe.setAttribute("src",host+"/widget/"+vizochatObj.config.apiKey);
+    widgetframe.setAttribute("src",host+"/widget/"+vizochatObj.config().apiKey+'?'+Object.keys(vizochatObj.config()).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(vizochatObj.config()[key])}`).join('&'));
     vizo_main.setAttribute("id", "vizo_main");
     btn.setAttribute("id", "vizo_btn");
     closebtn.setAttribute("id", "vizo_close_btn");
@@ -88,13 +90,13 @@ function init_vizo(data={username,userid}){
         #vizo_widget.vizo_show{
             opacity:1;
             border-radius:0px;
-            width:350px;
+            width:360px;
             height:690px;
         }
         #vizo_widget_frame{
             border:0;
             border-radius:15px;
-            width:350px;
+            width:360px;
             height:650px;
         }
         #vizo_close_btn{

@@ -6,6 +6,11 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { InitPageComponent } from './pages/init-page/init-page.component';
 import { LayoutComponent } from './layout/layout.component';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { widgetAppEffects } from './store/effects';
+import { reducer } from './store/reducer';
 
 
 @NgModule({
@@ -17,7 +22,10 @@ import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
   imports: [
     CommonModule,
     WidgetAppRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule,
+    StoreModule.forFeature('widget', reducer),
+    EffectsModule.forFeature([widgetAppEffects]),
   ]
 })
 export class WidgetAppModule { }

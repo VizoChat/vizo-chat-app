@@ -1,0 +1,55 @@
+<div class="border bg-white p-2 shadow-lg h-screen overflow-y-scroll" style="min-height: 500px;">
+    <div class="p-3 border-b flex justify-between items-center">
+        <h2 class="text-lg">
+            Manage Teammate
+        </h2>
+        <button class="bg-gray-800 hover:bg-gray-700 text-white flex justify-between items-center p-2 rounded" routerLink="/app/manage/teammates/new">
+            <span class="text-sm mr-1">
+                Add Teammate
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 7V17M7 12H17M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+
+    </div>
+    <div class="block w-full overflow-x-auto ">
+        <table class="items-center w-full bg-transparent border-collapse">
+          <thead class="border-b">
+            <tr>
+              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left text-gray-500 border-0">Channels</th>
+              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left text-gray-500 border-0">Status</th>
+              <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left text-gray-500 border-0">Users</th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr class="hover:bg-gray-100" role="button">
+              <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                <img src="https://demos.creative-tim.com/notus-js/assets/img/team-1-800x800.jpg" alt="..." class="w-12 h-12 rounded-full border-2 border-blueGray-50 shadow">
+                <div class="flex flex-col">
+                  <span class="ml-3 font-bold text-gray-900"> Tih user </span>
+                  <span class="ml-3 text-gray-600">as team lead</span>
+                </div>
+              </th>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <i class="fas fa-circle text-orange-500 mr-2"></i>Active</td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <div class="flex">
+                  <img src="https://demos.creative-tim.com/notus-js/assets/img/team-1-800x800.jpg" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow">
+                  <img src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4">
+                  <img src="https://demos.creative-tim.com/notus-js/assets/img/team-3-800x800.jpg" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4">
+                  <img src="https://demos.creative-tim.com/notus-js/assets/img/team-4-470x470.png" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4">
+                </div>
+              </td>
+              
+            </tr>
+  
+            
+            
+          </tbody>
+        </table>
+      </div>
+
+</div>
+<router-outlet></router-outlet>

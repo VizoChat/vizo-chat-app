@@ -3,6 +3,9 @@
 const fs = require('fs')
 const slug = require('slug')
 const funs = require('../helpers/funs')
+const chatRooms = require('../model/chat_rooms')
+const { validationResult } = require('express-validator');
+const channels = require('../model/channels')
 
 let apiResponse = {
     message: 'Authentication Failed!',
@@ -10,38 +13,128 @@ let apiResponse = {
     status:401,
     data:{}
   }
-module.exports = {
-    widget:(req,res,next)=>{
-        let widget_env = {
-            apiKey:slug(req.params.channelid),
-            vizochat_host:process.env.VIZOCHAT_BASE_URL,
-            randomGen:(num)=>{
-                return funs.randomLetters(num)
-            },
-        }
-        fs.readFile('./privateAssets/vizo.widget.js', 'utf8', (err, fileContent) => {
-            if (err) {
-            return next(err);
+  module.exports = {
+      widget_js:async (req,res,next)=>{
+        try {
+            
+            let dash_id = await channels.findOne({_id:req.params.channelid})
+            let widget_env = {
+                apiKey:slug(req.params.channelid),
+                vizochat_host:process.env.VIZOCHAT_BASE_URL,
+                randomGen:(num)=>{
+                    return funs.randomLetters(num)
+                },
+                ds_key:dash_id.dashboard
             }
-            
-            
-            const modifiedContent = fileContent.replace(/\{\{\{(\w+)\}\}\}/g, (_,data)=>{
-                return widget_env[data]?widget_env[data]:'no data found!';
-            }).replace(/\{\{\{(\w+)\((\w+)\)\}\}\}/g, (_, name,param) => {
-                try {
-                    return widget_env[name](param)?widget_env[name](param):'no function found!';
-                } catch (error) {
-                    return 'no function found!'
+            fs.readFile('./privateAssets/vizo.widget.js', 'utf8', (err, fileContent) => {
+                if (err) {
+                    return next(err);
                 }
-            }).replace(/\{\{\{(\w+)\(\)\}\}\}/g, (_, name) => {
-                try {
-                    return widget_env[name]()?widget_env[name]():'no function found!'
-                } catch (error) {
-                    return 'no function found!'
+                const modifiedContent = fileContent.replace(/\{\{\{(\w+)\}\}\}/g, (_,data)=>{
+                    return widget_env[data]?widget_env[data]:'no data found!';
+                }).replace(/\{\{\{(\w+)\((\w+)\)\}\}\}/g, (_, name,param) => {
+                    try {
+                        return widget_env[name](param)?widget_env[name](param):'no function found!';
+                    } catch (error) {
+                        return 'no function found!'
+                    }
+                }).replace(/\{\{\{(\w+)\(\)\}\}\}/g, (_, name) => {
+                    try {
+                        return widget_env[name]()?widget_env[name]():'no function found!'
+                    } catch (error) {
+                        return 'no function found!'
+                    }
+                })
+                res.setHeader('Content-Type', 'text/javascript');
+                res.status(200).send(modifiedContent);
+            });
+        } catch (error) {
+            console.log(error);
+            return next(error)
+        }
+    },
+    getChatRooms:(req,res,next)=>{
+        let apiRes = JSON.parse(JSON.stringify(apiResponse))
+        apiRes.message = 'Invalid arguments, please check all input!'
+        apiRes.status = 401
+        apiRes.authorization = true;
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log(errors);
+            apiRes.message = errors.errors[0].param+((errors.errors[0].msg=="Invalid value")?" is invalid, Try again!":errors.errors[0].msg)
+            return res.status(200).json(apiRes)
+        }
+        chatRooms.getChatRooms({channel: req.body.apiKey, 'w_user.user_id': req.body.userId},{_id:1,message_preview:1})
+        .then((data)=>{
+            apiRes.message = 'Successfully fetch the list of chat rooms!'
+            apiRes.status = 'ok'
+            apiRes.data.rooms = data.map((val)=>{
+                return {
+                    _id:val._id,
+                    message_preview:val.message_preview
                 }
+            }) 
+        }).catch((err)=>{
+            console.log(err);
+            apiRes.message = 'Error detucted while fetching chat rooms!'
+        }).then(()=>{
+            res.status(200).json(apiRes)
+        })
+    },
+    newChatRooms:(req,res,next)=>{ 
+        let apiRes = JSON.parse(JSON.stringify(apiResponse))
+        apiRes.message = 'Invalid arguments, please check all input!'
+        apiRes.status = 401
+        apiRes.authorization = true;
+        let dataToUpdate = {
+            canUpdate:false,
+            data:{
+                w_user:{}
+            }
+        }
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log(errors);
+            apiRes.message = errors.errors[0].param+((errors.errors[0].msg=="Invalid value")?" is invalid, please check the value!":errors.errors[0].msg)
+            // return res.status(200).json(apiRes)
+        }
+        console.log(req.body);
+        if(errors.errors.filter(e => e.param === 'username').length <= 0){
+            dataToUpdate.canUpdate = true;
+            dataToUpdate.data.w_user.username = req.body.username;
+        }
+        if(errors.errors.filter(e => e.param === 'custom_data').length <= 0){
+            dataToUpdate.canUpdate = true;
+            dataToUpdate.data.w_user.additional_data = req.body.custom_data;
+        }
+
+        if(errors.errors.filter(e => e.param === 'userId').length <= 0 && errors.errors.filter(e => e.param === 'apiKey').length <= 0  && errors.errors.filter(e => e.param === 'ds_key').length <= 0){
+            dataToUpdate.canUpdate = true;
+            dataToUpdate.data.channel = req.body.apiKey;
+            dataToUpdate.data.w_user.user_id = req.body.userId;
+            dataToUpdate.data.dashboard = req.body.ds_key;
+        }else{
+            dataToUpdate.canUpdate = false;
+        }
+        if(dataToUpdate.canUpdate){
+            chatRooms.newChatRoom(dataToUpdate.data)
+            .then((data)=>{
+                apiRes.message = 'Successfully saved new chat rooms!'
+                apiRes.status = 'ok'
+                apiRes.data.new_room = {
+                        _id:data._id,
+                        message_preview:data.message_preview
+                    }
+            }).catch((err)=>{
+                console.log(err);
+                apiRes.message = 'Error detected while creating new chat rooms!'
+            }).then(()=>{
+                res.status(200).json(apiRes)
             })
-            res.setHeader('Content-Type', 'text/javascript');
-            res.status(200).send(modifiedContent);
-        });
-      }
+        }else{
+            console.log(apiRes);
+            res.status(200).json(apiRes)
+        }
+    }
 }
