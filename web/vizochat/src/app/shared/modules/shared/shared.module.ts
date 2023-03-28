@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { HighlightJsModule } from 'ngx-highlight-js';
 
 const material = [
   MatDividerModule,
@@ -37,7 +38,7 @@ const material = [
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, material],
-  exports: [material],
+  imports: [CommonModule, material, HighlightJsModule],
+  exports: [material, HighlightJsModule],
 })
 export class SharedModule { }

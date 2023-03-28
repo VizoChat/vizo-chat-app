@@ -72,5 +72,17 @@ let bcrypt = require('bcrypt')
       check('userId').isLength({ min: 10 , max: 50 }).withMessage(' must have 10-50 chars').trim(),
       check('username').trim(),
       check('custom_data').trim(),
-    ]
+    ],
+    newTeammate : [
+      // check('username').isLength({ min: 4 }).withMessage("is invalid, must contain minimum of 4 letters").trim(), // not required this field
+      check('name').isLength({ min: 3 }).withMessage("is invalid, must contain minimum of 3 letters").trim(),
+      check('email').isEmail().normalizeEmail().withMessage("is invalid, must be a valid format!").trim(),
+      check('password').isLength({ min: 8 }).withMessage('must be at least 8 chars long').trim().custom((value, { req }) => {
+        if(value !== req.body.repassword) {
+          return Promise.reject('didn\'t match, please recheck the password');
+        }else{
+          return Promise.resolve()
+        }
+      }),
+    ],
   }

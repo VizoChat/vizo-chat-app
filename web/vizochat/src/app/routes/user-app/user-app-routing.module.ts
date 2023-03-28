@@ -12,7 +12,7 @@ const routes: Routes = [
     {path:'', component:HomeComponent},
     {path:'profile', component:ProfileComponent},
     {path:'chat', component:ChatComponent},
-    {path:'manage', loadChildren:()=>import('./pages/settings/settings.module').then(m=>m.SettingsModule) },
+    {path:'manage', loadChildren:()=>import('./pages/settings/settings.module').then(m=>m.SettingsModule)},
     {path:'**', component:Err404Component},
   ], canActivate:[AuthGuard]}
 ];

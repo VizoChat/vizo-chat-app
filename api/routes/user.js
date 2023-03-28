@@ -20,6 +20,9 @@ router.delete('/delChannel', jwt.verify, mids.verify_user, validation.delChannel
 //chat api routes
 router.post('/getChatRooms', jwt.verify, mids.verify_user, userController.getChatRooms)
 
+//agent/teammates api routes
+router.post('newTeammate', jwt.verify, mids.verify_user, validation.newTeammate, userController.newTeammate)
+
 
 //not in use
 router.get('/test', jwt.verify, userController.test);

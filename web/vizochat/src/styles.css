@@ -9,6 +9,7 @@ html, body{
   -webkit-user-select: none; /* Safari  -text select disable*/
   -ms-user-select: none; /* IE 10 and IE 11 -text select disable*/
   user-select: none; /* Standard syntax -text select disable*/
+  font-size: 17px;
 }
 
 
@@ -77,6 +78,7 @@ html, body{
 /* width */
 ::-webkit-scrollbar {
   width: 7px;
+  height: 3px;
 }
 
 /* Track */

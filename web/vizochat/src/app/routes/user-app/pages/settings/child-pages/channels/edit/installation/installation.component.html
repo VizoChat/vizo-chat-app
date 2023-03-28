@@ -1,13 +1,72 @@
 <div class="py-2 px-5">
     <h2 class="border-b ">Installation</h2>
+
     <p class="mt-6" [innerText]="'To accept messages from visitors on your website, you need to install the following code on every page of your site before the closing </head> tag:'"></p>
-    <div class="p-2 mt-6">
-        <textarea name="" id="" cols="30" rows="2" #codeSnippet class="w-full border p-2 text-center h-10 overflow-hidden resize-none rounded-lg" readonly [innerHTML]="installationCode"></textarea>
-        <button (click)="copyCode()" class="p-2 text-center bg-gray-200 hover:bg-gray-100 rounded flex justify-between items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 20 20" fill="none" class="pr-1">
-                <path fill="currentColor" fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v9a2 2 0 002 2h2v2a2 2 0 002 2h9a2 2 0 002-2V8a2 2 0 00-2-2h-2V4a2 2 0 00-2-2H4zm9 4V4H4v9h2V8a2 2 0 012-2h5zM8 8h9v9H8V8z"/>
-            </svg>
-            Copy
-        </button>
+    <!--  Code snippet start-->
+    <div class=" bg-gray-800 rounded-lg overflow-hidden mt-6">
+        <div class="flex justify-between">
+            <div id="header-buttons" class="py-3 px-4 flex">
+                <div class="rounded-full w-3 h-3 bg-red-500 mr-2"></div>
+                <div class="rounded-full w-3 h-3 bg-yellow-500 mr-2"></div>
+                <div class="rounded-full w-3 h-3 bg-green-500"></div>
+            </div>
+            <button (click)="copyCode(installationCode)" class="p-2 text-center bg-gray-800 text-gray-100 hover:bg-gray-700 rounded flex justify-between items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" class="pr-1">
+                    <path fill="currentColor" fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v9a2 2 0 002 2h2v2a2 2 0 002 2h9a2 2 0 002-2V8a2 2 0 00-2-2h-2V4a2 2 0 00-2-2H4zm9 4V4H4v9h2V8a2 2 0 012-2h5zM8 8h9v9H8V8z"/>
+                </svg>
+                Copy
+            </button>
+        </div>
+        <div class="w-full overflow-auto">
+            <pre class="select-text"><code class="hljs xml" #codeSnippet [innerText]="installationCode">Loading...</code></pre>
+        </div>
     </div>
+    <!--  Code snippet End-->
+
+
+    <p class="mt-6" [innerText]="'After placing the aforementioned code snippet within the <head> tag, proceed to insert the following lines of code within a <script> tag immediately after the aforementioned code.'"></p>
+    <!--  Code snippet start-->
+    <div class=" bg-gray-800 rounded-lg overflow-hidden mt-6">
+        <div class="flex justify-between">
+            <div id="header-buttons" class="py-3 px-4 flex">
+                <div class="rounded-full w-3 h-3 bg-red-500 mr-2"></div>
+                <div class="rounded-full w-3 h-3 bg-yellow-500 mr-2"></div>
+                <div class="rounded-full w-3 h-3 bg-green-500"></div>
+            </div>
+            <button (click)="copyCode(initiativeCode)" class="p-2 text-center bg-gray-800 text-gray-100 hover:bg-gray-700 rounded flex justify-between items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" class="pr-1">
+                    <path fill="currentColor" fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v9a2 2 0 002 2h2v2a2 2 0 002 2h9a2 2 0 002-2V8a2 2 0 00-2-2h-2V4a2 2 0 00-2-2H4zm9 4V4H4v9h2V8a2 2 0 012-2h5zM8 8h9v9H8V8z"/>
+                </svg>
+                Copy
+            </button>
+        </div>
+        <div class="w-full overflow-auto">
+            <pre class="select-text"><code class="hljs xml" >{{initiativeCode}}</code></pre>
+        </div>
+    </div>
+    <!--  Code snippet End-->
+
+
+    <p class="mt-6" [innerText]="'Or you can just call the init function without any arguments, arguments are not required, arguments can help you to identifying user.'"></p>
+    <!--  Code snippet start-->
+    <div class=" bg-gray-800 rounded-lg overflow-hidden mt-6">
+        <div class="flex justify-between">
+            <div id="header-buttons" class="py-3 px-4 flex">
+                <div class="rounded-full w-3 h-3 bg-red-500 mr-2"></div>
+                <div class="rounded-full w-3 h-3 bg-yellow-500 mr-2"></div>
+                <div class="rounded-full w-3 h-3 bg-green-500"></div>
+            </div>
+            <button (click)="copyCode(initiativeCodeFun)" class="p-2 text-center bg-gray-800 text-gray-100 hover:bg-gray-700 rounded flex justify-between items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" class="pr-1">
+                    <path fill="currentColor" fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v9a2 2 0 002 2h2v2a2 2 0 002 2h9a2 2 0 002-2V8a2 2 0 00-2-2h-2V4a2 2 0 00-2-2H4zm9 4V4H4v9h2V8a2 2 0 012-2h5zM8 8h9v9H8V8z"/>
+                </svg>
+                Copy
+            </button>
+        </div>
+        <div class="w-full overflow-auto">
+            <pre class="select-text"><code class="hljs xml" >{{initiativeCodeFun}}</code></pre>
+        </div>
+    </div>
+    <!--  Code snippet End-->
+
 </div>

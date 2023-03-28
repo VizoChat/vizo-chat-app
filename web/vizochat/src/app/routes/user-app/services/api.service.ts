@@ -35,4 +35,7 @@ export class ApiService {
   getChatRoms(data?:any):Observable<any>{
     return this.http.post(environment.baseApiUrl+'/getChatRooms',data?data:{}, this.httpOptions)
   }
+  newTeammate(data:any):Observable<any>{
+    return this.http.post(environment.baseApiUrl+'/newTeammate',data, this.httpOptions)
+  }
 }

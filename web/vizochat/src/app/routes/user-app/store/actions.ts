@@ -1,5 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { channels } from "../models/channels.interface";
+import { teammateForm } from "../models/teammates.interface";
 import { user } from "../models/user.interface";
 
 //page inital work, getting userdetails and store
@@ -31,6 +32,12 @@ export const errorDeletingChannels = createAction('[UserApp] error Deleting chan
 export const getChatRooms = createAction('[UserApp] get ChatRooms', props<{channel_id?:String|null|undefined}>())
 export const gotChatRooms = createAction('[UserApp] got ChatRooms', props<{rooms:any}>())
 export const errorGettingChatRooms = createAction('[UserApp] error Gettings ChatRooms',props<{errorMessage:string}>())
+
+//settings/manage > teammates > new
+export const newTeammate = createAction('[UserApp] create new teammate',props<teammateForm>())
+export const createdTeammate = createAction('[UserApp] created Teammate',props<{successMessage:string}>())
+export const errorCreatigTeammate = createAction('[UserApp] Error creating Teammate', props<{errorMessage:string}>())
+
 
 //Common
 export const clearSuccessMsg = createAction('[UserApp] Clear success message')

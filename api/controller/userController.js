@@ -5,6 +5,7 @@ const path = require('path');
 let { check, validationResult } = require('express-validator');
 const channels = require('../model/channels');
 const chat_rooms = require('../model/chat_rooms');
+const funs = require('../helpers/funs');
 
 
 // Set storage engine
@@ -40,7 +41,7 @@ console.log(file.originalname,"filename#");
 let apiResponse = {
     message: 'Authentication Failed!',
     authorization:false,
-    status:401,
+    status:400,//bad rqst,
     data:{}
   }
 
@@ -101,7 +102,7 @@ module.exports = {
     let apiRes = JSON.parse(JSON.stringify(apiResponse))
     apiRes.data.user = res.locals.jwtUSER
     apiRes.message = 'Invalid arguments, please check all input!'
-    apiRes.status = 401
+    apiRes.status = 400//bad rqst
     apiRes.authorization = true;
     let dataToUpdate = {
       canUpdate:false,
@@ -162,7 +163,7 @@ module.exports = {
     let apiRes = JSON.parse(JSON.stringify(apiResponse))
     apiRes.data.user = res.locals.jwtUSER
     apiRes.message = 'Invalid arguments, please check all input!'
-    apiRes.status = 401
+    apiRes.status = 400//bad rqst
     apiRes.authorization = true;
     upload(req, res, function(err) {
       if (err) {
@@ -192,7 +193,7 @@ module.exports = {
     let apiRes = JSON.parse(JSON.stringify(apiResponse))
     apiRes.data.user = res.locals.jwtUSER
     apiRes.message = 'Invalid arguments, please check all input!'
-    apiRes.status = 401
+    apiRes.status = 400//bad rqst
     apiRes.authorization = true;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -267,7 +268,7 @@ module.exports = {
     let apiRes = JSON.parse(JSON.stringify(apiResponse))
     apiRes.data.user = res.locals.jwtUSER
     apiRes.message = 'Unknown error detected!'
-    apiRes.status = 401
+    apiRes.status = 400//bad rqst
     apiRes.authorization = true;
     channels.getChannels({
       dashboard:res.locals.jwtUSER.dashboard
@@ -342,8 +343,37 @@ module.exports = {
       res.json(apiRes)
     })
   },
-  addTeammate: (req,res,next)=>{
-    
+  newTeammate: (req,res,next)=>{
+      let apiRes = JSON.parse(JSON.stringify(apiResponse))
+      apiRes.data.user = res.locals.jwtUSER
+      apiRes.message = 'Invalid arguments, please check the inputs!'
+      apiRes.status = 400 // 400 Bad Request
+      apiRes.authorization = true;
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log(errors);
+        response.message = errors.errors[0].param+" "+((errors.errors[0].msg=="Invalid value")?"is invalid, please check the value!":errors.errors[0].msg);
+        return res.status(200).json(response);
+      }
+      addUser({
+          username: (req.body.username?.length>4?req.body.username:funs.randomLetters(20)).replace(/[ ]+/g,'_'), 
+          name: req.body.name,
+          email: req.body.email,
+          password: hashPassword(req.body.password),
+          dashboard:res.locals.jwtUSER.dashboard
+      }).then(async (data)=>{
+        response.message = 'Account Created Successful!'
+        response.status = 'ok';
+      }).catch((err)=>{
+        response.message = 'Couldn\'nt create the account!'
+        if(err.code==11000){
+            let exist = Object.keys(err.keyValue)[0]
+            response.message = `${exist} is already exist!`
+        }
+        console.log(err);
+      }).then(()=>{
+        res.json(response)
+      })
   }
   
 }
