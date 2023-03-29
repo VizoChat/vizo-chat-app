@@ -1,28 +1,34 @@
 var express = require('express');
-const userController = require('../controller/userController');
 const jwt = require('../helpers/jwt');
 const mids = require('../helpers/middlewares');
 const validation = require('../helpers/validation');
+
+//controllers
+const userController = require('../controller/userController'); //should remove
+const channelController = require('../controller/userControllers/channelController');
+const chatController = require('../controller/userControllers/chat.controller');
+const teammateController = require('../controller/userControllers/teammate.contoller');
+
 var router = express.Router();
 
-/* Routes. */
+/****** Routes. ******/
 router.get('/', userController.home);
 
 //user api routes
 router.get('/userdata', jwt.verify, mids.verify_user ,userController.userData)
 
 //Channel api routes
-router.put('/newChannel', jwt.verify, mids.verify_user, validation.newChannel, userController.newChannel)
-router.put('/editChannel', jwt.verify, mids.verify_user, validation.editChannel, userController.editChannel)
-router.get('/getChannels', jwt.verify, mids.verify_user ,userController.getChannels)
-router.delete('/delChannel', jwt.verify, mids.verify_user, validation.delChannel, userController.delChannel)
+router.put('/newChannel', jwt.verify, mids.verify_user, validation.newChannel, channelController.newChannel)
+router.put('/editChannel', jwt.verify, mids.verify_user, validation.editChannel, channelController.editChannel)
+router.get('/getChannels', jwt.verify, mids.verify_user ,channelController.getChannels)
+router.delete('/delChannel', jwt.verify, mids.verify_user, validation.delChannel, channelController.delChannel)
 
 //chat api routes
-router.post('/getChatRooms', jwt.verify, mids.verify_user, userController.getChatRooms)
+router.post('/getChatRooms', jwt.verify, mids.verify_user, chatController.getChatRooms)
 
 //agent/teammates api routes
-router.post('/newTeammate', jwt.verify, mids.verify_user, validation.newTeammate, userController.newTeammate)
-router.get('/getTeammates', jwt.verify, mids.verify_user, userController.getTeammates)
+router.post('/newTeammate', jwt.verify, mids.verify_user, validation.newTeammate, teammateController.newTeammate)
+router.get('/getTeammates', jwt.verify, mids.verify_user, teammateController.getTeammates)
 
 
 //not in use

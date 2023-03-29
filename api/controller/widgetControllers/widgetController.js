@@ -2,10 +2,10 @@
 
 const fs = require('fs')
 const slug = require('slug')
-const funs = require('../helpers/funs')
-const chatRooms = require('../model/chat_rooms')
+const funs = require('../../helpers/funs')
+const chatRooms = require('../../model/chat_rooms')
 const { validationResult } = require('express-validator');
-const channels = require('../model/channels')
+const channels = require('../../model/channels')
 
 let apiResponse = {
     message: 'Authentication Failed!',

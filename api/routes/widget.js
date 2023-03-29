@@ -1,5 +1,5 @@
 var express = require('express');
-var widgetController = require('../controller/widgetController')
+var widgetController = require('../controller/widgetControllers/widgetController')
 var router = express.Router();
 const validation = require('../helpers/validation');
 
