@@ -32,10 +32,13 @@ export class ApiService {
     httpOptions.body = data
     return this.http.delete(environment.baseApiUrl+'/delChannel', httpOptions)
   }
-  getChatRoms(data?:any):Observable<any>{
+  getChatRooms(data?:any):Observable<any>{
     return this.http.post(environment.baseApiUrl+'/getChatRooms',data?data:{}, this.httpOptions)
   }
   newTeammate(data:any):Observable<any>{
     return this.http.post(environment.baseApiUrl+'/newTeammate',data, this.httpOptions)
+  }
+  getTeammates():Observable<any>{
+    return this.http.get(environment.baseApiUrl+'/getTeammates', this.httpOptions)
   }
 }

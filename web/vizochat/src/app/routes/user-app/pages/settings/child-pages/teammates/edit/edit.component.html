@@ -1,1 +1,33 @@
-<p>edit works!</p>
+
+<div class="z-20 fixed top-0 left-0 right-0 bg-white flex flex-col h-screen overflow-hidden" >
+    <div class="container mx-auto max-w-3xl flex flex-col h-screen">
+        <div class="flex border-b justify-between items-center py-4">
+            <h1 class="font-medium text-xl">Teammate</h1>
+            <span class="block bg-gray-100 hover:bg-gray-200 rounded-full p-2 text-gray-600 cursor-pointer" routerLink="/app/manage/teammates">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z" fill="currentColor"/></svg>
+            </span>
+        </div>
+        <div class="flex-1 overflow-auto">
+            <div class="w-full flex">
+                <div class="w-32 flex flex-col pt-2">
+                    <a [routerLink]="'/app/manage/teammates/edit/'+teammateID+'/overview'" class="p-2 hover:bg-gray-100 rounded" routerLinkActive="bg-gray-200" [routerLinkActiveOptions]="{exact: true}">
+                        Overview
+                    </a>
+                    <a [routerLink]="'/app/manage/teammates/edit/'" class="p-2 hover:bg-gray-100 rounded" routerLinkActive="bg-gray-200" [routerLinkActiveOptions]="{exact: true}">
+                        Channels 
+                    </a>
+                    <a [routerLink]="'/app/manage/teammates/edit/'" class="p-2 hover:bg-gray-100 rounded" routerLinkActive="bg-gray-200" [routerLinkActiveOptions]="{exact: true}">
+                        Permissions
+                    </a>
+                    <a [routerLink]="'/app/manage/teammates/edit/'" class="text-red-700 p-2 hover:bg-red-100 rounded" routerLinkActive="bg-red-200" [routerLinkActiveOptions]="{exact: true}">
+                        Remove
+                    </a>
+                </div>
+                <div class="flex-1 overflow-auto">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <!-- Content -->
+        </div>
+    </div>
+</div>

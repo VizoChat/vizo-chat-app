@@ -1,0 +1,34 @@
+<div class="p-2" *ngIf="teamData">
+    <div class="flex mt-3 items-center">
+        <img [src]="teamData.avatar.isUrl?teamData.avatar.image:apiUrl+'/images/avatar/'+teamData.avatar.image" alt="" class="rounded-full w-20 h-20 border">
+        <div class="flex flex-col">
+            <div class="flex items-center group/nameinp pl-2 text-lg font-bold">
+                <p *ngIf="!inputShow.nameInp" (click)="inputShow.nameInp=!inputShow.nameInp">{{teamData.name}} <svg xmlns="http://www.w3.org/2000/svg"  class="hidden group-hover/nameinp:inline" width="15" height="15" viewBox="0 0 24 24" fill="none">
+                     <path fill-rule="evenodd" clip-rule="evenodd" d="M15.8787 3.70705C17.0503 2.53547 18.9498 2.53548 20.1213 3.70705L20.2929 3.87862C21.4645 5.05019 21.4645 6.94969 20.2929 8.12126L18.5556 9.85857L8.70713 19.7071C8.57897 19.8352 8.41839 19.9261 8.24256 19.9701L4.24256 20.9701C3.90178 21.0553 3.54129 20.9554 3.29291 20.7071C3.04453 20.4587 2.94468 20.0982 3.02988 19.7574L4.02988 15.7574C4.07384 15.5816 4.16476 15.421 4.29291 15.2928L14.1989 5.38685L15.8787 3.70705ZM18.7071 5.12126C18.3166 4.73074 17.6834 4.73074 17.2929 5.12126L16.3068 6.10738L17.8622 7.72357L18.8787 6.70705C19.2692 6.31653 19.2692 5.68336 18.8787 5.29283L18.7071 5.12126ZM16.4477 9.13804L14.8923 7.52185L5.90299 16.5112L5.37439 18.6256L7.48877 18.097L16.4477 9.13804Z" fill="#000000"/>
+                </svg></p>
+                <input type="text" [(ngModel)]="teamData.name" class="h-6 w-auto outline-none border-b border-green:500"  maxlength="20" (focusout)="inputShow.nameInp=!inputShow.nameInp" *ngIf="inputShow.nameInp" autofocus>
+                
+            </div>
+            <div class="flex items-center group/usernameInp pl-2 text-sm text-gray-500">@
+                <p *ngIf="!inputShow.usernameInp" (click)="inputShow.usernameInp=!inputShow.usernameInp">{{teamData.username}} <svg xmlns="http://www.w3.org/2000/svg"  class="hidden group-hover/usernameInp:inline" width="15" height="15" viewBox="0 0 24 24" fill="none">
+                     <path fill-rule="evenodd" clip-rule="evenodd" d="M15.8787 3.70705C17.0503 2.53547 18.9498 2.53548 20.1213 3.70705L20.2929 3.87862C21.4645 5.05019 21.4645 6.94969 20.2929 8.12126L18.5556 9.85857L8.70713 19.7071C8.57897 19.8352 8.41839 19.9261 8.24256 19.9701L4.24256 20.9701C3.90178 21.0553 3.54129 20.9554 3.29291 20.7071C3.04453 20.4587 2.94468 20.0982 3.02988 19.7574L4.02988 15.7574C4.07384 15.5816 4.16476 15.421 4.29291 15.2928L14.1989 5.38685L15.8787 3.70705ZM18.7071 5.12126C18.3166 4.73074 17.6834 4.73074 17.2929 5.12126L16.3068 6.10738L17.8622 7.72357L18.8787 6.70705C19.2692 6.31653 19.2692 5.68336 18.8787 5.29283L18.7071 5.12126ZM16.4477 9.13804L14.8923 7.52185L5.90299 16.5112L5.37439 18.6256L7.48877 18.097L16.4477 9.13804Z" fill="#000000"/>
+                </svg></p>
+                <input type="text" name="username" [(ngModel)]="teamData.username" class="h-6 w-auto outline-none border-b border-green:500" maxlength="20" (focusout)="inputShow.usernameInp=!inputShow.usernameInp" *ngIf="inputShow.usernameInp" autofocus>
+                
+            </div>
+        </div>
+    </div>
+    <div class="mt-5">
+        <label for="" class="font-bold text-base text-gray-800">Email</label>
+        <p class="text-gray-700 mt-2 text-xsm">The Email you use to login your VizoChat dashboard.</p>
+        <input type="text" [(ngModel)]="teamData.email" class="text-gray-700 mt-2 outline-none border hover:border-gray-400 focus:border-green-500 w-60 block p-2 rounded" placeholder="name@example.com">
+    </div>
+    <div class="mt-5">
+        <label for="" class="font-bold text-base text-gray-800">Password</label>
+        <p class="text-gray-700 mt-2 text-xsm">Please enter password from your VizoChat account that you're using right now. Password must contain at least 8 characters, a capital letter and a digit.</p>
+        <input type="password" [(ngModel)]="teamData.currentPassword" class="text-gray-700 mt-2 outline-none border hover:border-gray-400 focus:border-green-500 w-60 block p-2 rounded" placeholder="current password">
+        <input type="password" [(ngModel)]="teamData.password" class="text-gray-700 mt-2 outline-none border hover:border-gray-400 focus:border-green-500 w-60 block p-2 rounded" placeholder="new password">
+        <input type="password" [(ngModel)]="teamData.repassword" class="text-gray-700 mt-2 outline-none border hover:border-gray-400 focus:border-green-500 w-60 block p-2 rounded" placeholder="conform password">
+    </div>
+</div>
+<div *ngIf="!teamData">Loading..</div>

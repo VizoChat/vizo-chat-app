@@ -133,11 +133,9 @@ export class userAppEffects {
             ofType(UserAppActions.getChatRooms),
             mergeMap((action:any)=>{
                 return this.api
-                .getChatRoms(action.channel_id)
+                .getChatRooms(action.channel_id)
                 .pipe(
                     map((data)=>{
-                        console.log(data);
-                        
                         if(data.status=='ok'  && data.authorization==true){
                             return UserAppActions.gotChatRooms({ rooms:data.data.chat_rooms})
                         }else{
@@ -151,4 +149,45 @@ export class userAppEffects {
             })
         )
     )
+
+    $newTeammate = createEffect(()=>{
+        return this.action$.pipe(
+            ofType(UserAppActions.newTeammate),
+            mergeMap((data:any)=>{
+                return this.api.newTeammate(data)
+                .pipe(
+                    map((res)=>{
+                        if(res.status=='ok'  && res.authorization==true){
+                            return UserAppActions.createdTeammate({successMessage:res.message})
+                        }else{
+                            return UserAppActions.errorCreatingTeammate({errorMessage:res.message})
+                        }
+                    }),
+                    catchError((err)=>{
+                        return of(UserAppActions.errorCreatingTeammate({errorMessage:'Something went wrong!'}))
+                    })
+                )
+            })
+        )
+    })
+    $getTeammates = createEffect(()=>{
+        return this.action$.pipe(
+            ofType(UserAppActions.getTeammates),
+            mergeMap(()=>{
+                return this.api.getTeammates()
+                .pipe(map((res:any)=>{
+                    console.log(res);
+                    if(res.status=='ok'  && res.authorization==true){
+                        return UserAppActions.gotTeammates({Teammates:res.data.teammates})
+                    }else{
+                        return UserAppActions.errorGettingTeammates({errorMessage:res.message})
+                    }
+                }),
+                catchError((err)=>{
+                    return of(UserAppActions.errorGettingTeammates({errorMessage:'Something went wrong!'}))
+                })
+                )
+            })
+        )
+    })
 }

@@ -8,11 +8,14 @@ import { AddComponent as AddChannel } from './child-pages/channels/add/add.compo
 import { AddComponent as AddTeammate} from './child-pages/teammates/add/add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
-import { EditComponent } from './child-pages/channels/edit/edit.component';
-import { OverviewComponent } from './child-pages/channels/edit/overview/overview.component';
+import { EditComponent as EditChannel} from './child-pages/channels/edit/edit.component';
+import { OverviewComponent as ChannelEditOverview } from './child-pages/channels/edit/overview/overview.component';
+import { OverviewComponent as teammateEditOverview } from './child-pages/teammates/edit/overview/overview.component';
 import { InstallationComponent } from './child-pages/channels/edit/installation/installation.component';
 import { DeleteComponent } from './child-pages/channels/edit/delete/delete.component';
 import { TeammatesComponent } from './child-pages/teammates/teammates.component';
+import { EditComponent as EditTeammate } from './child-pages/teammates/edit/edit.component';
+import { MembersComponent } from './child-pages/channels/edit/members/members.component';
 
 
 @NgModule({
@@ -20,12 +23,15 @@ import { TeammatesComponent } from './child-pages/teammates/teammates.component'
     SettingsComponent,
     ChannelsComponent,
     AddChannel,
-    EditComponent,
-    OverviewComponent,
+    EditChannel,
+    ChannelEditOverview,
     InstallationComponent,
     DeleteComponent,
     TeammatesComponent,
-    AddTeammate
+    AddTeammate,
+    EditTeammate,
+    teammateEditOverview,
+    MembersComponent
   ],
   imports: [
     CommonModule,

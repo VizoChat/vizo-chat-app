@@ -26,7 +26,11 @@ module.exports= {
           name: req.body.name,
           email: req.body.email,
           password: hashPassword(req.body.password),
-          dashboard:dash_id
+          dashboard:dash_id,
+          avatar:{
+            image:'default/asjkldsdf54sdfaskjifasd5sdfsdf3sdfsdfi_dflt.png',
+            isUrl:false
+          }
     }).then(async (data)=>{
       await build_dash({uid:data._id,dash_id})
       let token = jwt.sign({
@@ -191,7 +195,11 @@ module.exports= {
         name: userProfile.name,
         email: userProfile.email,
         password: 'nopass', 
-        dashboard:dash_id
+        dashboard:dash_id,
+        avatar:{
+          image:userProfile.picture?userProfile.picture:'default/asjkldsdf54sdfaskjifasd5sdfsdf3sdfsdfi_dflt.png',
+          isUrl:userProfile.picture?true:false,
+        }
       }).then(async (data)=>{
         await build_dash({uid:data._id,dash_id})
         console.log(data,"Database Result after adding!!!!");

@@ -18,7 +18,7 @@ export class EditComponent implements OnDestroy{
     // this.channelID = this.route.snapshot.paramMap.get('channelID');
     this.route.params.subscribe((params:any) => {
       this.channelID = params.channelID;
-      channelService.setChannelId(params.channelID)
+      this.channelService.setChannelId(params.channelID)
     });
     
   }

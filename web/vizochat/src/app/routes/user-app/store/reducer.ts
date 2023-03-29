@@ -9,7 +9,7 @@ const initialState:UserAppStateInterface = {
     user:null,
     error:null,
     success:null,
-    chatRooms:[]
+    chatRooms:[],
 }
 export const reducer = createReducer(
     initialState,
@@ -36,6 +36,15 @@ export const reducer = createReducer(
     on(UserAppActions.getChatRooms, (state)=>({...state,isContentLoading:true})),
     on(UserAppActions.gotChatRooms, (state,action)=>({...state,isContentLoading:false,chatRooms:action.rooms})),
     on(UserAppActions.errorGettingChatRooms,(state, action)=>({...state,isContentLoading:false, error:action.errorMessage})),
+
+    on(UserAppActions.newTeammate, (state)=>({...state,isLoading:true})),
+    on(UserAppActions.createdTeammate, (state,action)=>({...state,isLoading:false, success:action.successMessage})),
+    on(UserAppActions.errorCreatingTeammate,(state, action)=>({...state,isLoading:false, error:action.errorMessage})),
+
+    on(UserAppActions.getTeammates, (state)=>({...state,isContentLoading:true})),
+    on(UserAppActions.gotTeammates, (state,action)=>({...state, isContentLoading:false, teammates:action.Teammates})),
+    on(UserAppActions.errorGettingTeammates,(state, action)=>({...state, isContentLoading:false, error:action.errorMessage})),
+
 
     on(UserAppActions.clearSuccessMsg, (state)=>({...state,success:null})),
     on(UserAppActions.clearErrorMsg, (state)=>({...state,error:null}))

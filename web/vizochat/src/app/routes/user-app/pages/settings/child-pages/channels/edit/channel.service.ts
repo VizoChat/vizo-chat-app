@@ -11,12 +11,10 @@ import { channelsSelector } from 'src/app/routes/user-app/store/selectors';
 })
 export class ChannelService {
 
-  channelID:any;
   channels$!:Observable<channels[] | undefined>;
   currentChannel=new BehaviorSubject<any>(null);
   
   constructor(private store$:Store<appStateInterface>,private route:Router){
-    // this.channelID = this.router.snapshot.paramMap.get('channelID');
     this.channels$ = this.store$.pipe(select(channelsSelector))
     
   }
@@ -34,7 +32,6 @@ export class ChannelService {
           tried_fail++;
         }
       })
-      console.log();
       
     })
   }
