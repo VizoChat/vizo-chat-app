@@ -8,7 +8,7 @@ export interface user {
         chatView:boolean,
         chatWrite:boolean,
         liveVisitorsView:boolean
-    }
+    } 
     avatar: {
         image:string|null,
         isUrl:boolean|null, //means it's an url to the avatar and not image name!

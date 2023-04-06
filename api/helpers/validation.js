@@ -66,6 +66,10 @@ let bcrypt = require('bcrypt')
       check('apiKey').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), //channelid
       check('userId').isLength({ min: 10 , max: 50 }).withMessage(' must have 10-50 chars').trim(),
     ],
+    editChannelMember:[
+      check('teammate_id').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), 
+      check('channel_id').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), 
+    ],
     newChatRoom:[
       check('apiKey').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), //channelid
       check('ds_key').isLength({ min: 20 , max: 20}).withMessage(' must be a valid one!').trim(), //dashboard key
@@ -84,5 +88,9 @@ let bcrypt = require('bcrypt')
           return Promise.resolve()
         }
       }),
+    ],
+    getChats:[
+      check('apiKey').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), //channel id
+      check('chatId').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), //chat room
     ],
   }

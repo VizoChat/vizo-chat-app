@@ -128,28 +128,7 @@ export class userAppEffects {
         )
     )
 
-    $getChatRooms = createEffect(()=>
-        this.action$.pipe(
-            ofType(UserAppActions.getChatRooms),
-            mergeMap((action:any)=>{
-                return this.api
-                .getChatRooms(action.channel_id)
-                .pipe(
-                    map((data)=>{
-                        if(data.status=='ok'  && data.authorization==true){
-                            return UserAppActions.gotChatRooms({ rooms:data.data.chat_rooms})
-                        }else{
-                            return UserAppActions.errorGettingChatRooms({errorMessage:data.message})
-                        }
-                    }),
-                    catchError((err)=>{
-                        return of(UserAppActions.errorGettingChatRooms({errorMessage:'Something went wrong!'}))
-                    })
-                )
-            })
-        )
-    )
-
+    
     $newTeammate = createEffect(()=>{
         return this.action$.pipe(
             ofType(UserAppActions.newTeammate),
@@ -190,4 +169,75 @@ export class userAppEffects {
             })
         )
     })
+    $editMemberChannel = createEffect(()=>{
+        return this.action$.pipe(
+            ofType(UserAppActions.editChannelMembers),
+            mergeMap((action)=>{
+                return this.api.editChannelMembers(action.data,action.mode)
+                .pipe(map((res:any)=>{
+                    console.log(res);
+                    if(res.status=='ok'  && res.authorization==true){
+                        this.store.dispatch(
+                            UserAppActions.getChannels()
+                        )
+                        return UserAppActions.editedChannelMembers({successMessage:res.message})
+                    }else{
+                        return UserAppActions.errorEditChannelMembers({errorMessage:res.message})
+                    }
+                }),
+                catchError((err)=>{
+                    return of(UserAppActions.errorEditChannelMembers({errorMessage:'Something went wrong!'}))
+                })
+                )
+            })
+        )
+    })
+
+    $getChatRooms = createEffect(()=>
+        this.action$.pipe(
+            ofType(UserAppActions.getChatRooms),
+            mergeMap((action:any)=>{
+                return this.api
+                .getChatRooms({channel_id:action.channel_id})
+                .pipe(
+                    map((data)=>{
+                        console.log(data);
+                        
+                        if(data.status=='ok'  && data.authorization==true){
+                            return UserAppActions.gotChatRooms({ rooms:data.data.chat_rooms})
+                        }else{
+                            return UserAppActions.errorGettingChatRooms({errorMessage:data.message})
+                        }
+                    }),
+                    catchError((err)=>{
+                        return of(UserAppActions.errorGettingChatRooms({errorMessage:'Something went wrong!'}))
+                    })
+                )
+            })
+        )
+    )
+    $getChats = createEffect(()=>
+        this.action$.pipe(
+            ofType(UserAppActions.getChats),
+            mergeMap((action:any)=>{
+                return this.api
+                .getChats({room_id:action.room_id})
+                .pipe(
+                    map((data)=>{
+                        console.log(data);
+                        
+                        if(data.status=='ok'  && data.authorization==true){
+                            return UserAppActions.gotChats({ chats:data.data.chats})
+                        }else{
+                            return UserAppActions.errorGettingChats({errorMessage:data.message})
+                        }
+                    }),
+                    catchError((err)=>{
+                        return of(UserAppActions.errorGettingChats({errorMessage:'Something went wrong!'}))
+                    })
+                )
+            })
+        )
+    )
+
 }

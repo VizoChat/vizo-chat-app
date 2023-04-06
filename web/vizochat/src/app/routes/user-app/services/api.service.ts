@@ -32,13 +32,19 @@ export class ApiService {
     httpOptions.body = data
     return this.http.delete(environment.baseApiUrl+'/delChannel', httpOptions)
   }
-  getChatRooms(data?:any):Observable<any>{
-    return this.http.post(environment.baseApiUrl+'/getChatRooms',data?data:{}, this.httpOptions)
-  }
   newTeammate(data:any):Observable<any>{
     return this.http.post(environment.baseApiUrl+'/newTeammate',data, this.httpOptions)
   }
   getTeammates():Observable<any>{
     return this.http.get(environment.baseApiUrl+'/getTeammates', this.httpOptions)
+  }
+  editChannelMembers(data:{teammate_id:string,channel_id:string},mode:'Push'|'Pull'):Observable<any>{
+    return this.http.put(environment.baseApiUrl+'/editChannelMember'+mode, data, this.httpOptions)
+  }
+  getChatRooms(data?:any):Observable<any>{
+    return this.http.post(environment.baseApiUrl+'/getChatRooms',data?data:{}, this.httpOptions)
+  }
+  getChats(data:any):Observable<any>{
+    return this.http.post(environment.baseApiUrl+'/getChats',data, this.httpOptions)
   }
 }

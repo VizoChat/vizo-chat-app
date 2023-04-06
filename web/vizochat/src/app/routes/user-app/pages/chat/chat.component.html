@@ -1,27 +1,27 @@
 <!-- This is an example component -->
-<div class=" mx-auto shadow-lg h-screen border flex flex-col select-text"> <!--absolute top-1 left-1 right-1 bottom-1 -->
+<!--div class=" mx-auto shadow-lg h-screen border flex flex-col select-text"> <!--absolute top-1 left-1 right-1 bottom-1 -->
     <!-- Chatting -->
-    <div class="flex flex-row justify-between bg-white flex-1">
+    <div class="flex flex-row justify-between bg-white border">
         <!-- chat list -->
-        <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto select-none h-screen">
+        <div class="flex flex-col w-1/5 border-r-2 overflow-y-auto select-none h-screen">
             <!-- search compt -->
             <div class="border-b-2 py-4 px-2">
-                <input type="text" placeholder="search chatting"
-                    class="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full" />
+                Live Chat
             </div>
             <!-- <div *ngIf="chatRooms$ | async">{{chatRooms$|async|json}}</div> -->
             <!-- end search compt -->
             <!-- user list -->
             <div class="overflow-x-hidden overflow-y-auto flex-1"  *ngIf="chatRooms$ | async">
 
-                <div class="flex flex-row py-4 px-2 items-center border-b-2 w-100 hover:bg-gray-100 cursor-pointer" *ngFor="let cr of chatRooms$ | async">
-                    <div class="w-14">
+                <div class="flex flex-row py-1 px-2 items-center border-b-2 w-100 hover:bg-gray-100 cursor-pointer" *ngFor="let cr of chatRooms$ | async" [routerLink]="'/app/chat/'+cr.channel+'/'+cr._id">
+                    <div class="w-12">
                         <img src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
-                            class="object-cover h-12 w-12 rounded-full" alt="" />
+                            class="object-cover h-10 w-10 rounded-full" alt="" />
                     </div>
                     <div class="flex-1 overflow-x-hidden">
-                        <p class="text-lg font-semibold truncate">{{cr.message_preview.message}}</p>
-                        <span class="text-gray-500">{{getDateRelative(cr.message_preview.time)}}</span>
+                        <p class="text-lg font-semibold truncate" [title]="cr.message_preview.message">{{cr.message_preview.message}}</p>
+                        <p class="text-sm truncate" [title]="cr.message_preview.message">{{cr.message_preview.message}}</p>
+                        <span class="text-xs text-gray-500 " [title]="cr.message_preview.time | date">{{getDateRelative(cr.message_preview.time)}}</span>
                     </div>
                 </div>
                 
@@ -29,115 +29,6 @@
             </div>
         </div>
         <!-- end chat list -->
-        <!-- message -->
-        <div class="w-full px-5 flex flex-col justify-between">
-            <div class="flex flex-col mt-5">
-                <!-- headaer -->
-                <div class="px-1 py-1 flex justify-between items-center bg-white border-b-2">
-                    <div class="font-semibold text-2xl">GoingChat</div>
-                    <div class="w-1/2">
-                        <input type="text" name="" id="" placeholder="search IRL"
-                            class="rounded-2xl bg-gray-100 py-3 px-5 w-full" />
-                    </div>
-                    <div class="h-12 w-12 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center">
-                        RA
-                    </div>
-                </div>
-                <!-- end header -->
-                <div class="flex justify-end mb-4">
-                    <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                        Welcome to group everyone !
-                    </div>
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
-                        alt="" />
-                </div>
-                <div class="flex justify-start mb-4">
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
-                        alt="" />
-                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat at
-                        praesentium, aut ullam delectus odio error sit rem. Architecto nulla
-                        doloribus laborum illo rem enim dolor odio saepe, consequatur quas?
-                    </div>
-                </div>
-                <div class="flex justify-end mb-4">
-                    <div>
-                        <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam,
-                            repudiandae.
-                        </div>
-
-                        <div
-                            class="mt-4 mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis,
-                            reiciendis!
-                        </div>
-                    </div>
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
-                        alt="" />
-                </div>
-                <div class="flex justify-start mb-4">
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
-                        alt="" />
-                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
-                        happy holiday guys!
-                    </div>
-                </div>
-            </div>
-            <div class="py-5">
-                <!-- Message input start -->
-                <div class="max-w-2xl mx-auto">
-                    <form>
-                        <label for="chat" class="sr-only">Your message</label>
-                        <div class="flex items-center py-2 px-3 bg-gray-50 rounded-lg dark:bg-gray-700">
-                            <button type="button"
-                                class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <button type="button"
-                                class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <textarea id="chat" rows="1"
-                                class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Your message..."></textarea>
-                            <button type="submit"
-                                class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                                <svg class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <!-- Message input ends -->
-            </div>
-        </div>
-        <!-- end message -->
-        <div class="w-2/5 border-l-2 px-5">
-            <div class="flex flex-col">
-                <div class="font-semibold text-xl py-4">Mern Stack Group</div>
-                <img src="https://source.unsplash.com/L2cxSuKWbpo/600x600" class="object-cover rounded-xl h-64"
-                    alt="" />
-                <div class="font-semibold py-4">Created 22 Sep 2021</div>
-                <div class="font-light">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
-                    perspiciatis!
-                </div>
-            </div>
-        </div>
+        <router-outlet></router-outlet>
     </div>
-</div>
+<!-- </!--div> -->

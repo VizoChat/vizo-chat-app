@@ -30,6 +30,8 @@ export class InitPageComponent implements OnInit{
   ngOnInit(): void {
   }
   newChatRoom(){
+    console.log(this.params);
+    
     this.store$.dispatch(
       widgetActions.newChatRoom({data:this.params})
     )

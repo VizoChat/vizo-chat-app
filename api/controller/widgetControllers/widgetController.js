@@ -4,6 +4,7 @@ const fs = require('fs')
 const slug = require('slug')
 const funs = require('../../helpers/funs')
 const chatRooms = require('../../model/chat_rooms')
+const chats = require('../../model/chats')
 const { validationResult } = require('express-validator');
 const channels = require('../../model/channels')
 
@@ -57,7 +58,7 @@ let apiResponse = {
         let apiRes = JSON.parse(JSON.stringify(apiResponse))
         apiRes.message = 'Invalid arguments, please check all input!'
         apiRes.status = 401
-        apiRes.authorization = true;
+        // apiRes.authorization = true;
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -136,5 +137,35 @@ let apiResponse = {
             console.log(apiRes);
             res.status(200).json(apiRes)
         }
-    }
+    },
+    getChats:(req,res,next)=>{
+        let apiRes = JSON.parse(JSON.stringify(apiResponse))
+        apiRes.message = 'Invalid arguments, please check all input!'
+        apiRes.status = 401
+        // apiRes.authorization = true;
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log(errors);
+            apiRes.message = errors.errors[0].param+((errors.errors[0].msg=="Invalid value")?" is invalid, Try again!":errors.errors[0].msg)
+            return res.status(200).json(apiRes)
+        }
+        chats.getChats({search:{channel: req.body.apiKey, chat_room: req.body.chatId},project:{message:1,user:1}})
+        .then((data)=>{
+            apiRes.message = 'Successfully fetch the chats!'
+            apiRes.status = 'ok'
+            apiRes.data.chats = data
+            // apiRes.data.chats = data.map((val)=>{
+            //     return {
+            //         _id:val._id,
+            //         message_preview:val.message_preview
+            //     }
+            // }) 
+        }).catch((err)=>{
+            console.log(err);
+            apiRes.message = 'Error detucted while fetching chats!'
+        }).then(()=>{
+            res.status(200).json(apiRes)
+        })
+    },
 }

@@ -1,5 +1,6 @@
 
 import { channels } from "./channels.interface";
+import { chats } from "./chat.interface";
 import { teammates } from "./teammates.interface";
 import { user } from "./user.interface";
 
@@ -13,4 +14,5 @@ export interface UserAppStateInterface{
     channels?:channels[]
     chatRooms?:any[]
     teammates?:teammates[]
+    chats:chats[]
 }

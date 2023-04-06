@@ -10,6 +10,7 @@ router.get('/js/:channelid', widgetController.widget_js)
 //widget APIs
 router.post('/getChatRooms', validation.getChatRoom, widgetController.getChatRooms)
 router.post('/newChatRoom', validation.newChatRoom, widgetController.newChatRooms)
+router.post('/getChats', validation.getChats, widgetController.getChats)
 
 
 module.exports = router;

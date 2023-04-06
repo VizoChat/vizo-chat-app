@@ -10,6 +10,7 @@ const initialState:UserAppStateInterface = {
     error:null,
     success:null,
     chatRooms:[],
+    chats:[]
 }
 export const reducer = createReducer(
     initialState,
@@ -33,6 +34,10 @@ export const reducer = createReducer(
     on(UserAppActions.deletedChannels, (state,action)=>({...state,isLoading:false,success:action.successMessage})),
     on(UserAppActions.errorDeletingChannels,(state, action)=>({...state,isLoading:false, error:action.errorMessage})),
 
+    on(UserAppActions.editChannelMembers, (state)=>({...state,isLoading:true})),
+    on(UserAppActions.editedChannelMembers, (state,action)=>({...state,isLoading:false,success:action.successMessage})),
+    on(UserAppActions.errorEditChannelMembers,(state, action)=>({...state,isLoading:false, error:action.errorMessage})),
+        
     on(UserAppActions.getChatRooms, (state)=>({...state,isContentLoading:true})),
     on(UserAppActions.gotChatRooms, (state,action)=>({...state,isContentLoading:false,chatRooms:action.rooms})),
     on(UserAppActions.errorGettingChatRooms,(state, action)=>({...state,isContentLoading:false, error:action.errorMessage})),
@@ -44,6 +49,11 @@ export const reducer = createReducer(
     on(UserAppActions.getTeammates, (state)=>({...state,isContentLoading:true})),
     on(UserAppActions.gotTeammates, (state,action)=>({...state, isContentLoading:false, teammates:action.Teammates})),
     on(UserAppActions.errorGettingTeammates,(state, action)=>({...state, isContentLoading:false, error:action.errorMessage})),
+
+    on(UserAppActions.getChats, (state)=>({...state,isContentLoading:true})),
+    on(UserAppActions.gotChats, (state,action)=>({...state, isContentLoading:false, chats:action.chats})),
+    on(UserAppActions.gotNewChat, (state,action)=>({...state, isContentLoading:false, chats:[...state.chats,action.chat]})),
+    on(UserAppActions.errorGettingChats,(state, action)=>({...state, isContentLoading:false, error:action.errorMessage})),
 
 
     on(UserAppActions.clearSuccessMsg, (state)=>({...state,success:null})),

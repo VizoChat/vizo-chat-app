@@ -57,4 +57,31 @@ export class widgetAppEffects {
 
     )
 
+
+    getChats$ = createEffect(()=>
+        this.action$.pipe(
+            ofType(widgetActions.getChats),
+            mergeMap((action)=>
+                this.api
+                .getChats(action.data)
+                .pipe(
+                    map((res)=>{
+                        if(res.status=='ok' ){
+                            // this.router.navigate(['/widget', action.data.apiKey,'chat',res.data.new_room._id]);
+                            console.log(res);
+                            
+                            return widgetActions.gotChats({chats:res.data.chats})
+                        }else{
+                            return widgetActions.errorOnChatsRoom({error:res.message})
+                        }
+                    }),
+                    catchError((err:any)=>
+                        of( widgetActions.errorOnChatsRoom({error:'Chats couldn\'t be fetched!'}))
+                    ) 
+                )
+            )
+        )
+
+    )
+
 }

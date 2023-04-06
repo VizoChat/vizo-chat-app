@@ -46,7 +46,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '242662627798-etkjo95a6nila113nlgo7k055nu8tp69.apps.googleusercontent.com',
+              environment.socialAuth.googleKey,
               {
                 prompt: 'select_account',
                 oneTapEnabled: false // Disable Google One-tap feature

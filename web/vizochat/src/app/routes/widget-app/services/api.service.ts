@@ -21,4 +21,7 @@ export class ApiService {
   newChatRoom(data:any):Observable<any>{
     return this.http.post(`${environment.baseApiUrl}/widget/newChatRoom`, data, this.http_options)
   }
+  getChats(data:{apiKey:string,chatId:string}):Observable<any>{ 
+    return this.http.post(`${environment.baseApiUrl}/widget/getChats`, data, this.http_options)
+  }
 }

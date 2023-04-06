@@ -20,11 +20,14 @@ router.get('/userdata', jwt.verify, mids.verify_user ,userController.userData)
 //Channel api routes
 router.put('/newChannel', jwt.verify, mids.verify_user, validation.newChannel, channelController.newChannel)
 router.put('/editChannel', jwt.verify, mids.verify_user, validation.editChannel, channelController.editChannel)
+router.put('/editChannelMemberPush', jwt.verify, mids.verify_user, validation.editChannelMember, channelController.addAgentToChannel)
+router.put('/editChannelMemberPull', jwt.verify, mids.verify_user, validation.editChannelMember, channelController.removeAgentFromChannel)
 router.get('/getChannels', jwt.verify, mids.verify_user ,channelController.getChannels)
 router.delete('/delChannel', jwt.verify, mids.verify_user, validation.delChannel, channelController.delChannel)
 
 //chat api routes
 router.post('/getChatRooms', jwt.verify, mids.verify_user, chatController.getChatRooms)
+router.post('/getChats', jwt.verify, mids.verify_user, chatController.getChats)
 
 //agent/teammates api routes
 router.post('/newTeammate', jwt.verify, mids.verify_user, validation.newTeammate, teammateController.newTeammate)

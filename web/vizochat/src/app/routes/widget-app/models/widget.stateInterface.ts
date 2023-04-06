@@ -1,3 +1,4 @@
+import { chats } from "./chats.interface";
 import { rooms } from "./rooms.interface";
 
 export interface WidgetAppStateInterface {
@@ -5,6 +6,7 @@ export interface WidgetAppStateInterface {
     isLoading:boolean,
     isPageLoading:boolean,
     error:string | null,
-    success:string | null
+    success:string | null,
+    chats:chats[]
 } 
 

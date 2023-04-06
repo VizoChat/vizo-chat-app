@@ -14,13 +14,13 @@ export class AuthHeaderInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // if(localStorage.getItem('actoken')){
+    if(localStorage.getItem('actoken')){ 
       req = req.clone({
         headers: new HttpHeaders({
           Authorization: 'Bearer '+localStorage.getItem('actoken')
         })
       });
-    // }
+    }
     return next.handle(req);
   }
 }

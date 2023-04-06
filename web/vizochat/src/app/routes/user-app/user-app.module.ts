@@ -17,8 +17,12 @@ import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ApiService } from './services/api.service';
 import { ChatComponent } from './pages/chat/chat.component'; 
-import {  ReactiveFormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
+import { ChatWindowComponent } from './pages/chat/chat-window/chat-window.component';
+import { ChatWindowDefaultComponent } from './pages/chat/chat-window-default/chat-window-default.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -29,6 +33,8 @@ import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
     HeaderComponent,
     ProfileComponent,
     ChatComponent,
+    ChatWindowComponent,
+    ChatWindowDefaultComponent,
   ],
   imports: [
     CommonModule,
@@ -36,8 +42,10 @@ import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
     StoreModule.forFeature('userApp', reducer),
     EffectsModule.forFeature([userAppEffects]),
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    SocketIoModule.forRoot({ url: environment.baseApiUrl+'/liveChats', options: {} })
   ],
   providers:[
     ApiService,

@@ -8,6 +8,7 @@ const chatRoomsSchema = new mongoose.Schema(
             additional_data:{type:String}, 
         },
         message_preview:{
+            topic:{type:String, default:'Hey there, how can we help you?'},
             message:{type:String, default:'Hey there, how can we help you?'},
             time:{type:Date, default: Date.now},
         },

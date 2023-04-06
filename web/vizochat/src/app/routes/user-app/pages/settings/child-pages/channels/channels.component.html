@@ -35,11 +35,12 @@
               <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                 <i class="fas fa-circle text-orange-500 mr-2"></i>{{c.status}}</td>
               <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <div class="flex">
-                  <img src="https://demos.creative-tim.com/notus-js/assets/img/team-1-800x800.jpg" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow">
-                  <img src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4">
-                  <img src="https://demos.creative-tim.com/notus-js/assets/img/team-3-800x800.jpg" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4">
-                  <img src="https://demos.creative-tim.com/notus-js/assets/img/team-4-470x470.png" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4">
+                <div class="flex items-center">
+                  
+                  <ng-container *ngFor="let ca of c.agents; let i = index; ">
+                    <img [routerLink]="'/app/manage/channels/edit/'+c._id+'/members'" [src]="ca.avatar.isUrl?ca.avatar.image:apiUrl+'/images/avatar/'+ca.avatar.image" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow" [ngClass]="i>0?'-ml-4':''" *ngIf="i<4">
+                    <span *ngIf="i>3 && i==c.agents.length-1">+{{i-3}}</span>
+                  </ng-container>
                 </div>
               </td>
               

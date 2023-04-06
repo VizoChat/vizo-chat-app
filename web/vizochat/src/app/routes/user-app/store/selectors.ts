@@ -38,3 +38,7 @@ export const TeammatesSelector = createSelector(
     selectorFeature,
     (state)=>state.teammates
 )
+export const chatSelector = createSelector(
+    selectorFeature,
+    (state)=>state.chats
+)

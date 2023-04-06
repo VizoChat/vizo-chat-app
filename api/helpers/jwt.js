@@ -42,6 +42,41 @@ module.exports = {
             res.status(200).json(apiRes);
         }
     },
+    verifySocketUserToken_forSocketIo : (socket, next) => {
+      let apiRes = {
+        status: 401,
+        message: 'Login required!',
+        authorization: false,
+        data: {
+          isAgent:false
+        }
+      };
+
+      if(socket.handshake.auth.token){
+        const jwtSecret = process.env.JWT_ACCESS_SECRET_TOKEN;
+        const token = socket.handshake.auth.token;
+        try {
+          const decoded = jwt.verify(token, jwtSecret);
+          socket.jwtUSER = decoded;
+          apiRes.authorization = true;
+          apiRes.status = 'ok';
+          apiRes.message = 'token verified!';
+          apiRes.data.isAgent = true;
+          socket.apiRes = apiRes;
+          return next();
+        } catch (err) {
+          console.log(err);
+          apiRes.message = 'Invalid token';
+          socket.apiRes = apiRes;
+          return socket.emit('error',apiRes.message)
+          
+        }
+      }else{
+        apiRes.authorization = true;  
+        socket.apiRes = apiRes;
+        return next()
+      }
+    },
     generateAccessTkn:(req)=>{
       let resObj = {
         error:true,

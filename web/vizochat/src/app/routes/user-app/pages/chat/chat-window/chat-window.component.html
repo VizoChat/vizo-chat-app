@@ -1,0 +1,134 @@
+<div class="flex h-screen text-select">
+    <!-- message -->
+    <div class="w-full flex flex-col justify-between h-screen">
+        <div class="flex flex-col mt-1">
+            <!-- headaer -->
+            <div class="px-1 py-1 flex justify-between items-center bg-white border-b-2">
+                <div class="font-semibold text-xl" [innerText]="'{Topic of chat}'">GoingChat</div>
+                <!-- <div class="w-1/2">
+                    <input type="text" name="" id="" placeholder="search IRL"
+                        class="rounded-2xl bg-gray-100 py-3 px-5 w-full" />
+                </div> -->
+                <div class="h-12 w-12 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center">
+                    RA
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="userData|async">
+
+            <div #chatScreen class="flex-1 overflow-y-auto overflow-x-hidden p-1" >
+                <!-- end header -->
+                <div class="flex mb-4 items-end" *ngFor="let m of chats | async" [ngClass]="(userData|async)?._id==m.user.user_id?'justify-end ':'justify-start'" >
+                    <ng-container *ngIf="m.user.user_type == 'agent'">
+
+                        <div class="mr-2 py-1 px-2 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                            {{m.message.message}}
+                        </div>
+                        <img [src]="m.user.user_id.avatar.isUrl?m.avatar.image:apiUrl+'/images/avatar/'+m.user.user_id.avatar.image" class="object-cover h-5 w-5 rounded-full"
+                            alt="" />
+                    </ng-container>
+                    <ng-container *ngIf="m.user.user_type == 'wUser'">
+                        <img [src]="m.user.user_id.avatar.isUrl?m.avatar.image:apiUrl+'/images/avatar/'+m.user.user_id.avatar.image" class="object-cover h-5 w-5 rounded-full"
+                        alt="" />
+                        <div class="ml-2 py-1 px-2 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
+                            {{m.message.message}}
+                        </div>
+                    </ng-container>
+                </div>
+                <!-- <div class="flex justify-end mb-4" >
+                    <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                        Hey sup?
+                    </div>
+                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
+                        alt="" />
+                </div>
+                <div class="flex justify-start mb-4">
+                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
+                        alt="" />
+                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat at
+                        praesentium, aut ullam delectus odio error sit rem. Architecto nulla
+                        doloribus laborum illo rem enim dolor odio saepe, consequatur quas?
+                    </div>
+                </div>
+                <div class="flex justify-end mb-4">
+                    <div>
+                        <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam,
+                            repudiandae.
+                        </div>
+    
+                        <div
+                            class="mt-4 mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis,
+                            reiciendis!
+                        </div>
+                    </div>
+                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
+                        alt="" />
+                </div>
+                <div class="flex justify-start mb-4">
+                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
+                        alt="" />
+                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
+                        happy holiday guys!
+                    </div>
+                </div> -->
+            </div>
+        </ng-container>
+        <div class="pt-5">
+            <!-- Message input start -->
+            <div class="w-full mx-auto">
+                <form #f="ngForm" (ngSubmit)="send_message(f)">
+                    <label for="chat" class="sr-only">Your message</label>
+                    <div class="flex items-center py-2 px-3 bg-gray-50 rounded-lg dark:bg-gray-700">
+                        <button type="button"
+                            class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <textarea id="chat" rows="1" name="message_input"
+                            class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Your message..." [(ngModel)]="message_input" required minlength="1"></textarea>
+                        <button type="submit"
+                            class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                            <svg class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- Message input ends -->
+        </div>
+    </div>
+    <!-- end message -->
+    <div class="w-2/5 border-l-2 px-5">
+        <div class="flex flex-col">
+            <div class="font-semibold text-xl py-4">Mern Stack Group</div>
+            <img src="https://source.unsplash.com/L2cxSuKWbpo/600x600" class="object-cover rounded-xl h-64"
+                alt="" />
+            <div class="font-semibold py-4">Created 22 Sep 2021</div>
+            <div class="font-light">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
+                perspiciatis!
+            </div>
+        </div>
+    </div>
+</div>

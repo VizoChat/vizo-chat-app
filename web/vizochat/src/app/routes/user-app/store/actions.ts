@@ -1,5 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { channels } from "../models/channels.interface";
+import { chats } from "../models/chat.interface";
 import { teammateForm, teammates } from "../models/teammates.interface";
 import { user } from "../models/user.interface";
 
@@ -28,10 +29,10 @@ export const delChannels = createAction('[UserApp] del channel data', props<{cha
 export const deletedChannels = createAction('[UserApp] deleted channel data', props<{successMessage:string}>())
 export const errorDeletingChannels = createAction('[UserApp] error Deleting channel data',props<{errorMessage:string}>())
 
-//settings/manage > channels > get
-export const getChatRooms = createAction('[UserApp] get ChatRooms', props<{channel_id?:String|null|undefined}>())
-export const gotChatRooms = createAction('[UserApp] got ChatRooms', props<{rooms:any}>())
-export const errorGettingChatRooms = createAction('[UserApp] error Gettings ChatRooms',props<{errorMessage:string}>())
+//settings/manage > channels > members > edit
+export const editChannelMembers = createAction('[UserApp] edit members channel',props<{data:{teammate_id:string,channel_id:string},mode:'Push'|'Pull'}>())
+export const editedChannelMembers = createAction('[UserApp] edited members channel',props<{successMessage:string}>())
+export const errorEditChannelMembers = createAction('[UserApp] Error editing channel', props<{errorMessage:string}>())
 
 //settings/manage > teammates > new
 export const newTeammate = createAction('[UserApp] create new teammate',props<teammateForm>())
@@ -43,6 +44,16 @@ export const getTeammates = createAction('[UserApp] get teammates')
 export const gotTeammates = createAction('[UserApp] got Teammate',props<{Teammates:teammates[]}>())
 export const errorGettingTeammates = createAction('[UserApp] Error getting Teammates', props<{errorMessage:string}>())
 
+// chat > rooms> get
+export const getChatRooms = createAction('[UserApp] get ChatRooms', props<{channel_id?:String|null|undefined}>())
+export const gotChatRooms = createAction('[UserApp] got ChatRooms', props<{rooms:any}>())
+export const errorGettingChatRooms = createAction('[UserApp] error Gettings ChatRooms',props<{errorMessage:string}>())
+
+// chat > rooms> chat > get
+export const getChats = createAction('[UserApp] get Chat messages', props<{room_id?:String|null|undefined}>())
+export const gotChats = createAction('[UserApp] got Chat messages', props<{chats:chats[]}>())
+export const gotNewChat = createAction('[UserApp] got new chat message', props<{chat:chats}>())
+export const errorGettingChats = createAction('[UserApp] error Gettings Chat messages',props<{errorMessage:string}>())
 
 //Common
 export const clearSuccessMsg = createAction('[UserApp] Clear success message')

@@ -1,28 +1,57 @@
 <div class="py-2 px-5">
     <h2 class="border-b ">Members</h2>
-    <p class="mt-2">Assign more agents to your channel to give your clients replay within few minutes! you can add members in team management section in settings/manage. </p>
+    <p class="mt-2">Please add more agents to your channel to ensure that your clients receive a timely response. You can easily do this by going to the team management section in your settings or manage tab and adding new members. This will help improve your customer support and increase client satisfaction. </p>
 
-    <div class="mt-2">
-        Teammates - 
-        <div class="flex border hover:bg-gray-100 p-1 mb-1 rounded-lg items-center text-gray-700 justify-between">
-            <img class="w-10 h-10 rounded-full" src="https://yt3.googleusercontent.com/-CFTJHU7fEWb7BYEb6Jh9gm1EpetvVGQqtof0Rbh-VQRIznYYKJxCaqv_9HeBcmJmIsp2vOO9JU=s900-c-k-c0x00ffffff-no-rj" alt="">
+    <div class="mt-2" *ngIf="membersData?.channelAgents && membersData?.otherTeammates">
+        <p class="mt-2">Agents assigned - </p>
+        <div class="flex border hover:bg-gray-100 p-1 mb-1 rounded-lg items-center text-gray-700 justify-between" *ngFor="let ca of membersData.channelAgents">
+            <img class="w-10 h-10 rounded-full" [src]="ca.avatar.isUrl?ca.avatar.image:apiUrl+'/images/avatar/'+ca.avatar.image" alt="">
             <div>
-                <p>Username</p>
-                <p class="text-xsm text-gray-600">mail@mail.com</p>
+                <p>{{ca.name}} <span class="text-gray-600 text-xsm">(@{{ca.username}})</span></p>
+                <p class="text-xsm text-gray-600">{{ca.email}}</p>
             </div>
-            <button class="px-3 py-2 text-white hover:bg-green-600 bg-green-500 rounded">
-                Add +
+            <button class="px-3 py-2 text-white hover:bg-red-600 bg-red-500 rounded" (click)="submitChanges(ca._id,'Pull')">
+                
+                <svg aria-hidden="true" role="status" class="inline mr-2 w-4 h-4 text-gray-200 animate-spin dark:text-gray-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" *ngIf="btns[ca._id]">
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="#1C64F2"></path>
+                  </svg>  
+                  <span *ngIf="!btns[ca._id]">
+                    remove -
+                  </span>
             </button>
         </div>
-        <div class="flex border hover:bg-gray-100 p-1 mb-1 rounded-lg items-center text-gray-700 justify-between">
-            <img class="w-10 h-10 rounded-full" src="https://yt3.googleusercontent.com/-CFTJHU7fEWb7BYEb6Jh9gm1EpetvVGQqtof0Rbh-VQRIznYYKJxCaqv_9HeBcmJmIsp2vOO9JU=s900-c-k-c0x00ffffff-no-rj" alt="">
+        <div class="flex justify-center items-center rounded-lg bg-orange-200 border border-orange-500 p-3 text-center" *ngIf="membersData.channelAgents.length<1">
+            <p>
+                Please add at least one agent to this channel. If you haven't created any users yet, simply go to the "Teammates" tab and create one.
+            </p>
+        </div>
+        <p class="mt-2">Other Teammates - </p>
+        <div class="flex border hover:bg-gray-100 p-1 mb-1 rounded-lg items-center text-gray-700 justify-between" *ngFor="let co of membersData.otherTeammates">
+            <img class="w-10 h-10 rounded-full" [src]="co.avatar.isUrl?co.avatar.image:apiUrl+'/images/avatar/'+co.avatar.image" alt="">
             <div>
-                <p>Username</p>
-                <p class="text-xsm text-gray-600">mail@mail.com</p>
+                <p>{{co.name}} <span class="text-gray-600 text-xsm">(@{{co.username}})</span></p>
+                <p class="text-xsm text-gray-600">{{co.email}}</p>
             </div>
-            <button class="px-3 py-2 text-white hover:bg-red-600 bg-red-500 rounded">
-                remove -
-            </button>
+            <button class="px-3 py-2 text-white hover:bg-green-600 bg-green-500 rounded" (click)="submitChanges(co._id,'Push')">
+                <svg aria-hidden="true" role="status" class="inline mr-2 w-4 h-4 text-gray-200 animate-spin dark:text-gray-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" *ngIf="btns[co._id]">
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="#1C64F2"></path>
+                  </svg>  
+                  <span *ngIf="!btns[co._id]">
+                      Add +
+                  </span>
+            </button>   
+        </div>
+        <div class="flex justify-center items-center rounded-lg bg-orange-200 border border-orange-500 p-3 text-center" *ngIf="membersData.otherTeammates.length<1 && membersData.channelAgents.length<=1">
+            <p>
+                You haven't added any agents to your dashboard. Add more agents to your account so that you can respond to your clients within a few minutes.
+            </p>
+        </div>
+        <div class="flex justify-center items-center rounded-lg border p-3 text-center" *ngIf="membersData.otherTeammates.length<1 && membersData.channelAgents.length>1">
+            <p>
+                No User/Teammate left for this channel to assign!
+            </p>
         </div>
     </div>
 </div>

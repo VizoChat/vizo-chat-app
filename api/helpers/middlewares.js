@@ -1,4 +1,4 @@
-const { getUsersCount } = require("../model/users");
+const { getUsersCount, getUser } = require("../model/users");
 
 let apiResponse = {
     message: 'Seems you are not a human!',
@@ -40,6 +40,28 @@ module.exports = {
             next()
         }else{
             res.json(apiRes)
+        }
+    },
+    verifyUser_forSocketIo : async (socket, next) => {
+        //socket.handshake.query.user_id
+        if(socket.apiRes.authorization && socket.jwtUSER){
+            const apiRes = JSON.parse(JSON.stringify(apiResponse));
+            const userCount = await getUsersCount({_id:socket.jwtUSER._id});
+          
+            if (userCount === 1) {
+                next();
+            } else {
+                apiRes.message= 'We couldn\'t find any accounts related to you!';
+                socket.apiRes.authorization = false;
+                return socket.emit('error',apiRes.message)
+            }
+        }else if(socket.apiRes.authorization && socket.handshake.query.user_id){ //socket.handshake.query.user_id not exist!
+            next()
+        }else{
+            next()
+            // apiRes.message= 'Unauthorized access!';
+            // socket.apiRes.authorization = false;
+            // return socket.emit('error',apiRes.message)
         }
     }
 }

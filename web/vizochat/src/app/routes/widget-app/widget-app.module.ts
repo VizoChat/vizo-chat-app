@@ -11,6 +11,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { widgetAppEffects } from './store/effects';
 import { reducer } from './store/reducer';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,6 +23,8 @@ import { reducer } from './store/reducer';
   imports: [
     CommonModule,
     WidgetAppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
     SharedModule,
     HttpClientModule,
     StoreModule.forFeature('widget', reducer),
