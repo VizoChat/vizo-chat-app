@@ -5,10 +5,11 @@ import { ActivatedRoute, Route } from '@angular/router';
 import * as UserAppActions from '../../../store/actions';
 import { select, Store } from '@ngrx/store';
 import { appStateInterface } from 'src/app/models/appState.interface';
-import { chats } from '../../../models/chat.interface';
-import { chatSelector, userDataSelector } from '../../../store/selectors';
+import { chatRooms, chats } from '../../../models/chat.interface';
+import { chatRoomsSelector, chatSelector, userDataSelector } from '../../../store/selectors';
 import { map, Observable, tap } from 'rxjs';
 import { user } from '../../../models/user.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-chat-window',
@@ -28,10 +29,17 @@ export class ChatWindowComponent implements OnInit, OnDestroy{
   userDataSync?:user | null;
   chats?:Observable<chats[] | undefined>;
   pageInitated_count:number = 0;
-  constructor(private socket:SocketService, private route:ActivatedRoute, private store:Store<appStateInterface>){
+  apiUrl = environment.baseApiUrl;
+  chat_rooms!:chatRooms[];
+  current_chat_rooms!:chatRooms|null;
+  constructor(private socket:SocketService, private route:ActivatedRoute, private store$:Store<appStateInterface>){
     this.channelId = this.route.snapshot.paramMap.get('channelId')  
   }
   ngOnInit(): void {
+    this.store$.pipe(select(chatRoomsSelector)).subscribe((data)=>{
+      this.chat_rooms = data
+      this.setCurrentRoomData()
+    })
     this.route.paramMap.pipe(
       map(paramMap => [paramMap.get('roomId'),paramMap.get('channelId')])
     ).subscribe(([room_id,channelId])=>{
@@ -42,22 +50,31 @@ export class ChatWindowComponent implements OnInit, OnDestroy{
         this.socket.disconnect()
       }
       this.socket.connect({room:room_id,channelId},'/liveChats',{token: localStorage.getItem('actoken')??'noAcToken'})
-      this.store.dispatch(
+      this.store$.dispatch(
         UserAppActions.getChats({room_id:this.room_id})
       )
       this.socket.on('new-message',(data:chats|any)=>{
-        console.log('new message: ',data);//////////////
-        this.store.dispatch(
+        this.passMessageToRoom(data.message.message)
+        this.store$.dispatch(
           UserAppActions.gotNewChat({
             chat:data
           })
         )
         this.scrollToBottom()
       })
+      this.setCurrentRoomData()
     })
-
-    this.userData = this.store.pipe(select(userDataSelector)).pipe(tap((user)=>this.userDataSync = user))
-     this.chats = this.store.pipe(select(chatSelector),tap(()=>this.scrollToBottom()))
+    this.userData = this.store$.pipe(select(userDataSelector)).pipe(tap((user)=>this.userDataSync = user))
+    this.chats = this.store$.pipe(select(chatSelector),tap(()=>this.scrollToBottom()))
+    
+    
+  }
+  setCurrentRoomData(){
+    this.current_chat_rooms = null;
+    this.current_chat_rooms = {...this.chat_rooms.filter((val)=>val._id == this.room_id)[0]}
+      this.current_chat_rooms.w_user = {...this.current_chat_rooms.w_user , additional_data : JSON.parse(this.current_chat_rooms.w_user.additional_data)}
+      this.current_chat_rooms.w_user.page_history.sort((a,b)=>Number(new Date(b.time))-Number(new Date(a.time))) // not working the sorting
+      console.log(this.current_chat_rooms,'current_chat_rooms');
   }
   send_message(f: NgForm):any{
     if(this.message_input.trim().length<1)return this.message_input ='';
@@ -73,7 +90,32 @@ export class ChatWindowComponent implements OnInit, OnDestroy{
       this.chatScreen.nativeElement.scrollTop = this.chatScreen.nativeElement.scrollHeight;
     }, 200);
   }
+  // convertToHtmlString(val:string){
+  //   const div = document.createElement('div');
+  //   div.innerHTML = val;
+  //   return div.innerText;
+  // }
+  passMessageToRoom(msg:string){
+      let newData:chatRooms[] = JSON.parse(JSON.stringify(this.chat_rooms))
+      newData.forEach((val:chatRooms,i:number)=>{
+        if(val._id == this.room_id){
+          newData[i].message_preview= {
+            message : msg, 
+            time : new Date().toISOString(),
+            topic:val.message_preview.topic,
+            newMessageCount:0//val.message_preview.newMessageCount
+          }
+        }
+      })
+      newData.sort((a, b) => {return Number(new Date(b.message_preview.time))-Number(new Date(a.message_preview.time)) });
+      this.store$.dispatch(
+        UserAppActions.gotChatRooms({rooms:newData})
+      )
+    
+  }
   ngOnDestroy(): void {
     this.socket.disconnect()
+    console.log('distroy');
+    
   }
 }

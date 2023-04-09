@@ -13,15 +13,26 @@
             <!-- user list -->
             <div class="overflow-x-hidden overflow-y-auto flex-1"  *ngIf="chatRooms$ | async">
 
-                <div class="flex flex-row py-1 px-2 items-center border-b-2 w-100 hover:bg-gray-100 cursor-pointer" *ngFor="let cr of chatRooms$ | async" [routerLink]="'/app/chat/'+cr.channel+'/'+cr._id">
-                    <div class="w-12">
-                        <img src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
-                            class="object-cover h-10 w-10 rounded-full" alt="" />
+                <div class="flex flex-row py-1 px-2 items-center border-b-2 w-100 hover:bg-gray-100 cursor-pointer" *ngFor="let cr of chatRooms$ | async" [routerLink]="'/app/chat/'+cr.channel?._id+'/'+cr._id" routerLinkActive="bg-gray-100">
+                    <div class="w-12 relative">
+                        <!-- <img src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
+                            class="object-cover h-10 w-10 rounded-full" alt="" /> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class=" h-10 w-10 rounded-full" viewBox="0 0 24 24" fill="none">
+                            <path d="M8 9.5H15M8 13.5H13M18 20L21 21L19.1 15.3C19.1 15.3 20 14 20 11.5C20 8.90308 18.8354 6.57817 17 5.01903M11.5 3C6.80558 3 3 6.80558 3 11.5C3 16.1944 6.80558 20 11.5 20C14.0847 20 15.3 19.1 15.3 19.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="top-0 right-3 absolute flex h-3 w-3 items-center justify-center rounded-full bg-blue-500 text-xs text-white" *ngIf="cr.message_preview.newMessageCount>0">
+                            {{cr.message_preview.newMessageCount}}
+                        </span>
+                        
                     </div>
                     <div class="flex-1 overflow-x-hidden">
-                        <p class="text-lg font-semibold truncate" [title]="cr.message_preview.message">{{cr.message_preview.message}}</p>
-                        <p class="text-sm truncate" [title]="cr.message_preview.message">{{cr.message_preview.message}}</p>
-                        <span class="text-xs text-gray-500 " [title]="cr.message_preview.time | date">{{getDateRelative(cr.message_preview.time)}}</span>
+                        <p class="text-lg font-semibold truncate" [title]="cr.message_preview.topic" >{{cr.message_preview.topic}}</p>
+                        <p class="text-sm truncate" [title]="cr.message_preview.message" [innerHTML]="cr.message_preview.message"></p>
+                        <div class="flex items-center">
+                            <span class="text-xs text-gray-500 " [title]="cr.message_preview.time | date">{{getDateRelative(cr.message_preview.time)}}</span>
+                            <span class="rounded-full w-1 h-1 bg-gray-500 block mx-2"></span>
+                            <span class="text-xs text-gray-500 " >{{cr.channel?.name}} </span>
+                        </div>
                     </div>
                 </div>
                 

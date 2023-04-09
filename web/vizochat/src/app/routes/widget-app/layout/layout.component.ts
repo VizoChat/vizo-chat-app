@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -13,7 +13,19 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit{
-
+  @HostListener('window:message', ['$event'])
+  onMessage(event: MessageEvent) {
+    console.log('Received message on layout:', event.data);
+    if(event.data.type=='USERINFO'){
+      this.currentUrl = event.data.data.currentPage;
+      console.log('update');
+      
+      this.store$.dispatch(
+        widgetActions.newWUser({data:{...this.params,current_Page:this.currentUrl}})
+      )
+    }
+  }
+  currentUrl!:string;
   successMsg$!:Observable<string | null>
   showTopLoader$!:Observable<boolean|null>
   params:any = {}
@@ -32,6 +44,10 @@ export class LayoutComponent implements OnInit{
     this.routes.snapshot.queryParamMap.keys.forEach((key:any) => {
       this.params[key] = this.routes.snapshot.queryParamMap.get(key);
     });
+    
+    this.store$.dispatch(
+      widgetActions.newWUser({data:{...this.params,current_Page:this.currentUrl}})
+    )
     this.store$.dispatch(
       widgetActions.getChatRooms({data:this.params})
     )

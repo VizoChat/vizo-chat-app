@@ -1,7 +1,7 @@
 
 export interface chats{
     user:{
-        user_id:string | user, 
+        user_id: user|null, 
         user_type:string, //'agent'|'wUser' 
     },
     message:{

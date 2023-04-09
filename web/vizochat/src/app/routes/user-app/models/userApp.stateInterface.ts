@@ -1,6 +1,6 @@
 
 import { channels } from "./channels.interface";
-import { chats } from "./chat.interface";
+import { chatRooms, chats } from "./chat.interface";
 import { teammates } from "./teammates.interface";
 import { user } from "./user.interface";
 
@@ -12,7 +12,7 @@ export interface UserAppStateInterface{
     error:string|null 
     success:string|null
     channels?:channels[]
-    chatRooms?:any[]
+    chatRooms:chatRooms[]
     teammates?:teammates[]
     chats:chats[]
 }

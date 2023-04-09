@@ -1,6 +1,9 @@
 import { createAction, props } from "@ngrx/store";
 import { chats } from "../models/chats.interface";
 
+export const newWUser = createAction('[WidgetApp] create new w user', props<{data:any}>())
+export const createWUser = createAction('[WidgetApp] created w user',)
+
 export const getChatRooms = createAction('[WidgetApp] get chat rooms', props<{data:any}>())
 export const gotChatRooms = createAction('[WidgetApp] got chat rooms', props<{rooms:any}>())
 

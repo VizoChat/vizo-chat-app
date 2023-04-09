@@ -11,12 +11,13 @@ const chatsSchema = new mongoose.Schema(
             message:{type:String, default:'Hey there, how can we help you?'},
             message_type:{type:String, default: 'text'}, //'text'|'image'
         },
-        channel: {type:mongoose.Schema.Types.ObjectId, required:true },
+        channel: {type:mongoose.Schema.Types.ObjectId, required:true ,ref:'channels'},
         chat_room: {type:mongoose.Schema.Types.ObjectId, required:true },
         created_at:   {type:Date, default: Date.now()},
         last_updated: {type:Date, default: Date.now},
     }
 )
+
 
 let chats = module.exports = mongoose.model("chats", chatsSchema)
 

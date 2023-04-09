@@ -31,6 +31,30 @@ export class widgetAppEffects {
     )
 
 
+    newWidgetUser$ = createEffect(()=>
+        this.action$.pipe(
+            ofType(widgetActions.newWUser),
+            mergeMap((action)=>
+                this.api
+                .newWUser(action.data)
+                .pipe(
+                    map((res)=>{
+                        if(res.status=='ok' ){
+                            console.log(res);
+                            
+                            return widgetActions.createWUser()
+                        }else{
+                            return widgetActions.errorOnChatsRoom({error:res.message})
+                        }
+                    }),
+                    catchError((err:any)=>
+                        of( widgetActions.errorOnChatsRoom({error:'Something went wrong!'}))
+                    ) 
+                )
+            )
+        )
+
+    )
     newChatRoom$ = createEffect(()=>
         this.action$.pipe(
             ofType(widgetActions.newChatRoom),
@@ -40,8 +64,7 @@ export class widgetAppEffects {
                 .pipe(
                     map((res)=>{
                         if(res.status=='ok' ){
-                            this.router.navigate(['/widget', action.data.apiKey,'chat',res.data.new_room._id]);
-                            console.log(res);
+                            this.router.navigate(['/widget', action.data.apiKey,'chat',res.data.new_room._id,action.data.ds_key ]);
                             
                             return widgetActions.createdChatRoom({newData:res.data.new_room})
                         }else{

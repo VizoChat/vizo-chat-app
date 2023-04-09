@@ -95,7 +95,8 @@ module.exports = {
         apiRes.status = 400//bad rqst
         apiRes.authorization = true;
         channels.getChannels({
-          dashboard:res.locals.jwtUSER.dashboard
+          dashboard:res.locals.jwtUSER.dashboard,
+          // agents:{$in:[res.locals.jwtUSER._id]}
         }).populate({path:'agents',select:'name email username _id avatar '})
         .then((data)=>{
           apiRes.data.channels = data;

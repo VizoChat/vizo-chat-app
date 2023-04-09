@@ -6,11 +6,11 @@
                     <path d="M23.505 0c0.271 0 0.549 0.107 0.757 0.316 0.417 0.417 0.417 1.098 0 1.515l-14.258 14.264 14.050 14.050c0.417 0.417 0.417 1.098 0 1.515s-1.098 0.417-1.515 0l-14.807-14.807c-0.417-0.417-0.417-1.098 0-1.515l15.015-15.022c0.208-0.208 0.486-0.316 0.757-0.316z"/>
                 </svg>
             </button>
-            <div class="rounded-full my-3 mx-1 " style="width: 45px;"> <!--https://cdn-icons-png.flaticon.com/512/147/147133.png-->
-                <img src="https://pps.whatsapp.net/v/t61.24694-24/316933356_663876648547132_7871065183614827987_n.jpg?ccb=11-4&oh=01_AdT23fyrxcVTAEqcKKYomRSgw4bZFoMJAVrdZF5gN4tANw&oe=642BB549" alt="" class="w-full rounded-full">
+            <div class="rounded-full my-3 mx-1 " style="width: 45px;" *ngIf="currentAgent?.avatar?.image">
+                <img [src]="currentAgent?.avatar?.isUrl?currentAgent?.avatar?.image:apiUrl+'/images/avatar/'+currentAgent?.avatar?.image" alt="" class="w-full rounded-full" >
             </div>
-            <div>
-                <h3 class=" text-xl text-white font-extrabold">user name</h3>
+            <div class="my-2">
+                <h3 class=" text-xl text-white font-extrabold ">{{currentAgent.name}}</h3>
                 <p class=" text-xs text-white">Agent</p>
             </div>
             
@@ -18,49 +18,26 @@
         <div class="flex-1 bg-white rounded-t-2xl w-full bg-opacity-90 overflow-y-auto overflow-x-hidden" #chatScreen>
             <div class="flex-1 rounded-t-2xl p-1 ">
                 <div class="mt-auto message-body" >
-                    {{(this.chats|async)|json}}
                     <!-- messages start-->
                     <ng-container *ngFor="let m of (chats|async)">
 
                         <div class="flex justify-end mb-1" *ngIf="m.user.user_type=='wUser'">
                             <div>
-                                <div class="mt-4 px-3 py-1 text-sm chatbgclr bg-opacity-70 rounded-bl-3xl rounded-tl-xl rounded-tr-xl text-white">
-                                    {{m.message.message}}
+                                <div class="mt-4 px-3 py-1 text-sm chatbgclr bg-opacity-70 rounded-bl-3xl rounded-tl-xl rounded-tr-xl text-white whitespace-pre-wrap break-all">
+                                    <p [innerHTML]="m.message.message | stringToUrlConvert:'wuser-widget-message-url text-gray-100'" ></p>
+                                    
                                 </div>
                             </div>
                         </div>
-                        <div class="flex justify-start mb-1 mt-4 " *ngIf="m.user.user_type=='agent'"> 
-                            <img src="https://pps.whatsapp.net/v/t61.24694-24/316933356_663876648547132_7871065183614827987_n.jpg?ccb=11-4&oh=01_AdT23fyrxcVTAEqcKKYomRSgw4bZFoMJAVrdZF5gN4tANw&oe=642BB549" class="object-cover h-5 w-5 rounded-full"
+                        <div class="flex justify-start mb-1 mt-4 items-end" *ngIf="m.user.user_type=='agent'" > {{setAgent(m.user.user_id)}}
+                            <img [src]="m.user.user_id?.avatar?.isUrl?m.user.user_id?.avatar?.image:apiUrl+'/images/avatar/'+m.user.user_id?.avatar?.image" class="object-cover h-5 w-5 rounded-full"
                                 alt="" />
-                            <div class=" ml-2 px-3 py-1 bg-white shadow-2xl rounded-br-3xl rounded-tr-xl rounded-tl-xl text-gray-800 text-sm">
-                                {{m.message.message}}
+                            <div class=" ml-2 px-3 py-1 bg-white shadow-2xl rounded-br-3xl rounded-tr-xl rounded-tl-xl text-gray-800 text-sm whitespace-pre-wrap break-all">
+                                 <p [innerHTML]="m.message.message | stringToUrlConvert:'agent-widget-message-url'"></p>
                             </div>
                         </div>
                     </ng-container>
-                    <!-- <div class="flex justify-end mb-1">
-                        <div>
-                            <div
-                                class="mt-4 px-3 text-sm py-1 chatbgclr bg-opacity-70 rounded-bl-3xl rounded-tl-xl rounded-tr-xl text-white">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis,
-                                reiciendis!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-start mb-1 mt-4 "> !--https://source.unsplash.com/vpOeXr5wmR4/600x600-
-                        <img src="https://pps.whatsapp.net/v/t61.24694-24/316933356_663876648547132_7871065183614827987_n.jpg?ccb=11-4&oh=01_AdT23fyrxcVTAEqcKKYomRSgw4bZFoMJAVrdZF5gN4tANw&oe=642BB549" class="object-cover h-5 w-5 rounded-full"
-                            alt="" />
-                        <div class=" ml-2 px-3 py-1 bg-white shadow-2xl rounded-br-3xl rounded-tr-xl rounded-tl-xl text-gray-800 text-sm">
-                            happy holiday guys!
-                        </div>
-                    </div>
-                    <div class="flex justify-start mb-1 mt-4 "> --https://source.unsplash.com/vpOeXr5wmR4/600x600-
-                        <img src="https://pps.whatsapp.net/v/t61.24694-24/312280849_796924078623090_3149401997141983610_n.jpg?ccb=11-4&oh=01_AdRmZFse__a1zjPG7me0grkvzqYPoV0EGyHglxwHXgzK9Q&oe=643792CC" class="object-cover h-5 w-5 rounded-full"
-                            alt="" />
-                        <div class=" ml-2 px-3 py-1 bg-white shadow-2xl rounded-br-3xl rounded-tr-xl rounded-tl-xl text-gray-800 text-sm">
-                            happy holiday guys!
-                        </div>
-                    </div> -->
-                    <!-- messages end -->   
+                    <a href="" class="wuser-message-url"></a> 
                 </div>
             </div>
         </div>

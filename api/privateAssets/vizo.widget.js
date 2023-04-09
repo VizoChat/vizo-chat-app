@@ -143,6 +143,10 @@ function init_vizo(data={username,userid,custom_data}){
 
     body.appendChild(vizo_main)
     body.appendChild(style)
+    widgetframe.addEventListener('load', () => {
+        const message = { type: 'USERINFO', data: { currentPage:window.location.href } };
+        widgetframe.contentWindow.postMessage(message, '*');
+    });
     vizo_widget()
 }
 function vizo_widget(){
@@ -150,7 +154,6 @@ function vizo_widget(){
     document.getElementById('vizo_btn').addEventListener('click',show_widget)
     document.getElementById('vizo_close_btn').addEventListener('click',hide_widget)
     window.addEventListener('popstate', function(event) {
-        console.log('sdfjsnikdfjnsjkdfn');
         if(vizo_modal_open_stat){
             hide_widget();
             history.pushState(null, null, location.href);
@@ -167,4 +170,5 @@ function vizo_widget(){
         document.getElementById('vizo_widget').classList.add('vizo_show')
         document.getElementById('vizo_btn').style.display = 'none'
     }
+    
 }

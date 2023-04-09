@@ -17,6 +17,6 @@ module.exports.createChannel = (data)=>{
     let newchannel = new channel(data);
     return newchannel.save()
 }
-module.exports.getChannels = (data)=>{
-    return channel.find(data);
+module.exports.getChannels = (data,project)=>{
+    return channel.find(data, project);
 }

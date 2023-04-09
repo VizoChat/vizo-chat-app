@@ -17,3 +17,12 @@
   -ms-user-select: text; /* IE 10 and IE 11 -text select enable*/
   user-select: text; /* Standard syntax -text select enable*/
 }
+pre{
+    font-family: Inter,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Tahoma,Arial,sans-serif;
+}
+::ng-deep .wuser-widget-message-url{
+    color: white ;
+}
+::ng-deep .agent-widget-message-url{
+    color: rgb(90, 45, 255) ;
+}

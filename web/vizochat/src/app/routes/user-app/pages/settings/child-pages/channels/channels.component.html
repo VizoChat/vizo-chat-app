@@ -13,7 +13,7 @@
         </button>
 
     </div>
-    <div class="block w-full overflow-x-auto ">
+    <div class="block w-full overflow-x-auto">
         <table class="items-center w-full bg-transparent border-collapse">
           <thead class="border-b">
             <tr>
@@ -24,7 +24,7 @@
           </thead>
   
           <tbody>
-            <tr class="hover:bg-gray-100" *ngFor="let c of channels$ | async" [routerLink]="'/app/manage/channels/edit/'+c._id+'/overview'" role="button">
+            <tr class="hover:bg-gray-100" *ngFor="let c of channels$ | async; let ci = index" [routerLink]="'/app/manage/channels/edit/'+c._id+'/overview'" role="button">
               <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
                 <img src="/assets/icons/web-page-browser-analysis-screen-svgrepo-com.svg" class="h-12 w-12 bg-white " alt="...">
                 <div class="flex flex-col">
@@ -34,13 +34,24 @@
               </th>
               <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                 <i class="fas fa-circle text-orange-500 mr-2"></i>{{c.status}}</td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <div class="flex items-center">
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 group">
+                <div class="flex items-center relative ">
                   
                   <ng-container *ngFor="let ca of c.agents; let i = index; ">
                     <img [routerLink]="'/app/manage/channels/edit/'+c._id+'/members'" [src]="ca.avatar.isUrl?ca.avatar.image:apiUrl+'/images/avatar/'+ca.avatar.image" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow" [ngClass]="i>0?'-ml-4':''" *ngIf="i<4">
                     <span *ngIf="i>3 && i==c.agents.length-1">+{{i-3}}</span>
                   </ng-container>
+                  <div class="absolute z-30 border bg-white text-gray-600 items-center rounded-lg hidden group-hover:block mb-2 mt-[1.5rem] " [ngClass]="ci<=1?'top-full':'bottom-full'">
+                    <p class="align-middle border-solid text-xs text-gray-500 text-center">USERS</p>
+                    <div class="max-h-32 overflow-y-auto">
+                      <ng-container *ngFor="let ca of c.agents; let i = index; ">
+                        <div class="flex items-center hover:bg-gray-100 p-2">
+                          <img [routerLink]="'/app/manage/channels/edit/'+c._id+'/members'" [src]="ca.avatar.isUrl?ca.avatar.image:apiUrl+'/images/avatar/'+ca.avatar.image" alt="..." class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow">
+                          <p class="ml-2">{{ca.name}}</p>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
                 </div>
               </td>
               

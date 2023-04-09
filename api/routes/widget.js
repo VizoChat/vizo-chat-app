@@ -8,6 +8,7 @@ const validation = require('../helpers/validation');
 router.get('/js/:channelid', widgetController.widget_js)
 
 //widget APIs
+router.post('/newWidgetUser', validation.newWUser, widgetController.newWUser)
 router.post('/getChatRooms', validation.getChatRoom, widgetController.getChatRooms)
 router.post('/newChatRoom', validation.newChatRoom, widgetController.newChatRooms)
 router.post('/getChats', validation.getChats, widgetController.getChats)

@@ -9,6 +9,7 @@ import * as wActions from '../../store/actions'
 import { ActivatedRoute } from '@angular/router';
 import { SocketService } from 'src/app/shared/services/socket.service';
 import { NgForm } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-chat-page',
@@ -19,19 +20,28 @@ export class ChatPageComponent implements OnDestroy{
   @ViewChild('chatScreen') chatScreen!: ElementRef;
 
   chats!:Observable<chats[]>
+  apiUrl = environment.baseApiUrl
   chatRoom!:string | null
+  ds_key!:string | null
   apiKey!:string | null;
   message_input:string ='';
   ids_subscription!:Subscription;
+  currentAgent:any = {
+    name:'company',
+    // avatar:{
+    //   image:'https://cdn-icons-png.flaticon.com/512/1384/1384060.png',
+    //   isUrl:true
+    // }
+  }
   constructor(private _location: Location, private store:Store<appStateInterface>, private route:ActivatedRoute, private socket:SocketService){
     this.apiKey =  this.route.snapshot.paramMap.get('channelid');
     this.chatRoom =  this.route.snapshot.paramMap.get('chatId');
     this.ids_subscription=this.route.paramMap.pipe(
-      map(paramMap => [paramMap.get('chatId'),paramMap.get('channelid')])
-    ).subscribe(([room_id,channelId])=>{
+      map(paramMap => [paramMap.get('chatId'),paramMap.get('channelid'),paramMap.get('ds_key')]) 
+    ).subscribe(([room_id,channelId,ds_key])=>{
       this.chatRoom = room_id
       this.apiKey = channelId
-      this.socket.connect({room:room_id,channelId},'/liveChats')
+      this.socket.connect({room:room_id,channelId,ds_key},'/liveChats')
       this.store.dispatch(
         wActions.getChats({data:{
           apiKey:this.apiKey?this.apiKey:'',
@@ -72,6 +82,9 @@ export class ChatPageComponent implements OnDestroy{
     setTimeout(() => {
       this.chatScreen.nativeElement.scrollTop = this.chatScreen.nativeElement.scrollHeight;
     }, 500);
+  }
+  setAgent(user:any){
+    this.currentAgent = user
   }
   ngOnDestroy(): void {
     this.socket.disconnect()

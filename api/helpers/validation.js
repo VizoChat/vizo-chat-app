@@ -77,6 +77,15 @@ let bcrypt = require('bcrypt')
       check('username').trim(),
       check('custom_data').trim(),
     ],
+    newWUser:[
+      check('apiKey').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), //channelid
+      check('ds_key').isLength({ min: 20 , max: 20}).withMessage(' must be a valid one!').trim(), //dashboard key
+      check('email').isLength({ min: 5 , max: 25}).withMessage(' must be a valid one!').trim(), 
+      check('current_Page').isLength({ min: 4 , max: 100}).withMessage(' must be a valid one!').trim(), 
+      check('userId').isLength({ min: 10 , max: 50 }).withMessage(' must have 10-50 chars').trim(),
+      check('username').trim(),
+      check('custom_data').trim(),
+    ],
     newTeammate : [
       // check('username').isLength({ min: 4 }).withMessage("is invalid, must contain minimum of 4 letters").trim(), // not required this field
       check('name').isLength({ min: 3 }).withMessage("is invalid, must contain minimum of 3 letters").trim(),

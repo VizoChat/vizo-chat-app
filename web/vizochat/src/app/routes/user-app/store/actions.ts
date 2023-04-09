@@ -1,6 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { channels } from "../models/channels.interface";
-import { chats } from "../models/chat.interface";
+import { chatRooms, chats } from "../models/chat.interface";
 import { teammateForm, teammates } from "../models/teammates.interface";
 import { user } from "../models/user.interface";
 
@@ -46,7 +46,7 @@ export const errorGettingTeammates = createAction('[UserApp] Error getting Teamm
 
 // chat > rooms> get
 export const getChatRooms = createAction('[UserApp] get ChatRooms', props<{channel_id?:String|null|undefined}>())
-export const gotChatRooms = createAction('[UserApp] got ChatRooms', props<{rooms:any}>())
+export const gotChatRooms = createAction('[UserApp] got ChatRooms', props<{rooms:chatRooms[]}>())
 export const errorGettingChatRooms = createAction('[UserApp] error Gettings ChatRooms',props<{errorMessage:string}>())
 
 // chat > rooms> chat > get

@@ -1,134 +1,239 @@
 <div class="flex h-screen text-select">
-    <!-- message -->
-    <div class="w-full flex flex-col justify-between h-screen">
-        <div class="flex flex-col mt-1">
-            <!-- headaer -->
-            <div class="px-1 py-1 flex justify-between items-center bg-white border-b-2">
-                <div class="font-semibold text-xl" [innerText]="'{Topic of chat}'">GoingChat</div>
-                <!-- <div class="w-1/2">
+  <!-- message -->
+  <div class="w-full flex flex-col justify-between h-screen">
+    <div class="flex flex-col mt-1">
+      <!-- headaer -->
+      <div class="px-1 py-1 flex justify-between items-center bg-white border-b-2">
+        <div class="font-semibold text-xl" *ngIf="current_chat_rooms?.message_preview">
+          {{current_chat_rooms?.message_preview?.topic}}
+        </div>
+        <!-- <div class="w-1/2">
                     <input type="text" name="" id="" placeholder="search IRL"
                         class="rounded-2xl bg-gray-100 py-3 px-5 w-full" />
                 </div> -->
-                <div class="h-12 w-12 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center">
-                    RA
-                </div>
-            </div>
+        <div class="h-12 w-12 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center">
+          RA
         </div>
-        <ng-container *ngIf="userData|async">
-
-            <div #chatScreen class="flex-1 overflow-y-auto overflow-x-hidden p-1" >
-                <!-- end header -->
-                <div class="flex mb-4 items-end" *ngFor="let m of chats | async" [ngClass]="(userData|async)?._id==m.user.user_id?'justify-end ':'justify-start'" >
-                    <ng-container *ngIf="m.user.user_type == 'agent'">
-
-                        <div class="mr-2 py-1 px-2 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                            {{m.message.message}}
-                        </div>
-                        <img [src]="m.user.user_id.avatar.isUrl?m.avatar.image:apiUrl+'/images/avatar/'+m.user.user_id.avatar.image" class="object-cover h-5 w-5 rounded-full"
-                            alt="" />
-                    </ng-container>
-                    <ng-container *ngIf="m.user.user_type == 'wUser'">
-                        <img [src]="m.user.user_id.avatar.isUrl?m.avatar.image:apiUrl+'/images/avatar/'+m.user.user_id.avatar.image" class="object-cover h-5 w-5 rounded-full"
-                        alt="" />
-                        <div class="ml-2 py-1 px-2 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
-                            {{m.message.message}}
-                        </div>
-                    </ng-container>
-                </div>
-                <!-- <div class="flex justify-end mb-4" >
-                    <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                        Hey sup?
-                    </div>
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
-                        alt="" />
-                </div>
-                <div class="flex justify-start mb-4">
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
-                        alt="" />
-                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat at
-                        praesentium, aut ullam delectus odio error sit rem. Architecto nulla
-                        doloribus laborum illo rem enim dolor odio saepe, consequatur quas?
-                    </div>
-                </div>
-                <div class="flex justify-end mb-4">
-                    <div>
-                        <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam,
-                            repudiandae.
-                        </div>
-    
-                        <div
-                            class="mt-4 mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis,
-                            reiciendis!
-                        </div>
-                    </div>
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
-                        alt="" />
-                </div>
-                <div class="flex justify-start mb-4">
-                    <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-8 w-8 rounded-full"
-                        alt="" />
-                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
-                        happy holiday guys!
-                    </div>
-                </div> -->
-            </div>
-        </ng-container>
-        <div class="pt-5">
-            <!-- Message input start -->
-            <div class="w-full mx-auto">
-                <form #f="ngForm" (ngSubmit)="send_message(f)">
-                    <label for="chat" class="sr-only">Your message</label>
-                    <div class="flex items-center py-2 px-3 bg-gray-50 rounded-lg dark:bg-gray-700">
-                        <button type="button"
-                            class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </button>
-                        <button type="button"
-                            class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </button>
-                        <textarea id="chat" rows="1" name="message_input"
-                            class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Your message..." [(ngModel)]="message_input" required minlength="1"></textarea>
-                        <button type="submit"
-                            class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                            <svg class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <!-- Message input ends -->
-        </div>
+      </div>
     </div>
-    <!-- end message -->
-    <div class="w-2/5 border-l-2 px-5">
-        <div class="flex flex-col">
-            <div class="font-semibold text-xl py-4">Mern Stack Group</div>
-            <img src="https://source.unsplash.com/L2cxSuKWbpo/600x600" class="object-cover rounded-xl h-64"
-                alt="" />
-            <div class="font-semibold py-4">Created 22 Sep 2021</div>
-            <div class="font-light">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
-                perspiciatis!
+    <ng-container *ngIf="userData | async">
+      <div #chatScreen class="flex-1 overflow-y-auto overflow-x-hidden p-1 select-text">
+        <!-- end header -->
+        <div class="flex mb-4 items-end" *ngFor="let m of chats | async" [ngClass]="
+            (userData | async)?._id == m.user.user_id?._id
+              ? 'justify-end '
+              : 'justify-start'
+          ">
+          <ng-container *ngIf="
+              m.user.user_type == 'agent' &&
+              (userData | async)?._id == m.user.user_id?._id">
+            <div
+              class="mr-2 py-1 px-2 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white whitespace-pre-wrap break-all">
+              <p [innerHTML]="
+                  m.message.message | stringToUrlConvert : 'white-message-url'
+                " class="w-full"></p>
             </div>
+            <img [src]="
+                m.user.user_id?.avatar?.isUrl
+                  ? m.user.user_id?.avatar?.image
+                  : apiUrl + '/images/avatar/' + m.user.user_id?.avatar?.image
+              " class="object-cover h-5 w-5 rounded-full" alt="" />
+          </ng-container>
+          <ng-container *ngIf="
+              m.user.user_type == 'agent' &&
+              (userData | async)?._id != m.user.user_id?._id
+            ">
+            <img [src]="
+                m.user.user_id?.avatar?.isUrl
+                  ? m.user.user_id?.avatar?.image
+                  : apiUrl + '/images/avatar/' + m.user.user_id?.avatar?.image
+              " class="object-cover h-5 w-5 rounded-full" alt="" />
+            <div
+              class="ml-2 py-1 px-2 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white whitespace-pre-wrap break-all">
+              <p [innerHTML]="
+                  m.message.message | stringToUrlConvert : 'white-message-url'
+                "></p>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="m.user.user_type == 'wUser'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rounded-full" viewBox="0 0 24 24" fill="none">
+              <g>
+                <path
+                  d="M15 19C15 16.7909 12.3137 15 9 15C5.68629 15 3 16.7909 3 19M16.8281 5.17188C17.1996 5.54331 17.4942 5.98427 17.6952 6.46957C17.8962 6.95487 17.9999 7.47533 17.9999 8.00062C17.9999 8.52591 17.8963 9.04497 17.6953 9.53027C17.4943 10.0156 17.1996 10.457 16.8281 10.8285M19 3C19.6566 3.65661 20.1775 4.43612 20.5328 5.29402C20.8882 6.15192 21.0718 7.07127 21.0718 7.99985C21.0718 8.92844 20.8886 9.84815 20.5332 10.7061C20.1778 11.564 19.6566 12.3435 19 13.0001M9 12C6.79086 12 5 10.2091 5 8C5 5.79086 6.79086 4 9 4C11.2091 4 13 5.79086 13 8C13 10.2091 11.2091 12 9 12Z"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+            </svg>
+            <div
+              class="ml-2 py-1 px-2 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white whitespace-pre-wrap break-all">
+              <p [innerHTML]="
+                  m.message.message | stringToUrlConvert : 'white-message-url'
+                "></p>
+            </div>
+          </ng-container>
         </div>
+      </div>
+    </ng-container>
+    <div class="pt-5">
+      <!-- Message input start -->
+      <div class="w-full mx-auto">
+        <form #f="ngForm" (ngSubmit)="send_message(f)">
+          <label for="chat" class="sr-only">Your message</label>
+          <div class="flex items-center py-2 px-3 bg-gray-50 rounded-lg dark:bg-gray-700">
+            <button type="button"
+              class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+            <button type="button"
+              class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+            <textarea id="chat" rows="1" name="message_input"
+              class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Your message..." [(ngModel)]="message_input" required minlength="1"></textarea>
+            <button type="submit"
+              class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+              <svg class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z">
+                </path>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- Message input ends -->
     </div>
+  </div>
+  <!-- end message -->
+  <div class="w-80 border-l-2 " *ngIf="current_chat_rooms">
+    <div class="flex flex-col h-screen">
+      <div class="px-3">
+        <input type="text" [ngModel]="current_chat_rooms.message_preview.topic" name="topic" placeholder="Topic"
+          class="font-semibold text-xl my-4 w-full bg-transparent outline-none focus:border-b focus:border-green-500">
+      </div>
+      <div class="flex-1 overflow-y-auto px-3 pb-2">
+        <p class="font-medium text-base">Client</p>
+        <div class="border rounded-lg">
+          <div class="flex h-11 justify-center items-center hover:bg-gray-100">
+            <div class="w-11 text-gray-500 ">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 24 24" fill="none"
+                class="mx-auto">
+                <g id="User / User_01">
+                  <path id="Vector"
+                    d="M19 21C19 17.134 15.866 14 12 14C8.13401 14 5 17.134 5 21M12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7C16 9.20914 14.2091 11 12 11Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </g>
+              </svg>
+            </div>
+            <div class="flex-1 pr-1">
+              <input type="text" [ngModel]="current_chat_rooms.w_user.username" name="username" placeholder="Username"
+                class="w-full bg-transparent outline-none focus:border-b focus:border-green-500">
+            </div>
+          </div>
+          <div class="flex h-11 justify-center items-center hover:bg-gray-100">
+            <div class="w-11 text-gray-500 ">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"
+                class="mx-auto">
+                <path d="M13 21L17 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M7 21L11 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M20 9L4 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M4 15L20 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="flex-1 pr-1">
+              <p>{{current_chat_rooms.w_user.user_id}}</p>
+            </div>
+          </div>
+          <div class="flex h-11 justify-center items-center hover:bg-gray-100">
+            <div class="w-11 text-gray-500 ">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"
+                class="mx-auto">
+                <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="flex-1 pr-1">
+              <input type="text" [ngModel]="current_chat_rooms.w_user.email" placeholder="Email"
+                class="w-full bg-transparent outline-none focus:border-b focus:border-green-500">
+            </div>
+          </div>
+          <div>
+            <p class="font-light text-sm pl-3 text-gray-700">Additional info</p>
+            <div class="flex h-11 justify-center items-center hover:bg-gray-100" *ngFor="let adDataKey of current_chat_rooms.w_user.additional_data | keyvalue">
+              <div class="w-11 text-gray-500 ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"
+                  class="mx-auto">
+                  <path d="M5 6H19M5 10H15M5 14H19M5 18H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div class="flex-1 pr-1 truncate">
+                <p class="truncate"><span class="text-gray-500">{{adDataKey.key}}: </span>
+                  <span class="select-text hover:overflow-scroll hover:block flex-1">{{adDataKey.value}}</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="current_chat_rooms.w_user.page_history.length>0">
+          <p class="font-medium text-base mt-2">Visit Source</p>
+          <div class="border rounded-lg">
+            <div class="flex h-11 justify-center items-center hover:bg-gray-100"
+              *ngFor="let webHist of current_chat_rooms.w_user.page_history">
+              <div class="w-11 text-gray-500 ">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto" width="25" height="25" viewBox="0 0 192 192"
+                  style="enable-background:new 0 0 192 192" xml:space="preserve">
+                  <path
+                    d="M84 128.6H54.6C36.6 128.6 22 114 22 96c0-9 3.7-17.2 9.6-23.1 5.9-5.9 14.1-9.6 23.1-9.6H84m24 65.3h29.4c9 0 17.2-3.7 23.1-9.6 5.9-5.9 9.6-14.1 9.6-23.1 0-18-14.6-32.6-32.6-32.6H108M67.9 96h56.2"
+                    stroke="currentColor"
+                    style="fill:none;stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10" />
+                </svg>
+              </div>
+              <div class="flex-1 pr-1 truncate">
+                <p class="truncate	"><a [href]="webHist.url" class="hover:text-blue-600">{{webHist.url}}</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+        <div class="relative group">
+          <p class="font-medium text-base mt-2">
+            Notes
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              class="inline text-gray-500 group-hover:text-green-500">
+              <path
+                d="M12 17V16.9929M12 14.8571C12 11.6429 15 12.3571 15 9.85714C15 8.27919 13.6568 7 12 7C10.6567 7 9.51961 7.84083 9.13733 9M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </p>
+          <div class="absolute z-10 p-2 bg-gray-800 text-white rounded-lg hidden group-hover:block text-xs">
+            Kindly make use of this notes section to document pertinent details regarding the user and your interactions
+            with them. These notes will be accessible to all agents and can prove to be beneficial in aiding future
+            agents who may assist this user.
+            <svg class="absolute text-gray-800 top-0 right-0 mr-2 mt-2" width="16" height="8">
+              <path d="M0 8h16L8 0z" />
+            </svg>
+          </div>
+        </div>
+        <!--  -->
+        <div class="border rounded-lg p-2 min-h-min">
+          <textarea name="" class="h-96 w-full bg-transparent outline-none focus:border-b focus:border-green-500"
+            placeholder="write your notes here..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

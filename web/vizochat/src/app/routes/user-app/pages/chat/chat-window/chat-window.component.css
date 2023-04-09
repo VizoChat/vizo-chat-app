@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+pre{
+    font-family: Inter,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Tahoma,Arial,sans-serif;
+}
+
+::ng-deep .white-message-url{
+    color: white ;
+}
+::ng-deep .blue-message-url{
+    color: rgb(90, 45, 255) ;
+}

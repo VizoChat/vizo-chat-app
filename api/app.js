@@ -58,7 +58,13 @@
       cors:corsOptions,
       path: '/liveChats'
     });
-    chatSocket.chatMessages(io_liveChats)
+    const io_liveChatNotification = socketio(server,{
+      cors:corsOptions,
+      path: '/liveMsgNotification'
+    });
+    const ios = {io_liveChats,io_liveChatNotification}
+    chatSocket.chatMessages(ios)
+    chatSocket.chatMessagesNotify(ios)
 
   }
 //TEMP LAG ROUTE

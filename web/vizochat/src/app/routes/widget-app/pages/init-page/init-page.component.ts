@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -13,7 +13,12 @@ import * as moment from 'moment';
   styleUrls: ['./init-page.component.css']
 })
 export class InitPageComponent implements OnInit{
-
+ 
+  @HostListener('window:message', ['$event'])
+  onMessage(event: MessageEvent) {
+    console.log('Received message:', event.data);
+  }
+  
   params:any = {}
   rooms:any = {}
   loader$!:Observable<Boolean>;
@@ -28,10 +33,10 @@ export class InitPageComponent implements OnInit{
    
   }
   ngOnInit(): void {
+    console.log('initiaed');
+    
   }
   newChatRoom(){
-    console.log(this.params);
-    
     this.store$.dispatch(
       widgetActions.newChatRoom({data:this.params})
     )

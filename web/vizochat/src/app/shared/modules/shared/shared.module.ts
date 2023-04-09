@@ -16,6 +16,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HighlightJsModule } from 'ngx-highlight-js';
+import { StringToUrlConvertPipe } from '../../pipes/string-to-url-convert.pipe';
 
 const material = [
   MatDividerModule,
@@ -37,8 +38,8 @@ const material = [
 
 
 @NgModule({
-  declarations: [],
+  declarations: [StringToUrlConvertPipe],
   imports: [CommonModule, material, HighlightJsModule],
-  exports: [material, HighlightJsModule],
+  exports: [material, HighlightJsModule,StringToUrlConvertPipe],
 })
 export class SharedModule { }
