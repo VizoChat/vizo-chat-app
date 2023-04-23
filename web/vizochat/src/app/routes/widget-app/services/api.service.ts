@@ -22,11 +22,15 @@ export class ApiService {
     return this.http.post(`${environment.baseApiUrl}/widget/newChatRoom`, data, this.http_options)
   }
   newWUser(data:any):Observable<any>{
-    console.log(data,'data from newuser api service');
-    
     return this.http.post(`${environment.baseApiUrl}/widget/newWidgetUser`, data, this.http_options)
   }
   getChats(data:{apiKey:string,chatId:string}):Observable<any>{ 
     return this.http.post(`${environment.baseApiUrl}/widget/getChats`, data, this.http_options)
+  }
+  sentImage(data:any):Observable<any>{
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    
+    return this.http.post(environment.baseApiUrl+'/widget/sentImageMessage',data, { headers: headers })
   }
 }

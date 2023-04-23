@@ -1,0 +1,56 @@
+<div class="border bg-white p-2 shadow-lg h-screen overflow-y-scroll" style="min-height: 500px;">
+    <div class="p-2" *ngIf="userData?.name">
+        <div class="flex mt-3 items-center">
+            <div class="rounded-full border relative group/image cursor-pointer" >
+                <img [src]="userData.avatar.isUrl?userData.avatar.image:apiUrl+'/images/avatar/'+userData.avatar.image" class="object-cover rounded-full w-20 h-20 border" alt="">
+                <label for="profileImg" class="absolute" style="top: 0;">
+                  <div class="rounded-full bg-gray-900/50 absolute hidden group-hover/image:flex justify-center text-center items-center text-white w-20 h-20 top-0" style="top: 0; --bs-bg-opacity: 0.5;" >Change Avatar</div>
+                </label>
+              </div>
+              <input type="file" name="profile" id="profileImg" class="hidden" (change)="updateAvatar($event)">
+            <!-- <img [src]="userData.avatar.isUrl?userData.avatar.image:apiUrl+'/images/avatar/'+userData.avatar.image" alt="" class="rounded-full w-20 h-20 border"> -->
+            <form #usernameFom="ngForm" class="flex flex-col">
+                <div class="flex items-center group/nameinp pl-2 text-lg font-bold">
+                    <p *ngIf="!inputShow.nameInp" (click)="inputShow.nameInp=!inputShow.nameInp">{{userData.name}} <svg xmlns="http://www.w3.org/2000/svg"  class="hidden group-hover/nameinp:inline" width="15" height="15" viewBox="0 0 24 24" fill="none">
+                         <path fill-rule="evenodd" clip-rule="evenodd" d="M15.8787 3.70705C17.0503 2.53547 18.9498 2.53548 20.1213 3.70705L20.2929 3.87862C21.4645 5.05019 21.4645 6.94969 20.2929 8.12126L18.5556 9.85857L8.70713 19.7071C8.57897 19.8352 8.41839 19.9261 8.24256 19.9701L4.24256 20.9701C3.90178 21.0553 3.54129 20.9554 3.29291 20.7071C3.04453 20.4587 2.94468 20.0982 3.02988 19.7574L4.02988 15.7574C4.07384 15.5816 4.16476 15.421 4.29291 15.2928L14.1989 5.38685L15.8787 3.70705ZM18.7071 5.12126C18.3166 4.73074 17.6834 4.73074 17.2929 5.12126L16.3068 6.10738L17.8622 7.72357L18.8787 6.70705C19.2692 6.31653 19.2692 5.68336 18.8787 5.29283L18.7071 5.12126ZM16.4477 9.13804L14.8923 7.52185L5.90299 16.5112L5.37439 18.6256L7.48877 18.097L16.4477 9.13804Z" fill="#000000"/>
+                    </svg></p>
+                    <input type="text" [(ngModel)]="userData.name" name="name" class="h-6 w-auto outline-none border-b border-green:500" (change)="dataToUpdate.push('name');updateProfile(usernameFom)" maxlength="20" (focusout)="inputShow.nameInp=!inputShow.nameInp" *ngIf="inputShow.nameInp" autofocus>
+                    
+                </div>
+                <div class="flex items-center group/usernameInp pl-2 text-sm text-gray-500">@
+                    <p *ngIf="!inputShow.usernameInp" (click)="inputShow.usernameInp=!inputShow.usernameInp">{{userData.username}} <svg xmlns="http://www.w3.org/2000/svg"  class="hidden group-hover/usernameInp:inline" width="15" height="15" viewBox="0 0 24 24" fill="none">
+                         <path fill-rule="evenodd" clip-rule="evenodd" d="M15.8787 3.70705C17.0503 2.53547 18.9498 2.53548 20.1213 3.70705L20.2929 3.87862C21.4645 5.05019 21.4645 6.94969 20.2929 8.12126L18.5556 9.85857L8.70713 19.7071C8.57897 19.8352 8.41839 19.9261 8.24256 19.9701L4.24256 20.9701C3.90178 21.0553 3.54129 20.9554 3.29291 20.7071C3.04453 20.4587 2.94468 20.0982 3.02988 19.7574L4.02988 15.7574C4.07384 15.5816 4.16476 15.421 4.29291 15.2928L14.1989 5.38685L15.8787 3.70705ZM18.7071 5.12126C18.3166 4.73074 17.6834 4.73074 17.2929 5.12126L16.3068 6.10738L17.8622 7.72357L18.8787 6.70705C19.2692 6.31653 19.2692 5.68336 18.8787 5.29283L18.7071 5.12126ZM16.4477 9.13804L14.8923 7.52185L5.90299 16.5112L5.37439 18.6256L7.48877 18.097L16.4477 9.13804Z" fill="#000000"/>
+                    </svg></p>
+                    <input type="text" name="username" [(ngModel)]="userData.username" class="h-6 w-auto outline-none border-b border-green:500" (change)="dataToUpdate.push('username');updateProfile(usernameFom)" maxlength="20" (focusout)="inputShow.usernameInp=!inputShow.usernameInp" *ngIf="inputShow.usernameInp" autofocus>
+                    
+                </div>
+            </form>
+        </div>
+        
+        <form #mailPassForm="ngForm" (submit)="updateProfile(mailPassForm)">
+            <div class="mt-5">
+                <label for="" class="font-bold text-base text-gray-800">Email</label>
+                <p class="text-gray-700 mt-2 text-xsm">The Email you use to login your VizoChat dashboard.</p>
+                <input type="text" [(ngModel)]="userData.email" (change)="dataToUpdate.push('email')" name="email" class="text-gray-700 mt-2 outline-none border hover:border-gray-400 focus:border-green-500 w-60 block p-2 rounded" placeholder="name@example.com">
+            </div>
+            <div class="mt-5">
+                <label for="" class="font-bold text-base text-gray-800">Password</label>
+                <p class="text-gray-700 mt-2 text-xsm">Please enter password from your VizoChat account that you're using right now. Password must contain at least 8 characters, a capital letter and a digit.</p>
+                <input type="password" [(ngModel)]="userData.currentPassword" (change)="dataToUpdate.push('currentPassword')" name="currentPassword" class="text-gray-700 mt-2 outline-none border hover:border-gray-400 focus:border-green-500 w-60 block p-2 rounded" placeholder="current password">
+                <input type="password" [(ngModel)]="userData.password" (change)="dataToUpdate.push('password')"  name="password" class="text-gray-700 mt-2 outline-none border hover:border-gray-400 focus:border-green-500 w-60 block p-2 rounded" placeholder="new password">
+                <input type="password" [(ngModel)]="userData.repassword" (change)="dataToUpdate.push('rePassword')"  name="rePassword" class="text-gray-700 mt-2 outline-none border hover:border-gray-400 focus:border-green-500 w-60 block p-2 rounded" placeholder="confirm password">
+            </div>
+            <div class="mt-5">
+                <button type="submit" class="p-2 mt-8 bg-green-500 hover:bg-green-600 text-white rounded-lg" [disabled]="!(dataToUpdate.length>0)||(isLoading$ | async)">
+                    <!--  -->
+                  <svg aria-hidden="true" role="status" class="inline mr-2 w-4 h-4 text-gray-200 animate-spin dark:text-gray-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" *ngIf="isLoading$ | async">
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="#1C64F2"></path>
+                  </svg>  
+                  Save changes
+                </button>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="!userData?.name">Loading..</div>
+</div>

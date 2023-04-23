@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit{
   onBeforeUnload() {
     this.router.navigateByUrl('/app/chat');
   }
-  constructor(private store$:Store<appStateInterface>,private socket:SocketService, private router:Router ){
+  constructor(private store$:Store<appStateInterface>,private socket:SocketService, private router:Router, ){
     this.store$.pipe(select(userDataSelector)).subscribe((user)=>{
       if(user){
         this.socket.connect({dashboard:user?.dashboard},'/liveMsgNotification',{token: localStorage.getItem('actoken')??'noAcToken'})
@@ -56,7 +56,6 @@ export class ChatComponent implements OnInit{
   }){
     // let subscri = this.chatRooms$.subscribe((chat_rooms)=>{
       let newData:chatRooms[] = JSON.parse(JSON.stringify(this.chatRoomsAsync$))
-      console.log('chat_rooms',this.chatRoomsAsync$);
       
       newData.forEach((val:chatRooms,i:number)=>{
         if(val._id == newMssg.room){
@@ -66,26 +65,35 @@ export class ChatComponent implements OnInit{
             topic:val.message_preview.topic,
             newMessageCount:Number(val.message_preview.newMessageCount)+1
           }
+          this.sentNotification(newMssg.message.message,['app','chat',val.channel?._id,val._id])
         }
       })
       newData.sort((a, b) => {return Number(new Date(b.message_preview.time))-Number(new Date(a.message_preview.time)) });
       this.store$.dispatch(
         appActions.gotChatRooms({rooms:newData})
       )
-    //   subscri.unsubscribe()
-    // })
-    
-    /*
-    {
-      "channelid": "64244bf5db0717980b87cd9a",
-      "room": "642c02896b2efe2679ccafe2",
-      "message": {
-          "message": "sdf",
-          "message_type": "text",
-          "time": "2023-04-08T04:53:25.910Z"
-      }
-    }
-  */
-    
+
+  }
+  sentNotification(mssg:string,url:any[]){
+    Notification.requestPermission().then(perm=>{
+      if(perm === 'granted' ){
+        // let roomParams:any =  res.roomId
+        // let user:any = res.reciever
+        
+     const notification =   new Notification("New message",{
+          body:mssg,
+          icon:'/favicon.ico',
+          // tag:'chat message',
+          vibrate: [200, 100, 200]
+        })
+        notification.addEventListener('click',()=>{
+          this.router.navigate(url)
+          window.focus();
+        }) 
+      }}
+      )
+  }
+  transformToHTML(data:string):string{
+    return data.replace(/&#60;/g,'<').replace(/&#62;/g,'>')
   }
 }

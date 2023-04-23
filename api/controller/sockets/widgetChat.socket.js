@@ -1,6 +1,8 @@
 const mids = require('../../helpers/middlewares')
 const jwt = require('../../helpers/jwt')
 const chats = require('../../model/chats')
+const jwt = require('../../helpers/jwt')
+
 module.exports = {
     chatMessages(io) {
       console.log('called wsocketIO');
@@ -28,7 +30,9 @@ module.exports = {
               chat_room:socket.handshake.query.room
           })
         });
-    
+        EvntEmitter.on('newRoomCreated',(data)=>{
+          console.log('got it: ',data);
+        })
         // handle user disconnection
         socket.on('disconnect', () => {
           console.log('wuser disconnected from liveChats route');

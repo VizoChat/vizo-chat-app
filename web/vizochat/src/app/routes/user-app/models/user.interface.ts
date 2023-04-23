@@ -20,3 +20,11 @@ export interface user {
     joined:Date
     last_login:Date
 }
+export interface userProfileForm{
+    username?:string
+    name?:string
+    email?:string
+    password?:string
+    rePassword?:string
+    currentPassword?:string
+}

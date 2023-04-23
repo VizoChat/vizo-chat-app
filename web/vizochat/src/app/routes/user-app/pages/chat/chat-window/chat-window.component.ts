@@ -10,6 +10,7 @@ import { chatRoomsSelector, chatSelector, userDataSelector } from '../../../stor
 import { map, Observable, tap } from 'rxjs';
 import { user } from '../../../models/user.interface';
 import { environment } from 'src/environments/environment';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -22,6 +23,7 @@ import { environment } from 'src/environments/environment';
 
 export class ChatWindowComponent implements OnInit, OnDestroy{
   @ViewChild('chatScreen') chatScreen!: ElementRef;
+  isEmojiPickerVisible = false;
   message_input:string = '';
   room_id?:string|null;
   channelId:string|null = '';
@@ -32,7 +34,9 @@ export class ChatWindowComponent implements OnInit, OnDestroy{
   apiUrl = environment.baseApiUrl;
   chat_rooms!:chatRooms[];
   current_chat_rooms!:chatRooms|null;
-  constructor(private socket:SocketService, private route:ActivatedRoute, private store$:Store<appStateInterface>){
+  popupImageUrl:string|null = null;
+  imagesLoading:any = {}
+  constructor(private socket:SocketService, private route:ActivatedRoute, private store$:Store<appStateInterface>, private api:ApiService){
     this.channelId = this.route.snapshot.paramMap.get('channelId')  
   }
   ngOnInit(): void {
@@ -49,6 +53,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy{
       if(this.pageInitated_count>1){
         this.socket.disconnect()
       }
+      this.imagesLoading = {}
       this.socket.connect({room:room_id,channelId},'/liveChats',{token: localStorage.getItem('actoken')??'noAcToken'})
       this.store$.dispatch(
         UserAppActions.getChats({room_id:this.room_id})
@@ -71,9 +76,10 @@ export class ChatWindowComponent implements OnInit, OnDestroy{
   }
   setCurrentRoomData(){
     this.current_chat_rooms = null;
-    this.current_chat_rooms = {...this.chat_rooms.filter((val)=>val._id == this.room_id)[0]}
+    this.current_chat_rooms = JSON.parse(JSON.stringify({...this.chat_rooms.filter((val)=>val._id == this.room_id)[0]}))
+    if(this.current_chat_rooms==null)return;
       this.current_chat_rooms.w_user = {...this.current_chat_rooms.w_user , additional_data : JSON.parse(this.current_chat_rooms.w_user.additional_data)}
-      this.current_chat_rooms.w_user.page_history.sort((a,b)=>Number(new Date(b.time))-Number(new Date(a.time))) // not working the sorting
+      this.current_chat_rooms.w_user.page_history.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()); // not working the sorting
       console.log(this.current_chat_rooms,'current_chat_rooms');
   }
   send_message(f: NgForm):any{
@@ -90,11 +96,6 @@ export class ChatWindowComponent implements OnInit, OnDestroy{
       this.chatScreen.nativeElement.scrollTop = this.chatScreen.nativeElement.scrollHeight;
     }, 200);
   }
-  // convertToHtmlString(val:string){
-  //   const div = document.createElement('div');
-  //   div.innerHTML = val;
-  //   return div.innerText;
-  // }
   passMessageToRoom(msg:string){
       let newData:chatRooms[] = JSON.parse(JSON.stringify(this.chat_rooms))
       newData.forEach((val:chatRooms,i:number)=>{
@@ -113,9 +114,23 @@ export class ChatWindowComponent implements OnInit, OnDestroy{
       )
     
   }
+  addEmoji(event:any) {
+    this.message_input += event.emoji.native;
+    this.isEmojiPickerVisible = false;
+ }
+ fileUpload_Message(e:any){
+  
+  let thisform = new FormData();
+  console.log(e.target.files[0]);
+  
+  thisform.append('message_image', e.target.files[0],e.target.files[0].name)
+  
+  this.api.sentImage(thisform).subscribe({next:(data)=>{
+    console.log(data);
+  },error:(er)=>{console.log(er);}
+  })
+ }
   ngOnDestroy(): void {
     this.socket.disconnect()
-    console.log('distroy');
-    
   }
 }

@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-  
+@import '~@ctrl/ngx-emoji-mart/picker';
+
 html, body{
   font-family: 'Roboto', sans-serif;
   padding: 0;
@@ -19,8 +20,7 @@ html, body{
   animation-iteration-count: infinite;
   animation-name: placeHolderShimmer;
   animation-timing-function: linear;
-  background: #f6f7f8;
-  background: linear-gradient(to right, #fafafa 8%, #f4f4f4 38%, #fafafa 54%);
+  background: linear-gradient(to right, #fafafa8e 8%, #949494c9 38%, #fafafa70 54%);
   background-size: 1000px 640px;
   
   position: relative;

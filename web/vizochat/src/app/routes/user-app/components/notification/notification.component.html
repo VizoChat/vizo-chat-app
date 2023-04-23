@@ -1,0 +1,29 @@
+<div class=" h-full absolute left-full top-0 block opacity-100 z-40 w-80 border flex flex-col shadow-xl bg-gray-100 rounded-e-3xl" *ngIf="show=='true'"> 
+    <h2 class="text-lg font-medium text-center py-2 border-b bg-white rounded-se-3xl">Notifications</h2>
+    <div class="text-center flex-1 flex flex-col justify-center" *ngIf="!message">
+        <img src="https://ouch-cdn2.icons8.com/DVRUgTb8encuH4o796gisl388f9nm7rA471GhZtDHww/rs:fit:256:178/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzg1/L2U3YTVjMTgyLTNk/ZTUtNGE0Ni05MTRi/LTRhYTgxOWM5Y2E1/Zi5wbmc.png" class="mx-auto opacity-50" alt="">
+        <h2 class="text-center text-gray-500 text-xl mt-1">No Notification</h2>
+    </div>
+    <div class="p-1" *ngIf="message">
+        <div class="bg-white  px-5 py-3.5 rounded-lg shadow hover:shadow-xl max-w-sm mx-auto transform hover:-translate-y-[0.125rem] transition duration-100 ease-linear">
+            <div class="w-full flex items-center justify-between">
+                <span class="font-medium text-sm text-slate-400">New Notification</span>
+                <button class="-mr-1 bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-600 h-5 w-5 rounded-full flex justify-center items-center">
+                    <svg class="h-2 w-2 fill-current items-center" viewBox="0 0 20 20"><path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"/></svg>
+                </button>
+            </div>
+            <div class="flex items-center mt-2 rounded-lg px-1 py-1 cursor-pointer">
+                <div class="relative flex flex-shrink-0 items-end">
+                    <img class="h-6 w-6 rounded-full" src="https://i.pravatar.cc/300">    
+                    <span class="absolute h-1 w-1 bg-green-400 rounded-full bottom-0 right-0 border-2 border-white"></span>
+                </div>
+                <div class="ml-3">
+                    <span class="font-semibold tracking-tight text-xs">John Doe</span>
+                    <span class="text-xs leading-none opacity-50">reacted to your comment:</span>
+                    <p class="text-xs leading-4 pt-2 italic opacity-70">"This is the comment..."</p>
+                    <span class="text-[10px] text-blue-500 font-medium leading-4 opacity-75">a few seconds ago</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,7 +10,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHeaderInterceptor } from './interceptors/auth-header.interceptor';
-import { ProfileComponent } from './pages/profile/profile.component';
 import { reducer } from './store/reducer'; 
 import { userAppEffects } from './store/effects'; 
 import { Store, StoreModule } from '@ngrx/store';
@@ -23,6 +22,8 @@ import { ChatWindowComponent } from './pages/chat/chat-window/chat-window.compon
 import { ChatWindowDefaultComponent } from './pages/chat/chat-window-default/chat-window-default.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
+import { NotificationComponent } from './components/notification/notification.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 
 @NgModule({
@@ -31,10 +32,10 @@ import { environment } from 'src/environments/environment';
     LayoutComponent,
     HomeComponent,
     HeaderComponent,
-    ProfileComponent,
     ChatComponent,
     ChatWindowComponent,
     ChatWindowDefaultComponent,
+    NotificationComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +46,7 @@ import { environment } from 'src/environments/environment';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    PickerModule,
     SocketIoModule.forRoot({ url: environment.baseApiUrl+'/liveChats', options: {} })
   ],
   providers:[

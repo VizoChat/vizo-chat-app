@@ -1,10 +1,12 @@
 const mids = require('../../helpers/middlewares')
+const funs = require('../../helpers/funs')
 const jwt = require('../../helpers/jwt')
 const chats = require('../../model/chats')
 const users = require('../../model/users')
 const chat_rooms = require('../../model/chat_rooms')
 module.exports = {
     chatMessages({io_liveChats,io_liveChatNotification}) {
+      let processedImages = [];
       const io = io_liveChats
       io.use(jwt.verifySocketUserToken_forSocketIo, mids.verifyUser_forSocketIo) 
       io.on('connection',  (socket) => {
@@ -20,63 +22,74 @@ module.exports = {
         }
         // handle incoming messages from the client
         socket.on('message', async(message) => {
-          try {
-            let newMessage = { 
-              message:{
-                message:message.replace(/</g,'&#60;').replace(/>/g,'&#62;'),
-                message_type:'text'
-              },
-              user:{
-                user_id:await users.findOne({_id:data.userid}),
-                user_type:data.user_type
-              },
+          sentMessage(message,'text')
+        });
+        funs.appEvents.once('imageMessage',(eventdata)=>{
+          if (!processedImages.includes(eventdata.image)) {
+            processedImages.push(eventdata.image);
+            console.log(eventdata.userid , data.userid,eventdata.userid == data.userid);
+            if(eventdata.userid == data.userid){
+              sentMessage(eventdata.image,'image');
             }
-            if(socket.apiRes.data.isAgent){
-              newMessage = {...newMessage, 
-                  chat_room:data.room,
-                  created_at:new Date().toISOString(),
-                  channel:data.channelid //not required.
-                }
-              }
-            if(socket.handshake.query.ds_key){
-              io_liveChatNotification.to(socket.handshake.query.ds_key).emit('notification:new-message', {
-                channelid:socket.handshake.query.channelId,
-                room:socket.handshake.query.room,
-                message:{...newMessage.message,time:new Date().toISOString()},
-              });
-            }
-            io.to(socket.handshake.query.room).emit('new-message', newMessage);
-            await chats.newChat({
-              user:{
-                user_id:data.userid, 
-                user_type:data.user_type, //'agent'|'wUser' 
-              },
-                message:{
-                    message:message.replace(/</g,'&#60;').replace(/>/g,'&#62;'),
-                    message_type:'text', //'text'|'image'
-                },
-                channel: data.channelid,
-                chat_room:data.room
-            })
-            await chat_rooms.updateOne({_id:data.room,channel:data.channelid},{$set:{message_preview:{
-              $inc:{newMessageCount:1},
-              message:message.replace(/</g,'&#60;').replace(/>/g,'&#62;'),
-              time:new Date()
-            }},
-            
-            }
-            )
-            
-          } catch (error) {
-            console.log(error);
-            socket.emit('error','Something went wrong on the server!')
           }
-        });
-    
-        // handle user disconnection
-        socket.on('disconnect', () => {
-          console.log('user disconnected from liveChats route');
-        });
+        })
+        /******
+         * FUNCTIONS
+         */
+          async function sentMessage(message,message_type){
+            try {
+              let newMessage = { 
+                message:{
+                  message:message.replace(/</g,'&#60;').replace(/>/g,'&#62;'),
+                  message_type
+                },
+                user:{
+                  user_id:await users.findOne({_id:data.userid}),
+                  user_type:data.user_type
+                },
+              }
+              if(socket.apiRes.data.isAgent){
+                newMessage = {...newMessage, 
+                    chat_room:data.room,
+                    created_at:new Date().toISOString(),
+                    channel:data.channelid //not required.
+                  }
+                }
+              if(socket.handshake.query.ds_key){
+                io_liveChatNotification.to(socket.handshake.query.ds_key).emit('notification:new-message', {
+                  channelid:socket.handshake.query.channelId,
+                  room:socket.handshake.query.room,
+                  message:{...newMessage.message,time:new Date().toISOString()},
+                });
+              }
+              io.to(socket.handshake.query.room).emit('new-message', newMessage);
+              await chats.newChat({
+                user:{
+                  user_id:data.userid, 
+                  user_type:data.user_type, //'agent'|'wUser' 
+                },
+                  message:{
+                      message:message.replace(/</g,'&#60;').replace(/>/g,'&#62;'),
+                      message_type, //'text'|'image'
+                  },
+                  channel: data.channelid,
+                  chat_room:data.room
+              })
+              await chat_rooms.updateOne({_id:data.room,channel:data.channelid},{$set:{message_preview:{
+                $inc:{newMessageCount:1},
+                message:message.replace(/</g,'&#60;').replace(/>/g,'&#62;'),
+                time:new Date()
+              }},
+              
+              }
+              )
+              
+            } catch (error) {
+              console.log(error);
+              socket.emit('error','Something went wrong on the server!')
+            }
+          }
+          
       });
     },
     chatMessagesNotify:({io_liveChatNotification})=>{

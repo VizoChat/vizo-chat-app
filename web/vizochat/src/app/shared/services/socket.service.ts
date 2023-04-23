@@ -24,7 +24,6 @@ export class SocketService {
   connect(q:any,path:string, auth?:{token:string}) {
     this.options.options = {...this.options.options, query : q, path,auth};
     this.socket = new Socket(this.options);
-    console.log('connect!!');
     // this.socket.ioSocket.io.path = '/liveChats';
     this.socket.connect();
   }

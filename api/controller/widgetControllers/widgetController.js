@@ -128,8 +128,8 @@ let apiResponse = {
             apiRes.message = errors.errors[0].param+((errors.errors[0].msg=="Invalid value")?" is invalid, Try again!":errors.errors[0].msg)
             return res.status(200).json(apiRes)
         }
-        chatRooms.getChatRooms({channel: req.body.apiKey, 'w_user.user_id': req.body.userId},{_id:1,message_preview:1})
-        .then((data)=>{
+        chatRooms.getChatRooms({channel: req.body.apiKey, w_user: req.body.userId},{_id:1,message_preview:1,'state.closed':1})
+        .then(async(data)=>{
             apiRes.message = 'Successfully fetch the list of chat rooms!'
             apiRes.status = 'ok'
             apiRes.data.rooms = data.map((val)=>{
@@ -138,6 +138,7 @@ let apiResponse = {
                     message_preview:val.message_preview
                 }
             }) 
+            apiRes.data.channel = await channels.findOne({_id:req.body.apiKey},{agents:1,name:1}).populate({path:'agents',limit:3,select:'avatar'})
         }).catch((err)=>{
             console.log(err);
             apiRes.message = 'Error detucted while fetching chat rooms!'
@@ -185,7 +186,8 @@ let apiResponse = {
                 apiRes.status = 'ok'
                 apiRes.data.new_room = {
                         _id:data._id,
-                        message_preview:data.message_preview
+                        message_preview:data.message_preview,
+                        exist:data.exist
                     }
             }).catch((err)=>{
                 console.log(err);
@@ -194,7 +196,6 @@ let apiResponse = {
                 res.status(200).json(apiRes)
             })
         }else{
-            console.log(apiRes);
             res.status(200).json(apiRes)
         }
     },
@@ -228,4 +229,28 @@ let apiResponse = {
             res.status(200).json(apiRes)
         })
     },
+    sentImage_chat : (req,res,next)=>{
+        let apiRes = JSON.parse(JSON.stringify(apiResponse))
+        apiRes.data.user = res.locals.jwtUSER
+        apiRes.message = 'Invalid arguments, please check the inputs!'
+        apiRes.status = 400 // 400 Bad Request
+        apiRes.authorization = true;
+        res.locals.upload(req, res, function(err) {
+          if (err) {
+            apiRes.message = 'Error: Invalid type of file!'
+            res.json(apiRes);
+            console.log(err," Err#");
+          } else {
+            if (req.file == undefined) {
+              apiRes.message = 'Error: No File Selected!'
+              res.json(apiRes);
+            } else {
+                funs.appEvents.emit('imageMessage',{image:req.file.filename,userid:req.body.userId})
+              apiRes.message = 'Saved attachment!'
+              apiRes.status = 'ok'
+              res.json(apiRes);
+            }
+          }
+        });
+      }
 }

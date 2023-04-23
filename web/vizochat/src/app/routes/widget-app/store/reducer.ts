@@ -6,6 +6,7 @@ const initialState:WidgetAppStateInterface = {
     isLoading:false,
     isPageLoading:false,
     rooms:[],
+    channel:{name:'Loading...'},
     error:null,
     success:null,
     chats:[]
@@ -14,10 +15,11 @@ const initialState:WidgetAppStateInterface = {
 export const reducer = createReducer(
     initialState,
     on(w_actions.getChatRooms, (state)=>({...state, isPageLoading:true})),
-    on(w_actions.gotChatRooms, (state, action)=>({...state,rooms:action.rooms, isPageLoading:false})),
+    on(w_actions.gotChatRooms, (state, action)=>({...state,rooms:action.rooms, channel:action.channel, isPageLoading:false})),
 
     on(w_actions.newChatRoom, (state)=>({...state, isLoading:true,})),
     on(w_actions.createdChatRoom, (state, action)=>({...state , isLoading:false, rooms:[action.newData, ...state.rooms ]})),
+    on(w_actions.createdChatRoomNoChanges, (state)=>({...state , isLoading:false})),
 
     on(w_actions.getChats, (state)=>({...state, isLoading:true,})),
     on(w_actions.gotChats, (state, action)=>({...state , isLoading:false, chats:action.chats})),

@@ -15,10 +15,8 @@ import { ActivatedRoute } from '@angular/router';
 export class LayoutComponent implements OnInit{
   @HostListener('window:message', ['$event'])
   onMessage(event: MessageEvent) {
-    console.log('Received message on layout:', event.data);
     if(event.data.type=='USERINFO'){
       this.currentUrl = event.data.data.currentPage;
-      console.log('update');
       
       this.store$.dispatch(
         widgetActions.newWUser({data:{...this.params,current_Page:this.currentUrl}})

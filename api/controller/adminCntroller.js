@@ -1,4 +1,4 @@
-const products = require('../helpers/products');
+
 let users = require('../model/users')
 
 

@@ -1,5 +1,5 @@
 import { chats } from "./chats.interface";
-import { rooms } from "./rooms.interface";
+import { channel, rooms } from "./rooms.interface";
 
 export interface WidgetAppStateInterface {
     rooms:rooms[],
@@ -8,5 +8,6 @@ export interface WidgetAppStateInterface {
     error:string | null,
     success:string | null,
     chats:chats[]
+    channel:channel
 } 
 

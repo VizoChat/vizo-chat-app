@@ -3,7 +3,7 @@
     <!-- Chatting -->
     <div class="flex flex-row justify-between bg-white border">
         <!-- chat list -->
-        <div class="flex flex-col w-1/5 border-r-2 overflow-y-auto select-none h-screen">
+        <div class="flex flex-col w-80 border-r-2 overflow-y-auto select-none h-screen">
             <!-- search compt -->
             <div class="border-b-2 py-4 px-2">
                 Live Chat
@@ -27,7 +27,7 @@
                     </div>
                     <div class="flex-1 overflow-x-hidden">
                         <p class="text-lg font-semibold truncate" [title]="cr.message_preview.topic" >{{cr.message_preview.topic}}</p>
-                        <p class="text-sm truncate" [title]="cr.message_preview.message" [innerHTML]="cr.message_preview.message"></p>
+                        <p class="text-sm truncate" [title]="transformToHTML(cr.message_preview.message)" [innerHTML]="cr.message_preview.message"></p>
                         <div class="flex items-center">
                             <span class="text-xs text-gray-500 " [title]="cr.message_preview.time | date">{{getDateRelative(cr.message_preview.time)}}</span>
                             <span class="rounded-full w-1 h-1 bg-gray-500 block mx-2"></span>

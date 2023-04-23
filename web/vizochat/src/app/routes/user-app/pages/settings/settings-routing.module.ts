@@ -12,6 +12,7 @@ import { OverviewComponent as teammateEditOverview } from './child-pages/teammat
 import { SettingsComponent } from './child-pages/layout/settings.component';
 import { TeammatesComponent } from './child-pages/teammates/teammates.component';
 import { MembersComponent } from './child-pages/channels/edit/members/members.component';
+import { ProfileComponent } from './child-pages/profile/profile.component';
 
 const routes: Routes = [
   {path:'',component:SettingsComponent, children:[
@@ -29,7 +30,8 @@ const routes: Routes = [
       {path:'edit/:userId',component:EditTeammate, children:[
         {path:'overview', component:teammateEditOverview}
       ]},
-    ]}
+    ]},
+    {path:'profile', component:ProfileComponent}
   ]}
 ];
 

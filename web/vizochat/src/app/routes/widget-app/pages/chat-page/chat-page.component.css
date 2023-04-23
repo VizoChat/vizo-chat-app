@@ -26,3 +26,8 @@ pre{
 ::ng-deep .agent-widget-message-url{
     color: rgb(90, 45, 255) ;
 }
+.emoji-mart{
+    position: absolute;
+    bottom: 70px;
+    left:0;
+}

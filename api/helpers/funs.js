@@ -1,3 +1,7 @@
+
+const EventEmitter = require('events');
+const myEmitter = new EventEmitter();
+
 module.exports = {
     randomLetters:(length)=>{
       try {
@@ -15,4 +19,6 @@ module.exports = {
         return 'error_detucted_'
       }
     }
+    ,appEvents :myEmitter,
+    
 }

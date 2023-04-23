@@ -45,10 +45,15 @@ export const reducer = createReducer(
     on(UserAppActions.newTeammate, (state)=>({...state,isLoading:true})),
     on(UserAppActions.createdTeammate, (state,action)=>({...state,isLoading:false, success:action.successMessage})),
     on(UserAppActions.errorCreatingTeammate,(state, action)=>({...state,isLoading:false, error:action.errorMessage})),
+    
+    on(UserAppActions.newTeammate, (state)=>({...state,isLoading:true})),
+    on(UserAppActions.createdTeammate, (state,action)=>({...state,isLoading:false, success:action.successMessage})),
+    on(UserAppActions.errorCreatingTeammate,(state, action)=>({...state,isLoading:false, error:action.errorMessage})),
 
-    on(UserAppActions.getTeammates, (state)=>({...state,isContentLoading:true})),
-    on(UserAppActions.gotTeammates, (state,action)=>({...state, isContentLoading:false, teammates:action.Teammates})),
-    on(UserAppActions.errorGettingTeammates,(state, action)=>({...state, isContentLoading:false, error:action.errorMessage})),
+
+    on(UserAppActions.updateUserProfile, (state)=>({...state,isLoading:true})),
+    on(UserAppActions.updatedUser, (state,action)=>({...state, isLoading:false, success:action.successMessage,user:state.user?{...state.user,...action.updateUser}:null})),
+    on(UserAppActions.errorUpdatingUser,(state, action)=>({...state, isLoading:false, error:action.errorMessage})),
 
     on(UserAppActions.getChats, (state)=>({...state,isContentLoading:true})),
     on(UserAppActions.gotChats, (state,action)=>({...state, isContentLoading:false, chats:action.chats})),

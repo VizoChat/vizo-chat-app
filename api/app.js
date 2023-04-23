@@ -35,6 +35,17 @@
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   };
 
+  //TEMP LAG ROUTE
+  // app.use((req,res,next)=>{ //temporary lag for response!
+  //   let timerLeft = 2000
+  //   setInterval(() => {
+  //     if(timerLeft==0){
+  //       next()
+  //     }
+  //     timerLeft -= 1000;
+  //   }, 1000);
+  // })
+
   // view engine setup
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
@@ -67,16 +78,7 @@
     chatSocket.chatMessagesNotify(ios)
 
   }
-//TEMP LAG ROUTE
-  // app.use((req,res,next)=>{ //temporary lag for response!
-  //   let timerLeft = 2000
-  //   setInterval(() => {
-  //     if(timerLeft==0){
-  //       next()
-  //     }
-  //     timerLeft -= 1000;
-  //   }, 1000);
-  // })
+
 
 //ROUTES
   app.use('/',  userRouter);

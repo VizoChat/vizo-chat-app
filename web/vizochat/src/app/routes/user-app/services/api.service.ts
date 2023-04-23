@@ -47,4 +47,24 @@ export class ApiService {
   getChats(data:any):Observable<any>{
     return this.http.post(environment.baseApiUrl+'/getChats',data, this.httpOptions)
   }
+  sentImage(data:any):Observable<any>{
+    let httpOptions = {
+      headers:new HttpHeaders({
+        'content-type':'multipart/form-data'
+      })
+    }
+    
+    return this.http.post(environment.baseApiUrl+'/sentImageMessage',data, httpOptions)
+  }
+  updateProfile(data:any):Observable<any>{
+    return this.http.post(environment.baseApiUrl+'/updateUserProfile',data, this.httpOptions)
+  }
+  updateProfileAvatar(data:any):Observable<any>{
+    let httpOptions = {
+      headers:new HttpHeaders({
+        'content-type':'multipart/form-data'
+      })
+    }
+    return this.http.post(environment.baseApiUrl+'/setAvatar',data, httpOptions)
+  }
 }

@@ -17,12 +17,14 @@ let bcrypt = require('bcrypt')
       }),
     ],
     userUpdateValidate : [
-      check('username')?.isLength({ min: 4 }).trim().withMessage(" is invalid, must contain minimum of 4 letters"),
-      check('name')?.isLength({ min: 3 }).trim().withMessage(" is invalid, must contain minimum of 3 letters"),
-      check('email')?.isEmail().normalizeEmail().withMessage(" is invalid, must be a valid format!").trim(),
-      check('password')?.isLength({ min: 8 }).withMessage(' must be at least 8 chars long').trim().custom((value, { req }) => {
-        if(value !== req.body.repassword) {
-          return Promise.reject(' didn\'t match, please recheck the password');
+      check('username').isLength({ min: 4 }).trim().withMessage(" is invalid, must contain minimum of 4 letters"),
+      check('name').isLength({ min: 3 }).trim().withMessage(" is invalid, must contain minimum of 3 letters"),
+      check('email').isEmail().withMessage(" is invalid, must be a valid format!").trim(), //.normalizeEmail() removed due to it removes . from email for no reason!
+      check('password').isLength({ min: 8 }).withMessage(' must be at least 8 chars long!').trim().custom((value, { req }) => {
+        if(!req.body.currentPassword){
+          return Promise.reject(' provided!, but current password not provided!');
+        }else if(value !== req.body.rePassword) {
+          return Promise.reject(' didn\'t match, please recheck the password!');
         }else{
           return Promise.resolve()
         }
@@ -101,5 +103,8 @@ let bcrypt = require('bcrypt')
     getChats:[
       check('apiKey').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), //channel id
       check('chatId').isLength({ min: 24 , max: 24 }).withMessage(' must be a valid one!').trim(), //chat room
+    ],
+    sentImage_chat:[ //widget
+      check('userId').isLength({ min: 20 , max: 50 }).withMessage(' must be a valid one!').trim(), 
     ],
   }

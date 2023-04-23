@@ -1,4 +1,5 @@
 const { getUsersCount, getUser } = require("../model/users");
+const path = require('path')
 
 let apiResponse = {
     message: 'Seems you are not a human!',
@@ -63,5 +64,50 @@ module.exports = {
             // socket.apiRes.authorization = false;
             // return socket.emit('error',apiRes.message)
         }
-    }
+    },
+    multer_init: (inpdata = {route,filename})=>{
+        return (req,res,next)=>{
+            try {
+                const multer = require('multer');
+                // Set storage engine
+                const storage = multer.diskStorage({
+                destination: './public/images/'+inpdata.route,
+                filename: function(req, file, callback) {
+                    callback(null, file.originalname.split('.')[0] + '-viz' + Date.now() + path.extname(file.originalname));
+                }
+                });
+        
+                // Initialize upload
+                res.locals.upload = multer({
+                    storage: storage,
+                    limits: { fileSize: 100000000000 }, // 10MB
+                    fileFilter: function(req, file, callback) {
+                    checkFileType(file, callback);
+                    }
+                }).single(inpdata.filename); // 'avatar' is the name attribute of the input file element in the form
+                next()
+            } catch (error) {
+                res.json({
+                    message:'Error: Upload error!',
+                    status:500,
+                    authorization:true,
+                    data:{}
+                })
+            }
+      
+        }
+        function checkFileType(file, callback) {
+            console.log('called this func');
+            const filetypes = /jpeg|jpg|png|gif/; // Allowed file extensions
+            const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+            const mimetype = filetypes.test(file.mimetype);
+            console.log(file.originalname,"filename#");
+            if (mimetype && extname) {
+             return callback(null, true);
+            } else {
+              return callback('Error: File type should be image!');
+            }
+        }
+
+      }
 }

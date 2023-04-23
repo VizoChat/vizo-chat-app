@@ -72,6 +72,8 @@ module.exports = {
     }).then(()=>{
         res.json(apiRes)
     })
-    }
+    },
+    
 
 }
+

@@ -16,6 +16,7 @@ import { DeleteComponent } from './child-pages/channels/edit/delete/delete.compo
 import { TeammatesComponent } from './child-pages/teammates/teammates.component';
 import { EditComponent as EditTeammate } from './child-pages/teammates/edit/edit.component';
 import { MembersComponent } from './child-pages/channels/edit/members/members.component';
+import { ProfileComponent } from './child-pages/profile/profile.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { MembersComponent } from './child-pages/channels/edit/members/members.co
     AddTeammate,
     EditTeammate,
     teammateEditOverview,
-    MembersComponent
+    MembersComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

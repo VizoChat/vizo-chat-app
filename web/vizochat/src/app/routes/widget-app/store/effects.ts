@@ -15,8 +15,10 @@ export class widgetAppEffects {
                 .getChatRooms(action.data)
                 .pipe(
                     map((res:any)=>{
+                        console.log(res);
+                        
                         if(res.status=='ok' ){
-                            return widgetActions.gotChatRooms({rooms:res.data.rooms})
+                            return widgetActions.gotChatRooms({rooms:res.data.rooms,channel:res.data.channel})
                         }else{
                             return widgetActions.errorOnChatsRoom({error:res.message})
                         }
@@ -40,8 +42,6 @@ export class widgetAppEffects {
                 .pipe(
                     map((res)=>{
                         if(res.status=='ok' ){
-                            console.log(res);
-                            
                             return widgetActions.createWUser()
                         }else{
                             return widgetActions.errorOnChatsRoom({error:res.message})
@@ -65,8 +65,11 @@ export class widgetAppEffects {
                     map((res)=>{
                         if(res.status=='ok' ){
                             this.router.navigate(['/widget', action.data.apiKey,'chat',res.data.new_room._id,action.data.ds_key ]);
-                            
-                            return widgetActions.createdChatRoom({newData:res.data.new_room})
+                            if(res.data.new_room.exist){
+                                return widgetActions.createdChatRoomNoChanges()
+                            }else{
+                                return widgetActions.createdChatRoom({newData:res.data.new_room})
+                            }
                         }else{
                             return widgetActions.errorOnChatsRoom({error:res.message})
                         }
@@ -91,7 +94,6 @@ export class widgetAppEffects {
                     map((res)=>{
                         if(res.status=='ok' ){
                             // this.router.navigate(['/widget', action.data.apiKey,'chat',res.data.new_room._id]);
-                            console.log(res);
                             
                             return widgetActions.gotChats({chats:res.data.chats})
                         }else{

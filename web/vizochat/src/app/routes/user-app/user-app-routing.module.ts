@@ -7,12 +7,10 @@ import { ChatWindowDefaultComponent } from './pages/chat/chat-window-default/cha
 import { ChatWindowComponent } from './pages/chat/chat-window/chat-window.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { HomeComponent } from './pages/home/home.component';
-import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   {path:'', component:LayoutComponent, children:[
     {path:'', component:HomeComponent},
-    {path:'profile', component:ProfileComponent},
     {path:'chat', component:ChatComponent, children:[
       {path:'', component:ChatWindowDefaultComponent},
       {path:':channelId/:roomId', component:ChatWindowComponent}

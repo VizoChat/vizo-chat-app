@@ -12,6 +12,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { widgetAppEffects } from './store/effects';
 import { reducer } from './store/reducer';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     SharedModule,
     HttpClientModule,
+    PickerModule,
     StoreModule.forFeature('widget', reducer),
     EffectsModule.forFeature([widgetAppEffects]),
   ]

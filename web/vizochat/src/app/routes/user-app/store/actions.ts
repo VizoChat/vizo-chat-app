@@ -2,7 +2,7 @@ import { createAction, props } from "@ngrx/store";
 import { channels } from "../models/channels.interface";
 import { chatRooms, chats } from "../models/chat.interface";
 import { teammateForm, teammates } from "../models/teammates.interface";
-import { user } from "../models/user.interface";
+import { user, userProfileForm } from "../models/user.interface";
 
 //page inital work, getting userdetails and store
 export const getUser = createAction('[UserApp] get user data')
@@ -44,6 +44,18 @@ export const getTeammates = createAction('[UserApp] get teammates')
 export const gotTeammates = createAction('[UserApp] got Teammate',props<{Teammates:teammates[]}>())
 export const errorGettingTeammates = createAction('[UserApp] Error getting Teammates', props<{errorMessage:string}>())
 
+//settings/manage > profile
+export const updateUserProfile = createAction('[UserApp] update userprofile',props<{newProfile:userProfileForm}>())
+export const updateUserAvatar = createAction('[UserApp] update useravatar',props<{avatarForm:any}>())
+export const updatedUser = createAction('[UserApp] updated user',props<{successMessage:string, updateUser:userProfileForm}>())
+export const errorUpdatingUser = createAction('[UserApp] Error updating user', props<{errorMessage:string}>())
+
+//settings/manage > profile > avatar
+export const updateUserProfileAvatar = createAction('[UserApp] update userprofile',props<{newAvatar:string}>())
+export const updatedUserAvatar = createAction('[UserApp] updated user',props<{successMessage:string, updateUser:{image:{avatar:string,isUrl:boolean}}}>())
+export const errorUpdatingUserAvatar = createAction('[UserApp] Error updating user', props<{errorMessage:string}>())
+
+
 // chat > rooms> get
 export const getChatRooms = createAction('[UserApp] get ChatRooms', props<{channel_id?:String|null|undefined}>())
 export const gotChatRooms = createAction('[UserApp] got ChatRooms', props<{rooms:chatRooms[]}>())
@@ -54,6 +66,7 @@ export const getChats = createAction('[UserApp] get Chat messages', props<{room_
 export const gotChats = createAction('[UserApp] got Chat messages', props<{chats:chats[]}>())
 export const gotNewChat = createAction('[UserApp] got new chat message', props<{chat:chats}>())
 export const errorGettingChats = createAction('[UserApp] error Gettings Chat messages',props<{errorMessage:string}>())
+
 
 //Common
 export const clearSuccessMsg = createAction('[UserApp] Clear success message')

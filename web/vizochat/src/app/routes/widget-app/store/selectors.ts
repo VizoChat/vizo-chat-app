@@ -22,6 +22,10 @@ export const roomsSelector = createSelector(
     selectorFeature,
     (state)=>state.rooms 
 )
+export const channelSelector = createSelector(
+    selectorFeature,
+    (state)=>state.channel 
+)
 export const chatsSelector = createSelector(
     selectorFeature,
     (state)=>state.chats 

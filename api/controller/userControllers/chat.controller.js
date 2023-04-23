@@ -2,7 +2,7 @@ let { check, validationResult } = require('express-validator');
 const chat_rooms = require('../../model/chat_rooms');
 const chats = require('../../model/chats');
 const channels = require('../../model/channels');
-
+const funs = require('../../helpers/funs')
 
 let apiResponse = {
     message: 'Authentication Failed!',
@@ -87,4 +87,29 @@ module.exports = {
           res.json(apiRes)
         })
       },
+      sentImage_chat : (req,res,next)=>{
+        let apiRes = JSON.parse(JSON.stringify(apiResponse))
+        apiRes.data.user = res.locals.jwtUSER
+        apiRes.message = 'Invalid arguments, please check the inputs!'
+        apiRes.status = 400 // 400 Bad Request
+        apiRes.authorization = true;
+        res.locals.upload(req, res, function(err) {
+          console.log('called');
+          if (err) {
+            apiRes.message = 'Error: Invalid type of file!'
+            res.json(apiRes);
+            console.log(err," Err#");
+          } else {
+            if (req.file == undefined) {
+              apiRes.message = 'Error: No File Selected!'
+              res.json(apiRes);
+            } else {
+                funs.appEvents.emit('imageMessage',{image:req.file.filename,userid:apiRes.data.user._id})
+              apiRes.message = 'Saved attachment!'
+              apiRes.status = 'ok'
+              res.json(apiRes);
+            }
+          }
+        });
+      }
 }

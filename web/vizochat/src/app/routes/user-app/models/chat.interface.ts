@@ -39,6 +39,9 @@ export interface chatRooms {
         time: string
     },
     _id: string,
+    state:{
+        closed:Boolean, 
+    },
     channel: {
         _id: string,
         name: string

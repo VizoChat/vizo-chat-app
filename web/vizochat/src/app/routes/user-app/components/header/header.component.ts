@@ -13,6 +13,7 @@ import { isPageLoadingSelector } from '../../store/selectors';
 })
 export class HeaderComponent {
   pageLoading$:Observable<Boolean>;
+  notification_show = 'false';
   constructor(private authservice:AuthService, private router:Router, private store:Store<appStateInterface>){
     this.pageLoading$ = this.store.pipe(select(isPageLoadingSelector))
   }

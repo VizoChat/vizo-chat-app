@@ -193,6 +193,48 @@ export class userAppEffects {
         )
     })
 
+    $updateUserProfile = createEffect(()=>{
+        return this.action$.pipe(
+            ofType(UserAppActions.updateUserProfile),
+            mergeMap((action)=>{
+                return this.api.updateProfile(action.newProfile)
+                .pipe(map((res:any)=>{
+                    if(res.status=='ok'  && res.authorization==true){
+                        return UserAppActions.updatedUser({successMessage:res.message,updateUser:res.data.updated})
+                    }else{
+                        return UserAppActions.errorUpdatingUser({errorMessage:res.message})
+                    }
+                }),
+                catchError((err)=>{
+                    return of(UserAppActions.errorUpdatingUser({errorMessage:'Something went wrong!'}))
+                })
+                )
+            })
+        )
+    })
+
+    $updateUserProfileAvatar = createEffect(()=>{
+        return this.action$.pipe(
+            ofType(UserAppActions.updateUserAvatar),
+            mergeMap((action)=>{
+                return this.api.updateProfileAvatar(action.avatarForm)
+                .pipe(map((res:any)=>{
+                    console.log(res);
+                    
+                    if(res.status=='ok'  && res.authorization==true){
+                        return UserAppActions.updatedUser({successMessage:res.message,updateUser:res.data.updated})
+                    }else{
+                        return UserAppActions.errorUpdatingUser({errorMessage:res.message})
+                    }
+                }),
+                catchError((err)=>{
+                    return of(UserAppActions.errorUpdatingUser({errorMessage:'Something went wrong!'}))
+                })
+                )
+            })
+        )
+    })
+
     $getChatRooms = createEffect(()=>
         this.action$.pipe(
             ofType(UserAppActions.getChatRooms),

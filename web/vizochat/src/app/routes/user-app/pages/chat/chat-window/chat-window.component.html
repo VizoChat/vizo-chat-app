@@ -17,9 +17,9 @@
       </div>
     </div>
     <ng-container *ngIf="userData | async">
-      <div #chatScreen class="flex-1 overflow-y-auto overflow-x-hidden p-1 select-text">
+      <div #chatScreen class="flex-1 overflow-y-auto overflow-x-hidden p-1 select-text bg-gray-100">
         <!-- end header -->
-        <div class="flex mb-4 items-end" *ngFor="let m of chats | async" [ngClass]="
+        <div class="flex mb-4 items-end" *ngFor="let m of chats | async; let i = index" [ngClass]="
             (userData | async)?._id == m.user.user_id?._id
               ? 'justify-end '
               : 'justify-start'
@@ -28,10 +28,13 @@
               m.user.user_type == 'agent' &&
               (userData | async)?._id == m.user.user_id?._id">
             <div
-              class="mr-2 py-1 px-2 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white whitespace-pre-wrap break-all">
+              class="mr-2 py-1 px-1 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white whitespace-pre-wrap break-all " [ngClass]="(imagesLoading[i+'img']==undefined || imagesLoading[i+'img'] ==true)&&m.message.message_type=='image'?'skeleton-loader':''">
               <p [innerHTML]="
                   m.message.message | stringToUrlConvert : 'white-message-url'
-                " class="w-full"></p>
+                " class="w-full"  *ngIf="m.message.message_type=='text'"></p>
+                <img [src]="apiUrl+'/images/message_image/'+ m.message.message" *ngIf="m.message.message_type=='image'" (load)="imagesLoading[i+'img']=false" (error)="imagesLoading[i+'img']='error'" class="rounded-bl-3xl rounded-tl-3xl rounded-tr-xl max-w-xs" alt="" (click)="popupImageUrl=apiUrl+'/images/message_image/'+ m.message.message" role="button">
+                <p *ngIf="(imagesLoading[i+'img']==undefined || imagesLoading[i+'img'] ==true)&&m.message.message_type=='image'">Image is loading..</p>
+                <p *ngIf="imagesLoading[i+'img']=='error' " class="text-red-600">Error Loading image! <a [href]="apiUrl+'/images/message_image/'+ m.message.message" target="_blank">(open in new tab)</a> </p>
             </div>
             <img [src]="
                 m.user.user_id?.avatar?.isUrl
@@ -52,7 +55,8 @@
               class="ml-2 py-1 px-2 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white whitespace-pre-wrap break-all">
               <p [innerHTML]="
                   m.message.message | stringToUrlConvert : 'white-message-url'
-                "></p>
+                " *ngIf="m.message.message_type=='text'"></p>
+                <img [src]="apiUrl+'/images/message_image/'+ m.message.message" *ngIf="m.message.message_type=='image'" alt="">
             </div>
           </ng-container>
           <ng-container *ngIf="m.user.user_type == 'wUser'">
@@ -67,27 +71,31 @@
               class="ml-2 py-1 px-2 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white whitespace-pre-wrap break-all">
               <p [innerHTML]="
                   m.message.message | stringToUrlConvert : 'white-message-url'
-                "></p>
+                " *ngIf="m.message.message_type=='text'"></p>
+                <img [src]="apiUrl+'/images/message_image/'+ m.message.message" *ngIf="m.message.message_type=='image'" (load)="imagesLoading[i+'img']=false" (error)="imagesLoading[i+'img']='error'" class="rounded-br-3xl rounded-tr-3xl rounded-tl-xl max-w-xs" alt="" (click)="popupImageUrl=apiUrl+'/images/message_image/'+ m.message.message" role="button">
+                <p *ngIf="(imagesLoading[i+'img']==undefined || imagesLoading[i+'img'] ==true)&&m.message.message_type=='image'">Image is loading..</p>
+                <p *ngIf="imagesLoading[i+'img']=='error' " class="text-red-600">Error Loading image! <a [href]="apiUrl+'/images/message_image/'+ m.message.message" target="_blank">(open in new tab)</a> </p>
             </div>
           </ng-container>
         </div>
       </div>
     </ng-container>
-    <div class="pt-5">
+    <div class="">
       <!-- Message input start -->
-      <div class="w-full mx-auto">
+      <div class="w-full mx-auto relative">
         <form #f="ngForm" (ngSubmit)="send_message(f)">
           <label for="chat" class="sr-only">Your message</label>
           <div class="flex items-center py-2 px-3 bg-gray-50 rounded-lg dark:bg-gray-700">
-            <button type="button"
+            <label type="button" for="message_file"
               class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                   d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
                   clip-rule="evenodd"></path>
               </svg>
-            </button>
-            <button type="button"
+            </label>
+            <input type="file" style="display: none;" id="message_file" (change)="fileUpload_Message($event)">
+            <button type="button" (click)="isEmojiPickerVisible=!isEmojiPickerVisible"
               class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -95,6 +103,9 @@
                   clip-rule="evenodd"></path>
               </svg>
             </button>
+            <!-- Imoji starts -->
+            <emoji-mart class="emoji-mart" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)" title="Choose your emoji"></emoji-mart>
+            <!-- Imoji Ends -->
             <textarea id="chat" rows="1" name="message_input"
               class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Your message..." [(ngModel)]="message_input" required minlength="1"></textarea>
@@ -152,8 +163,8 @@
                   stroke-linejoin="round" />
               </svg>
             </div>
-            <div class="flex-1 pr-1">
-              <p>{{current_chat_rooms.w_user.user_id}}</p>
+            <div class="flex-1 pr-1 truncate">
+              <p class="truncate">{{current_chat_rooms.w_user.user_id}}</p>
             </div>
           </div>
           <div class="flex h-11 justify-center items-center hover:bg-gray-100">
@@ -236,4 +247,11 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="z-20 fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 flex justify-center items-center" *ngIf="popupImageUrl">
+  <img [src]="popupImageUrl" alt="" style="max-width: 90%; max-height: 100vh; min-height: 80vh;">
+  <button (click)="popupImageUrl=null" class="absolute block bg-gray-100 hover:bg-gray-200 rounded-full p-2 text-gray-600 cursor-pointer right-2 top-2 margin-5">
+    <svg _ngcontent-yjp-c62="" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"><path _ngcontent-yjp-c62="" fill-rule="evenodd" clip-rule="evenodd" d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z" fill="currentColor"></path></svg>  
+  </button>
 </div>

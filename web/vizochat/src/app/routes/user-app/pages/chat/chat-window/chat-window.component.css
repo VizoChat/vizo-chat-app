@@ -12,3 +12,7 @@ pre{
 ::ng-deep .blue-message-url{
     color: rgb(90, 45, 255) ;
 }
+.emoji-mart{
+    position: absolute;
+    bottom: 70px;
+}
