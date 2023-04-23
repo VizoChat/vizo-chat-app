@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 import { ChannelService } from '../channel.service';
 import * as hljs from 'highlight.js';
 import javascript from 'highlight.js/lib/languages/javascript';
@@ -32,7 +32,7 @@ export class InstallationComponent {
 </script>`
 initiativeCodeFun = 
 `<script> 
-    init_vizo() // initializing vizochat on your app
+    init_vizo({}) // initializing vizochat on your app
 </script>`
   timer: number = 0;
   currentChannel:any;

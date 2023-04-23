@@ -44,7 +44,7 @@ function init_vizo(data={username,userid,custom_data}){
     let imagePopupLoader = document.createElement('div');
     let imagePopupCloseBtn = document.createElement('button');
     
-    widgetframe.setAttribute("src",host+"/widget/"+vizochatObj.config().apiKey+'?'+Object.keys(vizochatObj.config()).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(vizochatObj.config()[key])}`).join('&'));
+    widgetframe.setAttribute("src",host+"/#/widget/"+vizochatObj.config().apiKey+'?'+Object.keys(vizochatObj.config()).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(vizochatObj.config()[key])}`).join('&'));
     vizo_main.setAttribute("id", "vizo_main");
     btn.setAttribute("id", "vizo_btn");
     closebtn.setAttribute("id", "vizo_close_btn");

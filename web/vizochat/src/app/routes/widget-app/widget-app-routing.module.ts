@@ -7,7 +7,7 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component'
 const routes: Routes = [
   {path:'', component:LayoutComponent, children:[
     {path:':channelid', component: InitPageComponent},
-    {path:':channelid/chat/:chatId/:ds_key/:userId', component: ChatPageComponent},
+    {path:':channelid/chat/:chatId/:ds_key', component: ChatPageComponent},
   ]}
 ];
 

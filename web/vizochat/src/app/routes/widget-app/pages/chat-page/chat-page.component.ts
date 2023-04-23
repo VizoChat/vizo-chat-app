@@ -24,7 +24,6 @@ export class ChatPageComponent implements OnDestroy{
   chats!:Observable<chats[]>
   apiUrl = environment.baseApiUrl
   chatRoom!:string | null
-  userId!:string | null
   ds_key!:string | null
   apiKey!:string | null;
   message_input:string ='';
@@ -40,13 +39,11 @@ export class ChatPageComponent implements OnDestroy{
   constructor(private _location: Location, private store:Store<appStateInterface>, private route:ActivatedRoute, private socket:SocketService, private api:ApiService){
     this.apiKey =  this.route.snapshot.paramMap.get('channelid');
     this.chatRoom =  this.route.snapshot.paramMap.get('chatId');
-    this.userId =  this.route.snapshot.paramMap.get('userId');
     this.ids_subscription=this.route.paramMap.pipe(
-      map(paramMap => [paramMap.get('chatId'),paramMap.get('channelid'),paramMap.get('ds_key'),paramMap.get('userId')]) 
-    ).subscribe(([room_id,channelId,ds_key,userId])=>{
+      map(paramMap => [paramMap.get('chatId'),paramMap.get('channelid'),paramMap.get('ds_key')]) 
+    ).subscribe(([room_id,channelId,ds_key])=>{
       this.chatRoom = room_id
       this.apiKey = channelId
-      this.userId = userId
       this.socket.connect({room:room_id,channelId,ds_key},'/liveChats')
       this.store.dispatch(
         wActions.getChats({data:{
